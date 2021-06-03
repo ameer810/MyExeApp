@@ -1,0 +1,1258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>672</width>
+    <height>338</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+/*
+ABOUT
+============================================================================================================
+version 2.05
+QT theme (stylesheet) specially developed for FreeCAD (http://www.freecadweb.org/).
+It might work with other software that uses QT styling.
+
+
+LICENSE
+============================================================================================================
+Copyright (c) 2016 Pablo Gil Fern?ndez
+
+This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
+To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/.
+
+
+INSTALLATION
+============================================================================================================
+1) Place the .qss files and /images/ folder in the path that fits your OS:
+    OSX = /Users/[YOUR_USER_NAME]/Library/Preferences/FreeCAD/Gui/Stylesheets/
+    WINDOWS = C:/[INSTALLATION_PATH]/FreeCAD/data/Gui/Stylesheets/
+    LINUX = /home/[YOUR_USER_NAME]/.FreeCAD/Gui/Stylesheets/
+
+2) In order to display correctly images:
+    2.1) FreeCAD 0.16 (development builds newer than commit 5b3d50a): that's it, you are done!
+
+    2.2) FreeCAD 0.15: Images used in the theme need ABSOLUTE paths to be found by FreeCAD, so you should search the string &quot;qss:images&quot; (without &quot;&quot;) and replace with the real path of your computer. It should be done with all the .qss files you want to install-use
+        find = qss:images
+        replace = /Users/myName/Library/Preferences/FreeCAD/Gui/Stylesheets/images
+
+
+CUSTOMIZATION
+============================================================================================================
+If you would like to change the overall look/style of the theme, just find and replace following colors in the whole file:
+    BACKGROUND (darker to ligher)
+        black
+        #505050
+        #6e6e6e
+        #828282
+        #a2a2a0
+        #b6b6b6
+        #c8c8c8
+        #c3c3c3
+        #d2d2d2
+        #dcdcdc
+        #e0e0e0
+        #e6e6e6
+        #f0f0f0
+        #f5f5f5 = main background color
+        white
+
+    SELECTION (darker to lighter)
+        #1b3774
+        #2053c0
+        #3874f2
+        #5e90fa = main selection color
+        #6f9efa = used to build QSpinBox up and down buttons, it's used as color in the middle
+        #7cabf9
+        #adc5ed
+        #cbd8e6
+
+
+
+
+KNOWN BUGS and TO DO
+============================================================================================================
+    - please, follow the link to get updated information: http://forum.freecadweb.org/viewtopic.php?f=10&amp;t=12417
+*/
+
+
+/*==================================================================================================
+Reset elements
+==================================================================================================*/
+/* Reseting everything helps to unify styles across different operating systems */
+* {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    border-style: none;
+    border-image: none;
+    outline: 0;
+}
+
+/* specific reset for elements inside QToolBar */
+QToolBar * {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+/*==================================================================================================
+Main window
+==================================================================================================*/
+QMainWindow,
+QDialog,
+QDockWidget,
+QToolBar  {
+    background-color: #f5f5f5; /* main background color */
+}
+
+QMdiArea {
+    background-image: url(qss:images/background_freecad.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+
+/*==================================================================================================
+MENUS
+==================================================================================================*/
+QMenuBar,
+QMenuBar::item {
+    color: black;
+    background-color: #f5f5f5; /* main background color */
+}
+
+QMenu,
+QMenu::item {
+    color: black;
+    background-color: #f5f5f5; /* main background color */
+    text-decoration: none;
+}
+
+QMenuBar::item:selected,
+QMenuBar::item:pressed,
+QMenu::item:selected,
+QMenu::item:pressed {
+    color: white;
+    background-color: #5e90fa;
+}
+
+QMenu::right-arrow {
+    width: 10px;
+    height: 10px;
+    image:url(qss:images/right_arrow_dark.png);
+    margin-right: 2px;
+}
+
+QMenu::right-arrow:selected {
+    image:url(qss:images/right_arrow_lighter.png);
+}
+
+QMenu::item {
+    padding: 2px 16px 2px 26px; /* make room for icon at left */
+    border: 1px solid transparent; /* reserve space for selection border */
+}
+
+QMenu::icon {
+    margin-left: 2px;
+}
+
+QMenu::separator {
+    height: 1px;
+    background-color: rgba(0,0,0,30);
+    margin: 6px 4px;
+}
+
+QMenu::indicator:non-exclusive:checked {
+    color: white;
+}
+
+/* Fix for elements inside a drop-down menu */
+QMenu QRadioButton,
+QMenu QCheckBox,
+QMenu QPushButton,
+QMenu QToolButton {
+    color: black; /* same as regular QRadioButton and QCheckBox */
+}
+
+QMenu QRadioButton:hover,
+QMenu QCheckBox:hover,
+QMenu QPushButton:hover,
+QMenu QToolButton:hover,
+QMenu QPushButton:pressed,
+QMenu QToolButton:pressed,
+QMenu QPushButton:selected,
+QMenu QToolButton:selected {
+    color: white;
+    background-color: #5e90fa; /* same as QMenu::item:selected and QMenu::item:pressed */
+}
+
+QMenu QRadioButton:disabled,
+QMenu QCheckBox:disabled {
+    color: #6e6e6e;
+}
+
+QMenu QRadioButton::indicator:disabled,
+QMenu QCheckBox::indicator:disabled {
+    color: #6e6e6e;
+    background-color: transparent;
+    border: 1px solid #6e6e6e;
+}
+
+
+/*==================================================================================================
+Tool bar
+==================================================================================================*/
+QToolBar {
+    border: none;
+    padding: 2px;
+}
+
+QToolBar::handle:top,
+QToolBar::handle:bottom,
+QToolBar::handle:horizontal {
+    background-image: url(qss:images/Hmovetoolbar_dark.png);
+    width: 10px;
+    margin: 4px 2px;
+    background-position: top right;
+    background-repeat: repeat-y;
+}
+
+QToolBar::handle:left,
+QToolBar::handle:right,
+QToolBar::handle:vertical {
+    background-image: url(qss:images/Vmovetoolbar_dark.png);
+    height: 10px;
+    margin: 2px 4px;
+    background-position: left bottom;
+    background-repeat: repeat-x;
+}
+
+QToolBar::separator:top,
+QToolBar::separator:bottom,
+QToolBar::separator:horizontal {
+    width: 1px;
+    margin: 6px 4px;
+    background-color: rgba(0,0,0,30);
+}
+
+QToolBar::separator:left,
+QToolBar::separator:right,
+QToolBar::separator:vertical {
+    height: 1px;
+    margin: 4px 6px;
+    background-color: rgba(0,0,0,30);
+}
+
+
+/*==================================================================================================
+Group box
+==================================================================================================*/
+QGroupBox {
+    color: rgba(0,0,0,120);
+    border:1px solid rgba(0, 0, 0, 20); /* lighter than its own border-color */;
+    border-radius: 3px;
+    margin-top: 10px;
+    padding: 6px;
+    background-color: rgba(255, 255, 255, 15);
+}
+
+QGroupBox:title {
+    top: -8px;
+    left: 12px;
+}
+
+
+/*==================================================================================================
+Tooltip
+==================================================================================================*/
+QToolTip {
+    color: white;
+    background-color: #828282;
+    /*opacity: 90%; doesn't correctly work */
+    padding: 4px;
+    border-radius: 3px; /* has no effect */
+}
+
+
+/*==================================================================================================
+Dock widget
+==================================================================================================*/
+QDockWidget {
+    color: rgba(0,0,0,120);
+    titlebar-close-icon: url(qss:images/close_dark.png);
+    titlebar-normal-icon: url(qss:images/undock_dark.png);
+}
+
+QDockWidget::title {
+    text-align: center;
+    background-color: rgba(0,0,0,10);
+    border: 4px solid #f5f5f5; /* fix to simulate margin between this :title and tabs */ /* same as main background color */
+    border-radius: 6px; /* bigger than normal due to previous border fix */
+    padding: 4px 0px; /* also needed because of previous border fix */
+}
+
+QDockWidget::close-button,
+QDockWidget::float-button {
+    border: none;
+    background: transparent;
+    border-radius: 3px;
+    subcontrol-origin: padding;
+    subcontrol-position: right center;
+}
+
+QDockWidget::close-button {
+    right: 4px;
+}
+    
+QDockWidget::float-button {
+    right: 22px;
+}
+
+QDockWidget::close-button:hover,
+QDockWidget::float-button:hover {
+    background-color: rgba(0,0,0,15);
+}
+
+QDockWidget::close-button:pressed,
+QDockWidget::float-button:pressed {
+    background-color: rgba(0,0,0,30);
+}
+
+/* fix for Python Console (probably there is a smarter way to arrive to it) */
+QDockWidget &gt; QFrame {
+    background-color: #f0f0f0;
+    border: 1px solid #c3c3c3;
+}
+
+
+/*==================================================================================================
+Progress bar
+==================================================================================================*/
+QProgressBar,
+QProgressBar:horizontal {
+    color: white;
+    background-color: rgba(0,0,0,10);
+    text-align: center;
+    border: 1px solid rgba(0,0,0,80);
+    padding: 1px;
+    border-radius: 3px;
+}
+QProgressBar::chunk,
+QProgressBar::chunk:horizontal {
+    background-color: qlineargradient(spread:pad, x1:1, y1:0.545, x2:1, y2:0, stop:0 #3874f2, stop:1 #5e90fa);
+    border-radius: 3px;
+}
+
+
+/*==================================================================================================
+Scroll
+==================================================================================================*/
+QAbstractScrollArea {
+    border-radius: 2px;
+}
+
+QAbstractScrollArea::corner {
+    border: none;
+}
+
+QScrollBar:horizontal {
+    height: 15px;
+    margin: 0px;
+}
+
+QScrollBar::handle:vertical,
+QScrollBar::handle:horizontal {
+}
+
+QScrollBar::handle:vertical:hover,
+QScrollBar::handle:horizontal:hover {
+}
+
+QScrollBar::handle:horizontal {
+    min-width: 5px;
+    border-radius: 3px;
+    margin: 4px 15px;
+}
+
+QScrollBar::sub-line:horizontal {
+    margin: 1px 3px 0px 3px; /* 1px to correctly fit the 10px width image */
+    border-image: url(qss:images/left_arrow_dark.png);
+    width: 6px;
+    height: 10px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::add-line:horizontal {
+    margin: 1px 3px 0px 3px; /* 1px to correctly fit the 10px width image */
+    border-image: url(qss:images/right_arrow_dark.png);
+    width: 6px;
+    height: 10px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:horizontal:hover,
+QScrollBar::sub-line:horizontal:on {
+    border-image: url(qss:images/left_arrow_darker.png);
+}
+
+QScrollBar::add-line:horizontal:hover,
+QScrollBar::add-line:horizontal:on {
+    border-image: url(qss:images/right_arrow_darker.png);
+}
+
+QScrollBar::up-arrow:horizontal,
+QScrollBar::down-arrow:horizontal {
+}
+
+QScrollBar::add-page:horizontal,
+QScrollBar::sub-page:horizontal {
+}
+
+QScrollBar:vertical {
+    width: 15px;
+    margin: 0px;
+}
+
+QScrollBar::handle:vertical {
+    min-height: 5px;
+    border-radius: 3px;
+    margin: 15px 4px;
+}
+
+QScrollBar::sub-line:vertical {
+    margin: 3px 0px 3px 1px; /* 1px to correctly fit the 10px width image */
+    border-image: url(qss:images/up_arrow_dark.png);
+    height: 6px;
+    width: 10px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::add-line:vertical {
+    margin: 3px 0px 3px 1px; /* 1px to correctly fit the 10px width image */
+    border-image: url(qss:images/down_arrow_dark.png);
+    height: 6px;
+    width: 10px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical:hover,
+QScrollBar::sub-line:vertical:on {
+    border-image: url(qss:images/up_arrow_darker.png);
+}
+
+QScrollBar::add-line:vertical:hover,
+QScrollBar::add-line:vertical:on {
+    border-image: url(qss:images/down_arrow_darker.png);
+}
+
+QScrollBar::up-arrow:vertical,
+QScrollBar::down-arrow:vertical {
+}
+
+QScrollBar::add-page:vertical,
+QScrollBar::sub-page:vertical {
+}
+
+
+/*==================================================================================================
+Tab bar
+==================================================================================================*/
+QTabWidget::pane {
+    background-color: transparent; /* temporal (transparent background) */ /* tab content background color */
+    position: absolute;
+}
+
+QTabWidget::pane:top {
+    top: -1px;
+    border-top: 1px solid #d2d2d2;
+}
+
+QTabWidget::pane:bottom {
+    bottom: -1px;
+    border-bottom: 1px solid #d2d2d2;
+}
+
+QTabWidget::pane:left {
+    right: -1px;
+    border-right: 1px solid #d2d2d2;
+}
+
+QTabWidget::pane:right {
+    left: -1px;
+    border-left: 1px solid #d2d2d2;
+}
+
+QTabWidget::tab-bar:top,
+QTabWidget::tab-bar:bottom {
+    left: 10px;
+}
+
+QTabWidget::tab-bar:left,
+QTabWidget::tab-bar:right {
+    top: 10px;
+}
+
+QTabBar {
+    qproperty-drawBase: 0; /* important */
+    background-color: transparent;
+}
+
+/* Workaround for QTabBars created from docked QDockWidgets which don't draw the border if not set and reseted as follows: */
+QTabBar {
+    border-top: 1px solid #d2d2d2;  /* set color for all QTabBars */
+}
+QDockWidget QTabBar {
+    border-color: transparent; /* set color for all QTabBars but ones created from QDockWidget */
+}
+QDialog QTabBar {
+    border-color: transparent; /* set color for QTabBars inside Preferences dialog */
+}
+/* end fix */
+
+QTabBar::tab {
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 3px;
+}
+
+QTabBar::tab:top,
+QTabBar::tab:bottom {
+    border-top-width: 4px}
+/*==================================================================================================
+Buttons
+==================================================================================================*/
+/* Common */
+QComboBox,
+QAbstractSpinBox,
+QSpinBox,
+QDoubleSpinBox,
+QLineEdit,
+QTextEdit,
+QTimeEdit,
+QDateEdit,
+QDateTimeEdit {
+    color: #6e6e6e;
+    background-color: #e0e0e0;
+    selection-color: white;
+    selection-background-color: #5e90fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    min-width: 50px; /* it ensures the default value is correctly displayed */
+    min-height: 20px; /* important to be a pair number in order to up/down buttons to be divisible by two (if not set could create a blank line in Ubuntu. Its downside is that it's needed to reset it (min-width: 0px) on following elements that can't have it such as fields inside QToolBar and inside QTreeView (Property editor) */
+    padding: 1px 2px; /* temporal: could don't be compatible with elements inside Tree/List view */
+}
+
+/* shifts text/number editable field to the left to make space for the up/down or drop-down buttons */
+QComboBox,
+QAbstractSpinBox,
+QSpinBox,
+QDoubleSpinBox,
+QTimeEdit,
+QDateEdit,
+QDateTimeEdit {
+    padding-right: 20px;
+}
+
+/* when QTextEdit are no editable */
+QTextEdit:!editable {
+    background-color: #f0f0f0;
+    border: 1px solid #c3c3c3;
+}
+
+QComboBox:focus,
+QAbstractSpinBox:focus,
+QSpinBox:focus,
+QDoubleSpinBox:focus,
+QLineEdit:focus,
+QTextEdit:focus,
+QTimeEdit:focus,
+QDateEdit:focus,
+QDateTimeEdit:focus {
+    color: black;
+    border-color: #7cabf9;
+    border-right-color: qlineargradient(spread:pad, x1:1, y1:0.8, x2:1, y2:0, stop:0 #5e90fa, stop:1 #7cabf9); /* same as up/down or drop-down button color */
+    background-color: #cbd8e6;
+}
+
+QComboBox:disabled,
+QAbstractSpinBox:disabled,
+QSpinBox:disabled,
+QDoubleSpinBox:disabled,
+QLineEdit:disabled,
+QTextEdit:disabled,
+QTimeEdit:disabled,
+QDateEdit:disabled,
+QDateTimeEdit:disabled {
+    color: #c3c3c3;
+    background-color: #e0e0e0; /* same as enabled color */
+    border-color: #e0e0e0; /* same as enabled color */
+}
+
+QAbstractSpinBox:up-button,
+QSpinBox:up-button,
+QDoubleSpinBox:up-button,
+QTimeEdit:up-button,
+QDateEdit:up-button,
+QDateTimeEdit:up-button,
+QAbstractSpinBox:down-button,
+QSpinBox:down-button,
+QDoubleSpinBox:down-button,
+QTimeEdit:down-button,
+QDateEdit:down-button,
+QDateTimeEdit:down-button {
+    background-color: #d2d2d2;
+    subcontrol-origin: border; /* important */
+    width: 20px; /* same as QComboBox ... QDateTimeEdit padding-right */
+}
+
+QAbstractSpinBox:up-button,
+QSpinBox:up-button,
+QDoubleSpinBox:up-button,
+QTimeEdit:up-button,
+QDateEdit:up-button,
+QDateTimeEdit:up-button {
+    subcontrol-position: top right;
+    border-top-right-radius: 3px;
+}
+
+QAbstractSpinBox:down-button,
+QSpinBox:down-button,
+QDoubleSpinBox:down-button,
+QTimeEdit:down-button,
+QDateEdit:down-button,
+QDateTimeEdit:down-button {
+    subcontrol-position: bottom right;
+    border-bottom-right-radius: 3px;
+}
+
+QAbstractSpinBox:up-button:focus,
+QSpinBox:up-button:focus,
+QDoubleSpinBox:up-button:focus,
+QTimeEdit:up-button:focus,
+QDateEdit:up-button:focus,
+QDateTimeEdit:up-button:focus {
+    background-color: qlineargradient(spread:pad, x1:1, y1:0.8, x2:1, y2:0, stop:0 #6f9efa, stop:1 #7cabf9);
+}
+
+QAbstractSpinBox:down-button:focus,
+QSpinBox:down-button:focus,
+QDoubleSpinBox:down-button:focus,
+QTimeEdit:down-button:focus,
+QDateEdit:down-button:focus,
+QDateTimeEdit:down-button:focus {
+    background-color: qlineargradient(spread:pad, x1:1, y1:0.8, x2:1, y2:0, stop:0 #5e90fa, stop:1 #6f9efa);
+}
+
+QAbstractSpinBox:up-button:disabled,
+QSpinBox:up-button:disabled,
+QDoubleSpinBox:up-button:disabled,
+QTimeEdit:up-button:disabled,
+QDateEdit:up-button:disabled,
+QDateTimeEdit:up-button:disabled,
+QAbstractSpinBox:down-button:disabled,
+QSpinBox:down-button:disabled,
+QDoubleSpinBox:down-button:disabled,
+QTimeEdit:down-button:disabled,
+QDateEdit:down-button:disabled,
+QDateTimeEdit:down-button:disabled {
+    background-color: transparent;
+}
+
+QAbstractSpinBox::up-arrow,
+QSpinBox::up-arrow,
+QDoubleSpinBox::up-arrow,
+QTimeEdit::up-arrow,
+QDateEdit::up-arrow,
+QDateTimeEdit::up-arrow {
+    image: url(qss:images/up_arrow_dark.png);
+    top: 2px; /* fix symmetry between up and down images */
+}
+
+QAbstractSpinBox::up-arrow:focus,
+QSpinBox::up-arrow:focus,
+QDoubleSpinBox::up-arrow:focus,
+QTimeEdit::up-arrow:focus,
+QDateEdit::up-arrow:focus,
+QDateTimeEdit::up-arrow:focus {
+    image: url(qss:images/up_arrow_lighter.png);
+}
+
+QAbstractSpinBox::up-arrow:off,
+QSpinBox::up-arrow:off,
+QDoubleSpinBox::up-arrow:off,
+QTimeEdit::up-arrow:off,
+QDateEdit::up-arrow:off,
+QDateTimeEdit::up-arrow:off {
+    image: url(qss:images/up_arrow_disabled_dark.png);
+}
+
+QAbstractSpinBox::up-arrow:disabled,
+QSpinBox::up-arrow:disabled,
+QDoubleSpinBox::up-arrow:disabled,
+QTimeEdit::up-arrow:disabled,
+QDateEdit::up-arrow:disabled,
+QDateTimeEdit::up-arrow:disabled {
+    image: url(qss:images/up_arrow_disabled_dark.png);
+}
+
+QAbstractSpinBox::down-arrow,
+QSpinBox::down-arrow,
+QDoubleSpinBox::down-arrow,
+QTimeEdit::down-arrow,
+QDateEdit::down-arrow,
+QDateTimeEdit::down-arrow {
+    image: url(qss:images/down_arrow_dark.png);
+    bottom: 0px; /* fix simetry between up and down images */
+}
+
+QAbstractSpinBox::down-arrow:focus,
+QSpinBox::down-arrow:focus,
+QDoubleSpinBox::down-arrow:focus,
+QTimeEdit::down-arrow:focus,
+QDateEdit::down-arrow:focus,
+QDateTimeEdit::down-arrow:focus {
+    image: url(qss:images/down_arrow_lighter.png);
+}
+
+QAbstractSpinBox::down-arrow:off,
+QSpinBox::down-arrow:off,
+QDoubleSpinBox::down-arrow:off,
+QTimeEdit::down-arrow:off,
+QDateEdit::down-arrow:off,
+QDateTimeEdit::down-arrow:off {
+    image: url(qss:images/down_arrow_disabled_dark.png);
+}
+
+QAbstractSpinBox::down-arrow:disabled,
+QSpinBox::down-arrow:disabled,
+QDoubleSpinBox::down-arrow:disabled,
+QTimeEdit::down-arrow:disabled,
+QDateEdit::down-arrow:disabled,
+QDateTimeEdit::down-arrow:disabled {
+    image: url(qss:images/down_arrow_disabled_dark.png);
+}
+
+/* ComboBox */
+QComboBox::drop-down {
+    background-color: #d2d2d2;
+    subcontrol-origin: border; /* important */
+    subcontrol-position: top right;
+    width: 20px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+QComboBox::drop-down:on,
+QComboBox::drop-down:focus {
+    background-color: qlineargradient(spread:pad, x1:1, y1:0.8, x2:1, y2:0, stop:0 #5e90fa, stop:1 #7cabf9);
+}
+
+QComboBox::down-arrow {
+    image: url(qss:images/down_arrow_dark.png);
+}
+
+QComboBox::down-arrow:on,
+QComboBox::down-arrow:focus {
+    image: url(qss:images/down_arrow_lighter.png);
+}
+
+QComboBox::down-arrow:off,
+QComboBox::down-arrow:disabled {
+    image: url(qss:images/down_arrow_disabled_dark.png);
+}
+
+/* ComboBox menu */
+QComboBox {
+    selection-color: white;
+    selection-background-color: #5e90fa;
+}
+
+QComboBox QAbstractItemView {
+    color: #6e6e6e; /* same as regular QComboBox color */
+    background-color: transparent;
+    selection-color: white;
+    selection-background-color: #5e90fa;
+    border-width: 5px 0px 5px 0px;
+    border-style: solid;
+    border-color: transparent;
+    margin: 0px -1px 0px 0px; /* temporal: hack for Mac... try it on Windows and Linux */
+}
+
+
+
+/*==================================================================================================
+Radio button
+==================================================================================================*/
+QRadioButton::indicator:unchecked{
+    color: #505050;
+    background-color: rgba(0, 0, 0, 20);
+    border: 1px solid #505050;
+}
+
+QRadioButton::indicator:checked {
+    background-color: #5e90fa; /* QCheckBox has the same color */
+    border: 1px solid #3874f2; /* QCheckBox has the same color */
+    image:url(qss:images/radiobutton_light.png);
+}
+
+QRadioButton,
+QRadioButton:disabled {
+    color: #505050;
+    padding: 3px;
+    outline: none;
+    background-color: transparent;
+}
+
+QRadioButton::indicator {
+    width: 11px;
+    height: 11px;
+    border-radius: 6px;
+}
+
+QRadioButton::indicator:pressed {
+    border-color: #adc5ed;
+}
+
+QRadioButton::indicator:disabled {
+    color: #6e6e6e;
+    background-color: transparent;
+    border: 1px solid #6e6e6e;
+}
+
+QRadioButton:focus {
+    border: none;
+}
+
+
+/*==================================================================================================
+Checkbox
+==================================================================================================*/
+QCheckBox,
+QCheckBox:disabled {
+    color: #505050;
+    padding: 3px;
+    outline: none;
+    background-color: transparent;
+}
+
+QCheckBox::indicator {
+    color: #c8c8c8;
+    background-color: rgba(0,0,0,20);
+    border: 1px solid #505050;
+    width: 11px;
+    height: 11px;
+    border-radius:2px;
+}
+
+QCheckBox::indicator:pressed,
+QCheckBox::indicator:non-exclusive:checked:pressed,
+QCheckBox::indicator:indeterminate:pressed,
+QCheckBox::indicator:checked:pressed {
+    border-color: #adc5ed;
+}
+
+QCheckBox::indicator:checked {
+    background-color: #5e90fa; /* QRadioButton has the same color */
+    border: 1px solid #3874f2; /* QRadioButton has the same color */
+    image:url(qss:images/checkbox_light.png);
+}
+
+QCheckBox:disabled {
+    color: rgba(0,0,0,40);
+    background-color: transparent;
+}
+
+QCheckBox::indicator:disabled {
+    background-color: rgba(0,0,0,20);
+    border: 1px solid rgba(0,0,0,20);
+}
+
+QCheckBox::indicator:indeterminate {
+    background-color: #5e90fa;
+    border: 1px solid #3874f2;
+    image: url(qss:images/checkbox_indeterminate_light.png);
+}
+
+QCheckBox:focus {
+    border: none;
+}
+
+
+
+
+
+
+
+/*==================================================================================================
+EXPERIMENTAL
+==================================================================================================*/
+
+/* Fix for preventing elements in different rows to accidentaly overlap */
+QDialog QGroupBox QFrame {
+    margin: 2px 0px;
+}
+
+*[mandatoryField=&quot;true&quot;] { background-color: cyan }
+QPushButton {
+    border-radius: 20px;
+    color: rgb(230, 230, 230);
+    text-align: center;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #5e90fa, stop:1 #3874f2);
+    border: 1px solid #d2d2d2;
+    border-bottom-color: #c3c3c3; /* simulates shadow under the button */
+    padding: 4px 22px;
+    margin: 4px 4px;
+    min-height: 16px; /* same as QTabBar QPushButton min-width */
+    border-radius:20px;
+}
+
+QPushButton:hover,
+QPushButton:focus {
+    color: white;
+    border: 1px solid rgb(49, 44, 113);
+background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512438 rgba(69, 124, 225, 255), stop:1 rgba(82, 157, 255, 255))
+}
+
+QPushButton:disabled,
+QPushButton:disabled:checked {
+    color: #b6b6b6;
+    border-color: #e6e6e6;
+    background-color: #e6e6e6;
+}
+
+QPushButton:pressed {
+    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #3874f2, stop:1 #5e90fa);
+}
+
+QPushButton:checked {
+    background-color: rgb(35, 72, 147);
+    border-color: #3874f2;
+}
+
+/* Color Buttons */
+Gui--ColorButton,
+Gui--ColorButton:disabled {
+    padding: 0px; /* reset */
+    margin: 0px; /* reset */
+}
+
+Gui--ColorButton {
+    background-color: qlineargradient(spread:pad, x1:0, y1:0.3, x2:0, y2:1, stop:0 #f5f5f5, stop:1 #e6e6e6);
+    border: 1px solid #d2d2d2;
+    border-bottom-color: #c3c3c3; /* simulates shadow under the button */
+}
+
+Gui--ColorButton:disabled {
+    border-color: transparent;
+    background-color: rgba(0,0,0,10);
+}
+
+Gui--ColorButton:hover,
+Gui--ColorButton:focus {
+    border-color: #3874f2;
+    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #5e90fa, stop:1 #3874f2);
+}
+
+Gui--ColorButton:pressed {
+    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #3874f2, stop:1 #5e90fa);
+}
+
+/* Pushbutton style for &quot;...&quot; inside Placement cell which launches Placement tool */
+Gui--PropertyEditor--PropertyEditor &gt; QWidget &gt; QWidget &gt; QPushButton {
+    background-color: #b6b6b6;
+    border: 1px solid #828282;
+    min-width: 16px; /* reset it due to larger value on regular QPushButton, same or bigger value as regular QPushButton min-height */
+    border-radius: 0px;
+    margin: 0px; /* reset */
+    padding: 0px; /* reset */
+}
+
+/* Fix for Expressions description QFrame that is &quot;broken&quot; with initial reset */
+Gui--PropertyEditor--PropertyEditor &gt; QWidget &gt; QWidget &gt; QWidget &gt; QWidget &gt; QFrame {
+    background-color: #f5f5f5; /* main background color */
+    border: 1px solid #dcdcdc;
+    border-radius: 2px;
+    padding: 2px 6px;
+}
+
+QPushButton:checked {
+    background-color: #5e90fa;
+    border-color: #3874f2;
+}</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>30</y>
+     <width>201</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+     <pointsize>12</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="text">
+    <string>الرقم التعريفي للمراجع</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinBox">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>30</y>
+     <width>321</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-radius:23px</string>
+   </property>
+   <property name="maximum">
+    <number>1000000017</number>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>100</y>
+     <width>651</width>
+     <height>231</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="title">
+    <string/>
+   </property>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>-10</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>التاريخ</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_67">
+    <property name="geometry">
+     <rect>
+      <x>254</x>
+      <y>64</y>
+      <width>41</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>12</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>الى</string>
+    </property>
+   </widget>
+   <widget class="QDateEdit" name="dateEdit_5">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>60</y>
+      <width>221</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius:20px;</string>
+    </property>
+    <property name="dateTime">
+     <datetime>
+      <hour>0</hour>
+      <minute>0</minute>
+      <second>0</second>
+      <year>2021</year>
+      <month>1</month>
+      <day>1</day>
+     </datetime>
+    </property>
+    <property name="calendarPopup">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_66">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>60</y>
+      <width>61</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>من</string>
+    </property>
+   </widget>
+   <widget class="QDateEdit" name="dateEdit_6">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>62</y>
+      <width>221</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius:20px;</string>
+    </property>
+    <property name="dateTime">
+     <datetime>
+      <hour>0</hour>
+      <minute>0</minute>
+      <second>0</second>
+      <year>2021</year>
+      <month>1</month>
+      <day>1</day>
+     </datetime>
+    </property>
+    <property name="calendarPopup">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_68">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>60</y>
+      <width>21</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>30</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>|</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_20">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>150</y>
+      <width>241</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius:26px;</string>
+    </property>
+    <property name="text">
+     <string>بحث</string>
+    </property>
+    <property name="icon">
+     <iconset resource="icons.qrc">
+      <normaloff>:/icons8-search-512.png</normaloff>:/icons8-search-512.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>
