@@ -1,0 +1,28 @@
+- analysts:
+    -analyst:[choices]
+    --test:[0.5 Negative,0.6 Negative,0.7 Negative,0.8 Negative,1.1 Positive,1.1 Positive,1.2 Positive,1.3 Positive,1.4 Positive,1.5 Positive]
+    --Rh:[Positive (+ve),Negative (-ve)]
+    --Rose-Bengal test:[Positive (+ve),Negative (-ve)]
+    --Salmonella typhi  IgG:[Positive (+ve),Negative (-ve)]
+    --Salmonella typhi  IgM:[Positive (+ve),Negative (-ve)]
+    --Pregnancy test  in serum:[Positive (+ve),Negative (-ve)]
+    --Pregnancy test  in urine:[Positive (+ve),Negative (-ve)]
+    ---Blood Group:[A (+ve),B (+ve),AB (+ve),O (+ve),O (-ve),A (-ve),B (-ve),AB (-ve)]
+    --Casts:[Granular cast +,Granular cast ++,Granular cast +++]
+    --Crystals:['Am.Urate','Am.Phosphatase','Uric Acid','Ca.Oxalate']
+    --Epith .cells:['Few','+','++','+++','++++']
+    --Albumin:[Nil,+,++,+++,Trace]
+    --Sugar:[Nil,+,++,+++,Trace]
+    --Reaction:[Acidic,Alkaline]
+    --Appearance:[Turbid,Clear]
+    --Other:GSE:[choices]
+    --Ova:[Nil]
+    --E. Histolytica:[Cyst,Trophozoite]
+    --G. Lembilia:[Cyst,Trophozoite]
+    --R.B.Cs:[1-2,1-3,2-3,2-4,0-1,0-2,3-5,4-6,5-6,5-7,6-8,6-7,+,++,+++,++++,Full Field]
+    --Consistency:[Solid,Liquid,Semi solid,Semi liquid,Mucoid]
+    --- Volume:[0.5 -0.7]
+    --- Liquefaction:[5-45]55
+    --- motility:[5-85]55
+    --- Morphology:[5-85]55
+    --- Hb[4-18]

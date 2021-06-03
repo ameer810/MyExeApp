@@ -1,0 +1,19 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+   <file>view.png</file>
+   <file>icons8-add-new-100.png</file>
+   <file>icons8-age-64 (1).png</file>
+   <file>icons8-file-preview-64.png</file>
+   <file>icons8-notes-512 (1).png</file>
+   <file>icons8-order-history-64.png</file>
+   <file>icons8-print-64 (1).png</file>
+   <file>icons8-sales-performance-64.png</file>
+   <file>icons8-search-512.png</file>
+   <file>icons8-settings-512.png</file>
+   <file>icons8-test-tube-100.png</file>
+   <file>icons8-user-group-100.png</file>
+   <file>lavatory.png</file>
+   <file>icons8-delete-bin-100.png</file>
+
+</qresource>
+</RCC>
