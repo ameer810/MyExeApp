@@ -18,7 +18,12 @@ import multyclass
 from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
 from threading import Thread
+import add_buys_completepy
+import add_delete_category_dialogpy
+import add_delete_analyst_choices
+import mandobuipy
 from mymain import Ui_MainWindow as main_wind
+import ast
 show_clients_check = False
 FORM_CLASS, _ = loadUiType("design.ui")
 user_id = ''
@@ -50,11 +55,17 @@ search_info_by_date = False
 all_doctors = []
 Edit_Doctor = True
 Delete_Doctor = True
-default_analysts = []
-default_analysts2 = []
+current_group_box = ''
+word_files = None
+save_word_files = None
+Analyst_Choices_list=[]
+myu_row_count =0
 class mainapp(QMainWindow, FORM_CLASS):
     def __init__(self, parent=None):
         global from_start
+        global word_files
+        global save_word_files
+        global word_data
         super(mainapp, self).__init__(parent)
         QMainWindow.__init__(self)
         self.setupUi(self)
@@ -88,6 +99,12 @@ class mainapp(QMainWindow, FORM_CLASS):
         # os.system("TASKKILL /F /IM WINWORD.exe")
         # os.system('start WINWORD.exe')
         self.tableWidget_5.setColumnHidden(4, True)
+        self.cur.execute(''' SELECT * FROM paths WHERE id=1 ''')
+        mydata = self.cur.fetchone()
+        word_files = mydata[1]
+        save_word_files = mydata[2]
+        self.cur.execute(''' SELECT * FROM  word WHERE id=1''')
+        word_data = self.cur.fetchone()
     def DB(self):
         self.db = MySQLdb.connect(host='localhost', user='root', password='12345', db='tahlel2', charset="utf8",
                                   use_unicode=True, port=3306)
@@ -136,8 +153,10 @@ class mainapp(QMainWindow, FORM_CLASS):
         self.db.commit()
         QMessageBox.information(self, 'info', 'تم تحديث المعلومات بنجاح')
         self.Show_Word_Doc_Data()
-        self.Add_Data_To_history(4, 7)
-        self.History()
+        thread_0 = Thread(target=self.Add_Data_To_history, args=(4, 7,))
+        thread_0.start()
+        thread_1 = Thread(target=self.History)
+        thread_1.start()
 
     def all_per(self):
         if self.checkBox.isChecked():
@@ -181,6 +200,9 @@ class mainapp(QMainWindow, FORM_CLASS):
 
     def handel_buttons(self):
         global addTrue
+        global edit_employee_check
+        if not edit_employee_check:
+            self.comboBox_3.hide()
         self.pushButton_15.clicked.connect(self.Light_Blue_Theme)
         self.pushButton_9.clicked.connect(self.Dark_Orange_Theme)
         self.pushButton_13.clicked.connect(self.Dark_Blue_Theme)
@@ -226,21 +248,16 @@ class mainapp(QMainWindow, FORM_CLASS):
         # self.pushButton_23.clicked.connect(self.Print_empty_papers)
         self.pushButton_24.clicked.connect(self.Add_Path)
         self.pushButton_54.clicked.connect(self.Show_All_Clients)
-        self.pushButton_39.clicked.connect(self.ADD_one_REsult_to_ANalyst_results)
-        self.pushButton_40.clicked.connect(self.ADD_one_REsult_to_ANalyst_results_IN_EDITMODE)
-        self.pushButton_41.clicked.connect(self.Remove_one_REsult_to_ANalyst_results_IN_EDITMODE)
-        self.pushButton_50.clicked.connect(self.Remove_one_REsult_to_ANalyst_results)
+
         self.pushButton_43.clicked.connect(self.Show_search_Widget)
         self.pushButton_44.clicked.connect(self.Show_multy_Dialog)
         self.comboBox_16.view().pressed.connect(self.Set_Chick_State2)
-        self.pushButton_46.clicked.connect(self.ADD_one_category_to_analyst_categoryes)
         self.pushButton_53.clicked.connect(self.Add_permissions)
         self.pushButton_25.clicked.connect(self.Add_permissions)
         self.pushButton_42.clicked.connect(self.Show_search_Widget2)
         self.pushButton_53.clicked.connect(self.Add_employee)
         self.pushButton_25.clicked.connect(self.Add_employee)
         self.pushButton_23.clicked.connect(self.Show_statics)
-        self.pushButton_45.clicked.connect(self.ADD_one_category_to_analyst_categoryes_IN_EDITMODE)
         self.pushButton_31.clicked.connect(self.Update_Word_Doc_Data)
         self.pushButton_33.pressed.connect(self.echo_mode)
         self.pushButton_33.released.connect(self.echo_mode)
@@ -256,8 +273,26 @@ class mainapp(QMainWindow, FORM_CLASS):
         self.pushButton_49.clicked.connect(self.Delete_doctor)
         self.add_doctors_to_list()
         self.tabWidget_4.currentChanged.connect(self.Show_default_statics)
-        self.pushButton_51.clicked.connect(self.Remove_category)
-        self.pushButton_52.clicked.connect(self.Remove_category_in_edit)
+        self.pushButton_46.clicked.connect(self.Show_Category_Dialog)
+        self.pushButton_45.clicked.connect(self.Show_Category_Dialog)
+        self.tabWidget_3.currentChanged.connect(self.ShowIsInCategory)
+        self.pushButton_39.clicked.connect(self.Show_analyst_chioces_dialog)
+        self.pushButton_40.clicked.connect(self.Show_analyst_chioces_dialog)
+
+    def handleItemPressed(self, index):
+        item = self.Add_Buys_Dialog.comboBox.model().itemFromIndex(index)
+        if item.checkState() == Qt.Checked:
+            item.setCheckState(Qt.Unchecked)
+        else:
+            item.setCheckState(Qt.Checked)
+
+    def handleItemPressed2(self, index):
+        item = self.Add_Buys_Dialog.comboBox_2.model().itemFromIndex(index)
+        if item.checkState() == Qt.Checked:
+            item.setCheckState(Qt.Unchecked)
+        else:
+            item.setCheckState(Qt.Checked)
+        # self.Add_Buys_Dialog.comboBox_2.showPopup()
     def add_doctors_to_list(self):
         global all_doctors
         self.cur.execute(''' SELECT name FROM doctor ''')
@@ -280,8 +315,10 @@ class mainapp(QMainWindow, FORM_CLASS):
             QMessageBox.information(self, 'info', 'تم اضافة الطبيب بنجاح')
             self.Add_Doctor_Data()
             self.add_doctors_to_list()
-            self.Add_Data_To_history(3, 6)
-            self.History()
+            thread_0 = Thread(target=self.Add_Data_To_history, args=(3, 6,))
+            thread_0.start()
+            thread_1 = Thread(target=self.History)
+            thread_1.start()
         except Exception as e:
             print(e, '95kerorr')
             QMessageBox.information(self, '', 'هذا الطبيب موجود بالفعل')
@@ -302,8 +339,10 @@ class mainapp(QMainWindow, FORM_CLASS):
                 QMessageBox.information(self, 'info', 'تم تحديث بيانات الطبيب بنجاح')
                 self.Add_Doctor_Data()
                 self.add_doctors_to_list()
-                self.Add_Data_To_history(4, 6)
-                self.History()
+                thread_0 = Thread(target=self.Add_Data_To_history, args=(4, 6,))
+                thread_0.start()
+                thread_1 = Thread(target=self.History)
+                thread_1.start()
             except:
                 QMessageBox.information(self, '', 'لا يمكن تكرار اسم الطبيب , يرجى تغيير اسم الطبيب')
         else:
@@ -325,8 +364,10 @@ class mainapp(QMainWindow, FORM_CLASS):
                 QMessageBox.information(self, 'info', 'تم حذف الطبيب بنجاح')
                 self.Add_Doctor_Data()
                 self.add_doctors_to_list()
-                self.Add_Data_To_history(5, 6)
-                self.History()
+                thread_0 = Thread(target=self.Add_Data_To_history, args=(5, 6,))
+                thread_0.start()
+                thread_1 = Thread(target=self.History)
+                thread_1.start()
         else:
             QMessageBox.information(self, '', 'هذا الطبيب غير موجود')
 
@@ -469,6 +510,7 @@ class mainapp(QMainWindow, FORM_CLASS):
             Add_all_analysts_items_list.append(str(self.tableWidget_5.item(row, 0).text()))
 
     def Show_multy_Dialog(self):
+        self.get_client_id()
         self.Add_all_analysts_items()
         global Add_all_analysts_items_list
         self.Dialog = multyclass.MultyDialog()
@@ -541,8 +583,10 @@ class mainapp(QMainWindow, FORM_CLASS):
         self.add_today_client_to_list()
         self.Auto_complete_combo7()
         self.Show_All_The_Sales()
-        self.Add_Data_To_history(3, 1)
-        self.History()
+        thread_0 = Thread(target=self.Add_Data_To_history, args=(3, 1,))
+        thread_0.start()
+        thread_1 = Thread(target=self.History)
+        thread_1.start()
         self.Add_all_analysts_items()
 
     def Show_search_Widget(self):
@@ -583,33 +627,6 @@ class mainapp(QMainWindow, FORM_CLASS):
         self.comboBox_4.addItem('')
         self.comboBox_4.addItems(clients)
 
-    def ADD_one_category_to_analyst_categoryes_IN_EDITMODE(self):
-        global first_text_category1
-        first_text_category1 = self.comboBox_26.currentText()
-        all_items = []
-        for row in range(0, self.comboBox_26.count()):
-            self.comboBox_30.setCurrentIndex(row)
-            all_items.append(str(self.comboBox_26.currentText()))
-        if str(first_text_category1) not in all_items and first_text_category1 != '':
-            self.comboBox_26.addItem(str(first_text_category1))
-            self.comboBox_26.setCurrentText('')
-        else:
-            self.comboBox_26.setCurrentText('')
-            QMessageBox.information(self, '', 'هذا العنصر موجود بالفعل')
-
-    def ADD_one_category_to_analyst_categoryes(self):
-        global first_text_category2
-        first_text_category2 = self.comboBox_23.currentText()
-        all_items = []
-        for row in range(0, self.comboBox_23.count()):
-            self.comboBox_23.setCurrentIndex(row)
-            all_items.append(str(self.comboBox_23.currentText()))
-        if str(first_text_category2) not in all_items and first_text_category2 != '':
-            self.comboBox_23.addItem(str(first_text_category2))
-            self.comboBox_23.setCurrentText('')
-        else:
-            self.comboBox_23.setCurrentText('')
-            QMessageBox.information(self, '', 'هذا العنصر موجود بالفعل')
 
     def all_categorys(self):
         self.cur.execute(''' SELECT sub_category FROM addanalyst ''')
@@ -620,76 +637,6 @@ class mainapp(QMainWindow, FORM_CLASS):
                 mylist.append(i[0])
         print(mylist)
         return mylist
-
-    def Remove_category(self):
-        if self.comboBox_23.currentText() in self.all_categorys():
-            warning = QMessageBox.warning(self, '',
-                                          f'سوف يتم مسح الصنف {self.comboBox_23.currentText()} وجميع التحاليل الخاصة به هل انت متأكد؟',
-                                          QMessageBox.Yes | QMessageBox.No)
-            if warning == QMessageBox.Yes:
-                self.cur.execute(''' DELETE FROM addanalyst WHERE sub_category=%s ''',
-                                 (self.comboBox_23.currentText(),))
-                self.db.commit()
-                index = self.comboBox_23.findText(self.comboBox_23.currentText())
-                self.comboBox_23.removeItem(index)
-                QMessageBox.information(self, '',
-                                        f'تم مسح الصنف {self.comboBox_23.currentText()} وجميع التحاليل الخاصة به')
-                print('end')
-        else:
-            QMessageBox.information(self, '', 'هذا الصنف غير موجود')
-
-    def Remove_category_in_edit(self):
-        if self.comboBox_26.currentText() in self.all_categorys():
-            warning = QMessageBox.warning(self, '',
-                                          f'سوف يتم مسح الصنف {self.comboBox_26.currentText()} وجميع التحاليل الخاصة به هل انت متأكد؟',
-                                          QMessageBox.Yes | QMessageBox.No)
-            if warning == QMessageBox.Yes:
-                self.cur.execute(''' DELETE FROM addanalyst WHERE sub_category=%s ''',
-                                 (self.comboBox_26.currentText(),))
-                self.db.commit()
-                index = self.comboBox_26.findText(self.comboBox_26.currentText())
-                self.comboBox_26.removeItem(index)
-                QMessageBox.information(self, '',
-                                        f'تم مسح الصنف {self.comboBox_26.currentText()} وجميع التحاليل الخاصة به')
-        else:
-            QMessageBox.information(self, '', 'هذا الصنف غير موجود')
-
-    def ADD_one_REsult_to_ANalyst_results(self):
-        global first_text
-        first_text = self.comboBox_30.currentText()
-        all_items = []
-        for row in range(0, self.comboBox_30.count()):
-            self.comboBox_30.setCurrentIndex(row)
-            all_items.append(str(self.comboBox_30.currentText()))
-        if str(first_text) not in all_items and first_text != '':
-            self.comboBox_30.addItem(str(first_text))
-            self.comboBox_30.setCurrentText('')
-        else:
-            self.comboBox_30.setCurrentText('')
-            QMessageBox.information(self, '', 'هذا العنصر موجود بالفعل')
-        # print(first_text,'here my boy')
-
-    def ADD_one_REsult_to_ANalyst_results_IN_EDITMODE(self):
-        global first_text2
-        first_text2 = self.comboBox_31.currentText()
-        all_items = []
-        for row in range(0, self.comboBox_31.count()):
-            self.comboBox_31.setCurrentIndex(row)
-            all_items.append(str(self.comboBox_31.currentText()))
-        if str(first_text2) not in all_items and first_text2 != '':
-            self.comboBox_31.addItem(str(first_text2))
-            self.comboBox_31.setCurrentText('')
-        else:
-            self.comboBox_31.setCurrentText('')
-            QMessageBox.information(self, '', 'هذا العنصر موجود بالفعل')
-
-    def Remove_one_REsult_to_ANalyst_results_IN_EDITMODE(self):
-        self.comboBox_31.removeItem(self.comboBox_31.currentIndex())
-        self.comboBox_31.setCurrentText('')
-
-    def Remove_one_REsult_to_ANalyst_results(self):
-        self.comboBox_30.removeItem(self.comboBox_30.currentIndex())
-        self.comboBox_30.setCurrentText('')
 
     def my_def2(self):
         self.cur.execute(''' SELECT * FROM addclient group by client_name,date(date) ''')
@@ -831,11 +778,15 @@ class mainapp(QMainWindow, FORM_CLASS):
         self.lineEdit_15.setText(save_word_files)
 
     def Add_Path(self):
+        global word_files
+        global save_word_files
         files_path = self.lineEdit_14.text()
         save_files_path = self.lineEdit_15.text()
         self.cur.execute(''' UPDATE paths SET file_path=%s,save_file_path=%s WHERE id=1''',
                          (files_path, save_files_path))
         self.db.commit()
+        word_files = files_path
+        save_word_files = save_files_path
         QMessageBox.information(self, '', 'تم تطبيق المعلومات بنجاح')
         self.Show_paths()
 
@@ -1061,7 +1012,10 @@ class mainapp(QMainWindow, FORM_CLASS):
             print(e, '95erlplorr')
             self.tableWidget_6.setRowCount(0)
             self.tableWidget_6.insertRow(0)
-        self.Add_Data_To_history(6, 1)
+        thread_0 = Thread(target=self.Add_Data_To_history, args=(6, 1,))
+        thread_0.start()
+        thread_1 = Thread(target=self.History)
+        thread_1.start()
         self.tableWidget_6.setSortingEnabled(True)
 
     def Print_Sale_Data(self, prev):
@@ -1072,8 +1026,6 @@ class mainapp(QMainWindow, FORM_CLASS):
         day = date.year
         month = date.month
         year = date.day
-        real_name = ''
-        real_doctor = ''
         real_name = self.comboBox_4.currentText()
         real_doctor = self.comboBox_15.currentText()
         categorys = []
@@ -1132,6 +1084,59 @@ class mainapp(QMainWindow, FORM_CLASS):
         except Exception as e:
             print(e, '13erorr')
 
+    def Show_Category_Dialog(self):
+        self.Category_Dailog = add_delete_category_dialogpy.Dialog()
+        my_list = []
+        self.cur.execute(''' select name from category ''')
+        data = self.cur.fetchall()
+        for i in data:
+            my_list.append(i[0])
+        self.Category_Dailog.comboBox_11.currentTextChanged.connect(self.C_OR_U_Category)
+        self.Category_Dailog.comboBox_11.setEditable(True)
+        self.Category_Dailog.comboBox_11.addItems(my_list)
+        self.Category_Dailog.pushButton_18.clicked.connect(self.CUD_Category)
+        self.Category_Dailog.pushButton_16.clicked.connect(self.CUD_Category)
+        self.Category_Dailog.pushButton_17.clicked.connect(self.Delete_Category)
+        self.Category_Dailog.exec_()
+    def C_OR_U_Category(self):
+        comboText=self.Category_Dailog.comboBox_11.currentText()
+        if comboText in self.all_categorys():
+            self.Category_Dailog.pushButton_18.show()
+            self.Category_Dailog.pushButton_16.hide()
+        else:
+            self.Category_Dailog.pushButton_18.hide()
+            self.Category_Dailog.pushButton_16.show()
+    def CUD_Category(self):
+        name = self.Category_Dailog.lineEdit_13.text()
+        b_name = self.Category_Dailog.comboBox_11.currentText()
+        if self.sender().text() == 'اضافة':
+            try:
+                self.cur.execute(''' INSERT INTO category (name) VALUES(%s) ''', (name))
+                self.db.commit()
+                QMessageBox.information(self, '', 'تم اضافة صنف جديد بنجاح')
+            except:
+                QMessageBox.information(self, '', 'هذا الصنف موجود بالفعل')
+        else:
+            self.cur.execute(''' UPDATE category set name=%s WHERE name=%s ''', (name, b_name))
+            self.cur.execute(''' UPDATE addanalyst set sub_category=%s where sub_category=%s ''',(name,b_name,))
+            self.cur.execute(''' UPDATE addnewitem set sub_category=%s where sub_category=%s ''',(name,b_name,))
+            self.db.commit()
+            QMessageBox.information(self, '', 'تم تعديل الصنف بنجاح')
+        self.Category_Dailog.close()
+    def Delete_Category(self):
+        b_name = self.Category_Dailog.comboBox_11.currentText()
+        warning = QMessageBox.warning(self, 'احذر', f"سوف يتم مسح الصنف {b_name} وجميع التحاليل الخاصة به, هل انت متأكد؟",
+                                      QMessageBox.Yes | QMessageBox.No)
+        if warning == QMessageBox.Yes:
+            self.cur.execute(''' DELETE FROM category where name=%s ''', (b_name))
+            self.cur.execute(''' DELETE FROM addanalyst where sub_category=%s ''', (b_name))
+            self.db.commit()
+            QMessageBox.information(self, '', 'تم حذف الصنف بنجاح')
+
+    def ShowIsInCategory(self):
+        if self.tabWidget_3.currentIndex()==3:
+            self.tabWidget_3.setCurrentIndex(0)
+            self.Show_Category_Dialog()
     def Delete_Row2(self, item):
         self.tableWidget_3.setSortingEnabled(False)
         try:
@@ -1325,8 +1330,10 @@ class mainapp(QMainWindow, FORM_CLASS):
                 self.tableWidget_5.scrollToBottom()
                 self.get_total_price()
                 self.my_def2()
-                self.Add_Data_To_history(3, 1)
-                self.History()
+                thread_0 = Thread(target=self.Add_Data_To_history, args=(3, 1,))
+                thread_0.start()
+                thread_1 = Thread(target=self.History)
+                thread_1.start()
             else:
                 print('gnm2')
         else:
@@ -1416,7 +1423,7 @@ class mainapp(QMainWindow, FORM_CLASS):
         global client_id_glob
         global chick_if_add_new
         global select_by_date
-        
+
         client_name = self.comboBox_4.currentText()
         self.cur.execute('''SELECT id FROM addclient WHERE client_name = %s''', (client_name,))
         real_client_id =self.cur.fetchone()
@@ -1575,8 +1582,10 @@ class mainapp(QMainWindow, FORM_CLASS):
             self.Show_All_The_Sales()
             self.add_today_client_to_list()
             self.Auto_complete_combo7()
-            self.Add_Data_To_history(3, 1)
-            self.History()
+            thread_0 = Thread(target=self.Add_Data_To_history, args=(3, 1,))
+            thread_0.start()
+            thread_1 = Thread(target=self.History)
+            thread_1.start()
             self.Add_all_analysts_items()
             # self.loading.close()
         # colors = ['yallow', 'brown', 'green', 'milk']
@@ -1628,10 +1637,13 @@ class mainapp(QMainWindow, FORM_CLASS):
         global client_id_glob
         client_id_glob = self.spinBox.value()
         self.Show_All_one_client_analyst()
-        self.Add_Data_To_history(6, 1)
-        self.History()
+        thread_0 = Thread(target=self.Add_Data_To_history, args=(6, 1,))
+        thread_0.start()
+        thread_1 = Thread(target=self.History)
+        thread_1.start()
 
     def Show_All_The_Sales(self):
+        global show_all_sales_in_clients_page
         self.cur.execute(''' SELECT client_name FROM addclient WHERE DATE(date)=%s ORDER BY -date ''',
                          (datetime.date.today(),))
         analyst_data = self.cur.fetchall()
@@ -1727,44 +1739,39 @@ class mainapp(QMainWindow, FORM_CLASS):
 
     def Show_All_The_Analysts(self):
         global from_start
+        self.tableWidget_7.setSortingEnabled(False)
         search_type = self.comboBox_19.currentText()
         search_words = self.lineEdit_26.text()
-
-        if self.comboBox_19.currentIndex() == 1:
+        current_index = self.comboBox_19.currentIndex()
+        if current_index == 1:
             self.cur.execute(
                 ''' SELECT id,name,category,defult,unit,price,sub_category FROM addanalyst WHERE name=%s ''',
                 (search_words,))
-        if self.comboBox_19.currentIndex() == 2:
+        if current_index == 2:
             self.cur.execute(
                 ''' SELECT id,name,category,defult,unit,price,sub_category FROM addanalyst WHERE price=%s ''',
                 (search_words,))
-        if self.comboBox_19.currentIndex() == 3:
+        if current_index == 3:
+            print('08')
             self.cur.execute(
                 ''' SELECT id,name,category,defult,unit,price,sub_category FROM addanalyst WHERE sub_category=%s ''',
                 (search_words,))
-        if self.comboBox_19.currentIndex() == 0:
+        if current_index == 0:
+            print('09')
             self.cur.execute(
                 ''' SELECT id,name,category,defult,unit,price,sub_category FROM addanalyst ORDER BY sub_category''')
         analyst_data = self.cur.fetchall()
         my_list = []
         self.cur.execute(''' select name from category ''')
         data = self.cur.fetchall()
+
         for i in data:
             my_list.append(i[0])
         self.tableWidget_7.setRowCount(0)
         self.tableWidget_7.insertRow(0)
         for row, form in enumerate(analyst_data):
-            for col in range(0, 10):
+            for col in range(0, 9):
                 if col == 2:
-                    category = ''
-                    if analyst_data[row][1] == 'خيارات':
-                        category = 'خيارات'
-                    if analyst_data[row][1] == 'عدد':
-                        category = 'عدد'
-                    if analyst_data[row][1] == 'خيارات مع تعديل':
-                        category = 'خيارات مع تعديل'
-                    if analyst_data[row][1] == 'حقل كتابة':
-                        category = 'حقل كتابة'
                     my_combo2 = QComboBox()
                     my_combo2.addItems(['خيارات', 'عدد', 'خيارات مع تعديل', 'حقل كتابة'])
                     index = my_combo2.findText(analyst_data[row][2], Qt.MatchFixedString)
@@ -1776,8 +1783,6 @@ class mainapp(QMainWindow, FORM_CLASS):
                     index = my_combo.findText(analyst_data[row][6], Qt.MatchFixedString)
                     my_combo.setCurrentIndex(index)
                     self.tableWidget_7.setCellWidget(row, col, my_combo)
-                    self.tableWidget_7.setItem(row, col, QTableWidgetItem(str(analyst_data[row][6])))
-                    self.tableWidget_7.item(row,col).setForeground(QBrush(QColor(240, 240, 240)))
                 elif col == 5:
                     my_spin = QSpinBox()
                     my_spin.setValue(analyst_data[row][5])
@@ -1791,30 +1796,23 @@ class mainapp(QMainWindow, FORM_CLASS):
                 elif col == 8:
                     my_push2 = QPushButton()
                     my_push2.setText('حذف')
-                    my_push2.setStyleSheet('''QPushButton:pressed{
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.687, y2:0.704545, stop:0.0646766 rgba(255, 155, 155, 255), stop:0.751244 rgba(235, 54, 30, 255));
-}
-QPushButton{
-border-radius:12px;
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512438 rgba(235, 54, 30, 255), stop:0.875622 rgba(255, 155, 155, 255));}
-
-''')
+                    my_push2.setStyleSheet('''QPushButton:pressed{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.687, y2:0.704545, stop:0.0646766 rgba(255, 155, 155, 255), stop:0.751244 rgba(235, 54, 30, 255));}QPushButton{border-radius:12px;background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512438 rgba(235, 54, 30, 255), stop:0.875622 rgba(255, 155, 155, 255));}''')
                     my_push2.clicked.connect(self.Handel_Save_Delete_analyst)
                     self.tableWidget_7.setCellWidget(row, col, my_push2)
                 else:
-                    if col < 8:
-                        if analyst_data[row][col]:
-                            self.tableWidget_7.setItem(row, col, QTableWidgetItem(str(analyst_data[row][col])))
+                    if analyst_data[row][col]:
+                        self.tableWidget_7.setItem(row, col, QTableWidgetItem(str(analyst_data[row][col])))
                 col += 1
             row_pos = self.tableWidget_7.rowCount()
             self.tableWidget_7.insertRow(row_pos)
-        if from_start:
-            pass
-        else:
-            self.Add_Data_To_history(6, 2)
-            self.History()
-
         self.tableWidget_7.setSortingEnabled(True)
+        if from_start:
+            from_start =False
+        else:
+            thread_0 = Thread(target=self.Add_Data_To_history,args=(6,2,))
+            thread_0.start()
+            thread_1 = Thread(target=self.History)
+            thread_1.start()
     def Handel_Save_Delete_analyst(self):
         index = self.sender().pos()
         index = self.tableWidget_7.indexAt(index)
@@ -1842,6 +1840,10 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
                     (name, price, category, sub_category, unit, default, r_id))
                 self.db.commit()
                 QMessageBox.information(self, '', 'تم حفظ بيانات التحليل بنجاح')
+                thread_0 = Thread(target=self.Add_Data_To_history, args=(4, 2,))
+                thread_0.start()
+                thread_1 = Thread(target=self.History)
+                thread_1.start()
             else:
                 QMessageBox.information(self, '', 'يرجى اختيار اسم تحليل صحيح')
         else:
@@ -1851,11 +1853,16 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
                 self.cur.execute(''' select name from addanalyst where id =%s ''', (r_id,))
                 data = self.cur.fetchone()
                 self.cur.execute(''' delete from addanalyst  where id =%s''', (r_id,))
-                self.db.commit()
                 self.cur.execute(''' delete from addbuys where to_analysts = %s''', (data[0],))
+                self.db.commit()
                 QMessageBox.information(self, '', 'تم حذف التحليل بنجاح')
+                thread_0 = Thread(target=self.Add_Data_To_history, args=(5, 2,))
+                thread_0.start()
+                thread_1 = Thread(target=self.History)
+                thread_1.start()
     def Add_Analyst(self):
         global analysts_name_glo
+        global Analyst_Choices_list
         analyst_name = self.lineEdit_28.text()
         if analyst_name not in analysts_name_glo:
             analyst_result_category = self.comboBox_22.currentText()
@@ -1866,17 +1873,11 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
             date = datetime.datetime.now()
             defult = self.lineEdit_40.text()
             unit = self.lineEdit_48.text()
-            results_number = self.comboBox_30.count()
-            results = []
-            for i in range(0, results_number):
-                self.comboBox_30.setCurrentIndex(i)
-                results.append(str(self.comboBox_30.currentText()))
-            # print(str(results))
             self.cur.execute(
                 ''' INSERT INTO addanalyst (name,price,category,sub_category,date,defult,unit,results) VALUES(%s,%s,%s,%s,%s,%s,%s,%s) ''',
                 (
                     str(analyst_name), analyst_price, analyst_result_category, sub_category,
-                    date, defult, unit, str(results)[1:-1]))
+                    date, defult, unit, str(Analyst_Choices_list)))
             self.db.commit()
             self.lineEdit_28.setText('')  # analyst_name =
             self.comboBox_22.setCurrentIndex(0)  # analyst_result_category =
@@ -1891,10 +1892,79 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
             self.Auto_complete_combo()
             self.Show_all_analysts_in_combo()
             self.Show_All_The_Analysts()
-            self.Add_Data_To_history(3, 2)
-            self.History()
+            thread_0 = Thread(target=self.Add_Data_To_history, args=(3, 2,))
+            thread_0.start()
+            thread_1 = Thread(target=self.History)
+            thread_1.start()
         else:
             QMessageBox.information(self, '', 'هذا التحليل موجود بالفعل')
+        Analyst_Choices_list.clear()
+    def Show_analyst_chioces_dialog(self):
+        self.Analyst_Dialog =add_delete_analyst_choices.Dialog()
+        self.Analyst_Dialog.tableWidget.insertRow(0)
+        row = self.Analyst_Dialog.tableWidget.rowCount()
+        if self.sender().text()!='.':
+            self.Analyst_Dialog.pushButton_26.clicked.connect(lambda arg1=False : self.ADD_CHOICE(arg1))
+        else:
+            self.Analyst_Dialog.pushButton_26.clicked.connect(lambda arg1=True : self.ADD_CHOICE(arg1))
+            self.cur.execute(''' select results from addanalyst where name=%s''', (self.comboBox_21.currentText(),))
+            data = self.cur.fetchone()
+            print('oner',data[0],'here')
+            results_list = ast.literal_eval(str(data[0][0]))
+            print(type(results_list), 'iioio', results_list)
+            for i in results_list:
+                print('its run')
+                self.Analyst_Dialog.tableWidget.setItem(row - 1, 0, QTableWidgetItem(str(i)))
+                my_push = QPushButton()
+                my_push.setText('حفظ')
+                my_push.setStyleSheet('border-radius:12px;')
+                my_push.clicked.connect(self.Handel_Save_Delete_analyst_choice)
+                self.Analyst_Dialog.tableWidget.setCellWidget(row - 1, 1, my_push)
+                my_push2 = QPushButton()
+                my_push2.setText('حذف')
+                my_push2.setStyleSheet(
+                    '''QPushButton:pressed{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.687, y2:0.704545, stop:0.0646766 rgba(255, 155, 155, 255), stop:0.751244 rgba(235, 54, 30, 255));}QPushButton{border-radius:12px;background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512438 rgba(235, 54, 30, 255), stop:0.875622 rgba(255, 155, 155, 255));}''')
+                my_push2.clicked.connect(self.Handel_Save_Delete_analyst_choice)
+                self.Analyst_Dialog.tableWidget.setCellWidget(row - 1, 2, my_push2)
+                self.Analyst_Dialog.tableWidget.insertRow(row)
+        self.Analyst_Dialog.show()
+
+    def ADD_CHOICE(self,in_edit=None):
+        print(in_edit,';;;;')
+        text=self.Analyst_Dialog.lineEdit.text()
+        row=self.Analyst_Dialog.tableWidget.rowCount()
+        if not in_edit:
+            self.Analyst_Dialog.tableWidget.setItem(row-1,0,QTableWidgetItem(str(text)))
+            my_push = QPushButton()
+            my_push.setText('حفظ')
+            my_push.setStyleSheet('border-radius:12px;')
+            my_push.clicked.connect(self.Handel_Save_Delete_analyst_choice)
+            self.Analyst_Dialog.tableWidget.setCellWidget(row-1,1,my_push)
+            my_push2 = QPushButton()
+            my_push2.setText('حذف')
+            my_push2.setStyleSheet('''QPushButton:pressed{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.687, y2:0.704545, stop:0.0646766 rgba(255, 155, 155, 255), stop:0.751244 rgba(235, 54, 30, 255));}QPushButton{border-radius:12px;background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512438 rgba(235, 54, 30, 255), stop:0.875622 rgba(255, 155, 155, 255));}''')
+            my_push2.clicked.connect(self.Handel_Save_Delete_analyst_choice)
+            self.Analyst_Dialog.tableWidget.setCellWidget(row-1,2,my_push2)
+            self.Analyst_Dialog.tableWidget.insertRow(row)
+            self.Before_End_Choices_Dialog()
+
+        else:
+            pass
+    def Handel_Save_Delete_analyst_choice(self):
+        index = self.sender().pos()
+        index = self.Analyst_Dialog.tableWidget.indexAt(index)
+        index = index.row()
+        r_id = self.Analyst_Dialog.tableWidget.item(index, 0).text()
+        if self.sender().text() != 'حفظ':
+            self.Analyst_Dialog.tableWidget.removeRow(index)
+
+    def Before_End_Choices_Dialog(self):
+        global Analyst_Choices_list
+        Analyst_Choices_list.clear()
+        for i in range(0,self.Analyst_Dialog.tableWidget.rowCount()-1):
+            item = self.Analyst_Dialog.tableWidget.item(i,0).text()
+            Analyst_Choices_list.append(item)
+        print(Analyst_Choices_list)
 
     def Show_analyst_in_Edit_Or_Delete(self):
         self.comboBox_31.clear()
@@ -1922,8 +1992,15 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
                     # print(list(list_data))
                     # print(list_data)
                     # print(list_data[1])
+                    print(list_data)
                     for rr in range(0, len(list_data)):
-                        self.comboBox_31.addItem(list_data[rr])  # results =
+                        if rr==0:
+                            itemn=str(list_data[rr][1:])
+                        if rr!=0 and rr !=len(list_data):
+                            itemn = str(list_data[rr][1:])
+                        if rr==len(list_data)-1:
+                            itemn = str(list_data[rr][1:-1])
+                        self.comboBox_31.addItem(itemn)  # results =
                         # analyst_choices_results.append(list_data[rr])
                 self.comboBox_26.setCurrentText(str(data[0][5]))  # sub_category =
                 self.lineEdit_29.setText(str(data[0][0]))  # analyst_name =
@@ -1992,8 +2069,10 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
             self.Auto_complete_combo()
             self.Show_all_analysts_in_combo()
             self.Show_All_The_Analysts()
-            self.Add_Data_To_history(4, 2)
-            self.History()
+            thread_0 = Thread(target=self.Add_Data_To_history, args=(4, 2,))
+            thread_0.start()
+            thread_1 = Thread(target=self.History)
+            thread_1.start()
         else:
             QMessageBox.information(self, '', 'هذا التحليل غير موجود')
         thread_0 = Thread(target=self.Update_addNewItemAnalysts)
@@ -2009,8 +2088,10 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
             self.db.commit()
             QMessageBox.information(self, 'info', 'تم حذف التحليل بنجاح')
             self.Show_all_analysts_in_combo()
-            self.Add_Data_To_history(5, 2)
-            self.History()
+            thread_0 = Thread(target=self.Add_Data_To_history, args=(5, 2,))
+            thread_0.start()
+            thread_1 = Thread(target=self.History)
+            thread_1.start()
 
     def Show_all_analysts_in_combo(self):
         global mylist
@@ -2115,12 +2196,81 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
             self.tableWidget_9.insertRow(row_pos)
         if search_info_by_date:
             self.searchWidget2.close()
-        self.Add_Data_To_history(6, 6)
-        self.History()
+
+        thread_0 = Thread(target=self.Add_Data_To_history, args=(6, 6,))
+        thread_0.start()
+        thread_1 = Thread(target=self.History)
+        thread_1.start()
         search_info_by_date = False
         self.tableWidget_4.setSortingEnabled(True)
         self.tableWidget_9.setSortingEnabled(True)
 
+    def Show_Add_Buys_Complete_Dialog(self):
+        global current_group_box
+        self.Add_Buys_Dialog = add_buys_completepy.Dialog()
+        if self.comboBox_12.currentIndex() == 0:
+            current_group_box = 'groupBox_2'
+            self.Add_Buys_Dialog.groupBox_2.show()
+            self.Add_Buys_Dialog.groupBox.hide()
+            self.Add_Buys_Dialog.comboBox_2.addItems(self.all_categorys())
+            for row2 in range(1, self.Add_Buys_Dialog.comboBox_2.count()):
+                item = self.Add_Buys_Dialog.comboBox_2.model().item(row2)
+                item.setCheckState(Qt.Unchecked)
+        else:
+            current_group_box = 'groupBox'
+            self.Add_Buys_Dialog.groupBox_2.hide()
+            self.Add_Buys_Dialog.groupBox.show()
+            self.Add_Buys_Dialog.comboBox.addItems(self.all_categorys())
+            for row in range(1, self.Add_Buys_Dialog.comboBox.count()):
+                item = self.Add_Buys_Dialog.comboBox.model().item(row)
+                item.setCheckState(Qt.Unchecked)
+        self.Add_Buys_Dialog.pushButton_16.clicked.connect(self.Add_Buys)
+        self.Add_Buys_Dialog.comboBox.view().pressed.connect(self.handleItemPressed)
+        self.Add_Buys_Dialog.comboBox_2.view().pressed.connect(self.handleItemPressed2)
+        self.Add_Buys_Dialog.show()
+
+    # def Add_Buys(self):
+    #     global current_group_box
+    #     item_name = self.lineEdit_13.text()
+    #     quantity = self.spinBox_3.value()
+    #     signal_item_price = self.spinBox_8.value()
+    #     to_analysts = []
+    #     if current_group_box == 'groupBox_2':
+    #         signal_item_quantity = self.Add_Buys_Dialog.spinBox_9.value()
+    #         date_create_before = str(self.Add_Buys_Dialog.dateEdit_4.date().toPyDate())
+    #         for row in range(1, self.Add_Buys_Dialog.comboBox_2.count()):
+    #             item = self.Add_Buys_Dialog.comboBox_2.model().item(row)
+    #             if item.checkState() == Qt.Checked:
+    #                 to_analysts.append(item.data())
+    #     else:
+    #         signal_item_quantity = self.Add_Buys_Dialog.spinBox_8.value()
+    #         date_create_before = str(self.Add_Buys_Dialog.dateEdit.date().toPyDate())
+    #         still_price = self.Add_Buys_Dialog.spinBox_3.value()
+    #         notification_date = str(self.Add_Buys_Dialog.dateEdit_2.date().toPyDate())
+    #         pushed_price = self.Add_Buys_Dialog.spinBox_3.value()
+    #         for row2 in range(1, self.Add_Buys_Dialog.comboBox.count()):
+    #             item = self.Add_Buys_Dialog.comboBox.model().item(row2)
+    #             if item.checkState() == Qt.Checked:
+    #                 to_analysts.append(item.data())
+    #     item_type = self.comboBox_12.currentText()
+    #     mandob = self.comboBox_11.currentText()
+    #     category = self.comboBox_13.currentText()
+    #     total_item_price = signal_item_price * quantity
+    #     self.cur.execute(
+    #         ''' INSERT INTO addbuys (item_name,signal_item_price,total_price,buys_type,quantity,item_quantity,to_analyst,still_price,pushed_price,notification_date,mandob,category,date) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'''
+    #         , (
+    #             item_name, signal_item_price, total_item_price, item_type, quantity, signal_item_quantity,
+    #             str(to_analysts),
+    #             still_price, pushed_price, notification_date, mandob, category, date_create_before))
+    #     self.db.commit()
+    #     self.Add_Buys_Dialog.close()
+    #     QMessageBox.information(self, '', 'تمت الاضافة الى المشتريات')
+    #     self.Show_all_buys()
+    #     self.lineEdit_13.setText('')
+    #     self.spinBox_3.setValue(0)
+    #     self.spinBox_8.setValue(0)
+    #     self.Add_Data_To_history(3, 4)
+    #     self.History()
     def Add_Buys(self):
         item_name = self.lineEdit_13.text()
         quantity = self.spinBox_3.value()
@@ -2135,8 +2285,10 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
         self.lineEdit_13.setText('')
         self.spinBox_3.setValue(0)
         self.spinBox_8.setValue(0)
-        self.Add_Data_To_history(3, 4)
-        self.History()
+        thread_0 = Thread(target=self.Add_Data_To_history, args=(3, 4,))
+        thread_0.start()
+        thread_1 = Thread(target=self.History)
+        thread_1.start()
 
     def Show_all_buys(self):
         self.cur.execute(''' SELECT item_name,quantity,signal_item_price,total_price,date FROM addbuys ''')
@@ -2313,8 +2465,10 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
                     self.lineEdit_36.setText(str(data[0][0]))
                 else:
                     self.lineEdit_36.setText('0')
-        self.Add_Data_To_history(6, 8)
-        self.History()
+        thread_0 = Thread(target=self.Add_Data_To_history, args=(3, 8,))
+        thread_0.start()
+        thread_1 = Thread(target=self.History)
+        thread_1.start()
 
     def Show_default_statics(self):
         print('run')
@@ -2631,8 +2785,10 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
                 self.lineEdit.setText('')
                 self.lineEdit_2.setText('')
                 self.tabWidget.setCurrentIndex(3)
-                self.Add_Data_To_history(1, 5)
-                self.History()
+                thread_0 = Thread(target=self.Add_Data_To_history, args=(1, 5,))
+                thread_0.start()
+                thread_1 = Thread(target=self.History)
+                thread_1.start()
 
             else:
                 warning = QMessageBox.warning(self, '',
@@ -2700,16 +2856,20 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
                              (employee_name, employee_password, employee_email, str(datetime.datetime.now())))
             self.db.commit()
             QMessageBox.information(self, '', "تم اضافة الموظف بنجاح")
-            self.Add_Data_To_history(3, 5)
-            self.History()
+            thread_0 = Thread(target=self.Add_Data_To_history, args=(3,5,))
+            thread_0.start()
+            thread_1 = Thread(target=self.History)
+            thread_1.start()
         else:
             self.cur.execute(
                 ''' UPDATE adduser SET user_name=%s,user_password=%s,user_email=%s,date=%s WHERE user_name=%s''',
                 (employee_name, employee_password, employee_email, str(datetime.datetime.now()), employee_name))
             self.db.commit()
             QMessageBox.information(self, '', "تم تعديل الموظف بنجاح")
-            self.Add_Data_To_history(4, 5)
-            self.History()
+            thread_0 = Thread(target=self.Add_Data_To_history, args=(4, 5,))
+            thread_0.start()
+            thread_1 = Thread(target=self.History)
+            thread_1.start()
         self.lineEdit_17.setText('')
         self.lineEdit_3.setText('')
         self.comboBox_3.setCurrentIndex(0)
@@ -2977,8 +3137,10 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
             self.lineEdit_3.setText('')
             self.comboBox_3.setCurrentIndex(0)
             self.comboBox_2.setCurrentIndex(0)
-            self.Add_Data_To_history(5, 5)
-            self.History()
+            thread_0 = Thread(target=self.Add_Data_To_history, args=(5, 5,))
+            thread_0.start()
+            thread_1 = Thread(target=self.History)
+            thread_1.start()
         QMessageBox.information(self, 'info', 'تم حذف الموظف بنجاح')
 
     def Delete_All_History_Data(self):
@@ -3038,33 +3200,41 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
         style = style.read()
         self.setStyleSheet(style)
 
-    def Bio_Word(self, name, doctor, analysts, results, year, month, day, prev, genus, categorys):
+    def Bio_Word(self, name, doctor, analysts, results, year, month, day, prev, genus,categorys3):
         global if_print
+        global word_files
+        global save_word_files
+        global word_data
         please = []
         categorys = []
+        for im in categorys3:
+            if im not in categorys:
+                categorys.append(im)
         all_items = []
         all_items_for_units_defults = []
         all_items_index = []
-        self.cur.execute(''' SELECT * FROM paths WHERE id=1 ''')
-        mydata = self.cur.fetchone()
-        word_files = mydata[1]
-        save_word_files = mydata[2]
-        self.cur.execute(''' SELECT * FROM  word WHERE id=1''')
-        word_data = self.cur.fetchone()
+        # self.cur.execute(''' SELECT * FROM paths WHERE id=1 ''')
+        # mydata = self.cur.fetchone()
+        # word_files = mydata[1]
+        # save_word_files = mydata[2]
+        # self.cur.execute(''' SELECT * FROM  word WHERE id=1''')
+        # word_data = self.cur.fetchone()
         self.cur.execute(''' SELECT * FROM doctor WHERE name=%s ''', (doctor,))
         doctor_data = self.cur.fetchone()
         doctor_genus = doctor_data[2]
         files = 0
         units = []
         defults = []
-        number_of_analysts = len(analysts)
-        for my_index, ii in enumerate(analysts):
-            self.cur.execute(''' SELECT sub_category FROM addanalyst WHERE name=%s ''', (ii,))
-            data1 = self.cur.fetchall()
-            if data1:
-                analysts[my_index] = str(analysts[my_index] + data1[0][0])
-                if data1[0][0] not in categorys:
-                    categorys.append(data1[0][0])
+        # for my_index, ii in enumerate(analysts):
+        #     self.cur.execute(''' SELECT sub_category FROM addanalyst WHERE name=%s and id ''', (ii,))
+        #     data1 = self.cur.fetchall()
+        #     if data1:
+        #         analysts[my_index] = str(analysts[my_index] + data1[0][0])
+        #         if data1[0][0] not in categorys:
+        #             categorys.append(data1[0][0])
+        for ij in range(0,len(analysts)):
+            analysts[ij] = str(analysts[ij]+'#%$'+categorys3[ij])
+        su_category_count = 0
         count = 1
         for c in categorys:
             all_items.append(str(c))
@@ -3074,39 +3244,45 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
                 if c in sub:
                     count += 1
                     all_items.append(str('   ' + sub))
+                    # print(sub,' here is sub')
                     all_items_for_units_defults.append(str(sub))
                     all_items_index.append(count)
             count += 1
         for iplz in all_items_for_units_defults:
-            for inm in categorys:
-                if inm in iplz:
-                    iplz = iplz[:-len(inm)]
-                    self.cur.execute(''' SELECT unit,defult FROM addanalyst WHERE name=%s ''', (str(iplz),))
-                    myplzdata = self.cur.fetchall()
-                    if myplzdata:
-                        if myplzdata[0][0]:
-                            units.append(myplzdata[0][0])
-                        else:
-                            units.append('')
-                        if myplzdata[0][1]:
-                            defults.append(myplzdata[0][1])
-                        else:
-                            defults.append('')
+            # for inm in categorys:
+            #     if inm in iplz:
+            if iplz in categorys:
+                # print(iplz,'1')
+                units.append('')
+                defults.append('')
+            else:
+                # iplz = iplz[:-len(inm)]
+                # print(iplz,'2')
+                self.cur.execute(''' SELECT unit,defult FROM addanalyst WHERE name=%s ''', (str(iplz[:iplz.index('#%$')]),))
+                myplzdata = self.cur.fetchall()
+                if myplzdata:
+                    if myplzdata[0][0]:
+                        units.append(myplzdata[0][0])
                     else:
                         units.append('')
+                    if myplzdata[0][1]:
+                        defults.append(myplzdata[0][1])
+                    else:
                         defults.append('')
-        for my_index2, rowgh in enumerate(analysts):
-            for item in categorys:
-                if item in analysts[my_index2]:
-                    analysts[my_index2] = str(analysts[my_index2][:-len(item)])
+                else:
+                    units.append('')
+                    defults.append('')
+
+        # for my_index2, rowgh in enumerate(analysts):
+        #     for item in categorys:
+        #         if item in analysts[my_index2]:
+        #             analysts[my_index2] = str(analysts[my_index2][:-len(item)])
+        #             print(str(analysts[my_index2][:-len(item)]))
         for my_index3, rowgh2 in enumerate(all_items):
-            for item2 in categorys:
-                if item2 in all_items[my_index3]:
-                    if all_items[my_index3].startswith('   '):
-                        all_items[my_index3] = str(all_items[my_index3][:-len(item2)])
+            if all_items[my_index3] not in categorys:
+                all_items[my_index3] = str(all_items[my_index3][:all_items[my_index3].index('#%$')])
         f = open(r'%s\test-mydocx.docx' % word_files, 'rb')
         f.read()
-
         document = Document(f)
         document2 = None
         if len(all_items) >= 20:
@@ -3745,8 +3921,10 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
                     word.Documents.Open(r'%s\result2.docx' % save_word_files)
                 if os.path.exists(r'%s\result3.docx' % save_word_files):
                     word.Documents.Open(r'%s\result3.docx' % save_word_files)
-                self.Add_Data_To_history(8, 7)
-                self.History()
+                # thread_0 = Thread(target=self.Add_Data_To_history, args=(8, 7,))
+                # thread_0.start()
+                # thread_1 = Thread(target=self.History)
+                # thread_1.start()
             else:
                 os.system("TASKKILL /F /IM WINWORD.exe")
                 word = client.Dispatch("Word.Application")
@@ -3759,7 +3937,10 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512
                 if os.path.exists(r'%s\result3.docx' % save_word_files):
                     word.Documents.Open(r'%s\result3.docx' % save_word_files)
                     word.ActiveDocument.PrintOut(Background=False)
-                self.Add_Data_To_history(7, 7)
+                # thread_0 = Thread(target=self.Add_Data_To_history, args=(7, 7,))
+                # thread_0.start()
+                # thread_1 = Thread(target=self.History)
+                # thread_1.start()
                 self.Delete_Files()
         except Exception as e:
             print(e, '6erorr')

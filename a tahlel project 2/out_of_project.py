@@ -32,8 +32,12 @@
 #     if person['height']>=60:
 #         taller_than_60+=1
 # print(len(pepole))
-numbers=[1.34,2.98]
-for i in range(len(numbers)):
-    rounded_value=round(numbers[i])
-    numbers[i] = rounded_value
-print(numbers)
+# numbers=[1.34,2.98]
+# for i in range(len(numbers)):
+#     rounded_value=round(numbers[i])
+#     numbers[i] = rounded_value
+# print(numbers)
+k=0
+for i in range(1,10):
+    k+=1
+print(k)
