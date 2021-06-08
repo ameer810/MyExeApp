@@ -6971,7 +6971,7 @@ font: 14pt &quot;Segoe UI&quot;;
           <string>الخيارات</string>
          </property>
         </widget>
-        <widget class="QComboBox" name="comboBox_30">
+        <widget class="QComboBox" name="comboBox_11">
          <property name="enabled">
           <bool>true</bool>
          </property>

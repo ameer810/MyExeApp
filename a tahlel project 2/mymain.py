@@ -1921,7 +1921,7 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QTableView::item:disabled  {\n"
-"    color: #e6e6e6;\n"
+"    color: #000000;\n"
 "}\n"
 "\n"
 "QTableView::item:selected  {\n"
@@ -2406,6 +2406,12 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(9)
         self.tableWidget_2.setFont(font)
+        self.tableWidget_2.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.tableWidget_2.setDragEnabled(False)
+        self.tableWidget_2.setAlternatingRowColors(False)
+        self.tableWidget_2.setGridStyle(QtCore.Qt.SolidLine)
+        self.tableWidget_2.setWordWrap(True)
+        self.tableWidget_2.setCornerButtonEnabled(True)
         self.tableWidget_2.setObjectName("tableWidget_2")
         self.tableWidget_2.setColumnCount(5)
         self.tableWidget_2.setRowCount(1)
@@ -2421,8 +2427,12 @@ class Ui_MainWindow(object):
         self.tableWidget_2.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget_2.setHorizontalHeaderItem(4, item)
+        self.tableWidget_2.horizontalHeader().setCascadingSectionResizes(False)
+        self.tableWidget_2.verticalHeader().setCascadingSectionResizes(False)
+        self.tableWidget_2.verticalHeader().setSortIndicatorShown(False)
+        self.tableWidget_2.verticalHeader().setStretchLastSection(False)
         self.lineEdit_27 = QtWidgets.QLineEdit(self.groupBox_5)
-        self.lineEdit_27.setGeometry(QtCore.QRect(330, 36, 391, 41))
+        self.lineEdit_27.setGeometry(QtCore.QRect(240, 31, 551, 51))
         font = QtGui.QFont()
         font.setPointSize(13)
         self.lineEdit_27.setFont(font)
@@ -2431,7 +2441,7 @@ class Ui_MainWindow(object):
         self.lineEdit_27.setObjectName("lineEdit_27")
         self.label_60 = QtWidgets.QLabel(self.groupBox_5)
         self.label_60.setEnabled(True)
-        self.label_60.setGeometry(QtCore.QRect(740, 27, 241, 51))
+        self.label_60.setGeometry(QtCore.QRect(820, 27, 111, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -2439,13 +2449,19 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.label_60.setFont(font)
         self.label_60.setObjectName("label_60")
-        self.pushButton_36 = QtWidgets.QPushButton(self.groupBox_5)
-        self.pushButton_36.setGeometry(QtCore.QRect(10, 30, 241, 51))
+        self.pushButton_54 = QtWidgets.QPushButton(self.groupBox_5)
+        self.pushButton_54.setGeometry(QtCore.QRect(50, 26, 181, 61))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(14)
-        self.pushButton_36.setFont(font)
-        self.pushButton_36.setObjectName("pushButton_36")
+        self.pushButton_54.setFont(font)
+        self.pushButton_54.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.pushButton_54.setStyleSheet("border-radius:26px;")
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap(":/icons8-search-512.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_54.setIcon(icon6)
+        self.pushButton_54.setIconSize(QtCore.QSize(40, 40))
+        self.pushButton_54.setObjectName("pushButton_54")
         self.tabWidget_5.addTab(self.tab_17, "")
         self.tab_18 = QtWidgets.QWidget()
         self.tab_18.setObjectName("tab_18")
@@ -2466,8 +2482,6 @@ class Ui_MainWindow(object):
         self.pushButton_29.setFont(font)
         self.pushButton_29.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_29.setLayoutDirection(QtCore.Qt.LeftToRight)
-        icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap(":/icons8-search-512.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_29.setIcon(icon6)
         self.pushButton_29.setIconSize(QtCore.QSize(31, 31))
         self.pushButton_29.setObjectName("pushButton_29")
@@ -2641,10 +2655,8 @@ class Ui_MainWindow(object):
         font.setPointSize(11)
         self.comboBox_15.setFont(font)
         self.comboBox_15.setStyleSheet("")
-        self.comboBox_15.setEditable(True)
+        self.comboBox_15.setEditable(False)
         self.comboBox_15.setObjectName("comboBox_15")
-        self.comboBox_15.addItem("")
-        self.comboBox_15.addItem("")
         self.textEdit = QtWidgets.QTextEdit(self.groupBox_6)
         self.textEdit.setGeometry(QtCore.QRect(20, 410, 291, 211))
         font = QtGui.QFont()
@@ -2730,7 +2742,7 @@ class Ui_MainWindow(object):
         self.comboBox_16.addItem("")
         self.label_41 = QtWidgets.QLabel(self.groupBox_7)
         self.label_41.setEnabled(True)
-        self.label_41.setGeometry(QtCore.QRect(594, 142, 81, 51))
+        self.label_41.setGeometry(QtCore.QRect(614, 142, 61, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -2756,9 +2768,2116 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(9)
         self.tableWidget_5.setFont(font)
-        self.tableWidget_5.setStyleSheet("")
+        self.tableWidget_5.setStyleSheet("\n"
+"/*\n"
+"ABOUT\n"
+"============================================================================================================\n"
+"version 2.05\n"
+"QT theme (stylesheet) specially developed for FreeCAD (http://www.freecadweb.org/).\n"
+"It might work with other software that uses QT styling.\n"
+"\n"
+"\n"
+"LICENSE\n"
+"============================================================================================================\n"
+"Copyright (c) 2016 Pablo Gil Fern?ndez\n"
+"\n"
+"This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.\n"
+"To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/.\n"
+"\n"
+"\n"
+"INSTALLATION\n"
+"============================================================================================================\n"
+"1) Place the .qss files and /images/ folder in the path that fits your OS:\n"
+"    OSX = /Users/[YOUR_USER_NAME]/Library/Preferences/FreeCAD/Gui/Stylesheets/\n"
+"    WINDOWS = C:/[INSTALLATION_PATH]/FreeCAD/data/Gui/Stylesheets/\n"
+"    LINUX = /home/[YOUR_USER_NAME]/.FreeCAD/Gui/Stylesheets/\n"
+"\n"
+"2) In order to display correctly images:\n"
+"    2.1) FreeCAD 0.16 (development builds newer than commit 5b3d50a): that\'s it, you are done!\n"
+"\n"
+"    2.2) FreeCAD 0.15: Images used in the theme need ABSOLUTE paths to be found by FreeCAD, so you should search the string \"qss:images\" (without \"\") and replace with the real path of your computer. It should be done with all the .qss files you want to install-use\n"
+"        find = qss:images\n"
+"        replace = /Users/myName/Library/Preferences/FreeCAD/Gui/Stylesheets/images\n"
+"\n"
+"\n"
+"CUSTOMIZATION\n"
+"============================================================================================================\n"
+"If you would like to change the overall look/style of the theme, just find and replace following colors in the whole file:\n"
+"    BACKGROUND (darker to ligher)\n"
+"        black\n"
+"        #505050\n"
+"        #6e6e6e\n"
+"        #828282\n"
+"        #a2a2a0\n"
+"        #b6b6b6\n"
+"        #c8c8c8\n"
+"        #c3c3c3\n"
+"        #d2d2d2\n"
+"        #dcdcdc\n"
+"        #e0e0e0\n"
+"        #e6e6e6\n"
+"        #f0f0f0\n"
+"        #f5f5f5 = main background color\n"
+"        white\n"
+"\n"
+"    SELECTION (darker to lighter)\n"
+"        #1b3774\n"
+"        #2053c0\n"
+"        #3874f2\n"
+"        #5e90fa = main selection color\n"
+"        #6f9efa = used to build QSpinBox up and down buttons, it\'s used as color in the middle\n"
+"        #7cabf9\n"
+"        #adc5ed\n"
+"        #cbd8e6\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"KNOWN BUGS and TO DO\n"
+"============================================================================================================\n"
+"    - please, follow the link to get updated information: http://forum.freecadweb.org/viewtopic.php?f=10&t=12417\n"
+"*/\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Reset elements\n"
+"==================================================================================================*/\n"
+"/* Reseting everything helps to unify styles across different operating systems */\n"
+"* {\n"
+"    padding: 0px;\n"
+"    margin: 0px;\n"
+"    border: 0px;\n"
+"    border-style: none;\n"
+"    border-image: none;\n"
+"    outline: 0;\n"
+"}\n"
+"\n"
+"/* specific reset for elements inside QToolBar */\n"
+"QToolBar * {\n"
+"    margin: 0px;\n"
+"    padding: 0px;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Main window\n"
+"==================================================================================================*/\n"
+"QMainWindow,\n"
+"QDialog,\n"
+"QDockWidget,\n"
+"QToolBar  {\n"
+"    background-color: #f5f5f5; /* main background color */\n"
+"}\n"
+"\n"
+"QMdiArea {\n"
+"    background-image: url(qss:images/background_freecad.png);\n"
+"    background-position: center center;\n"
+"    background-repeat: no-repeat;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"MENUS\n"
+"==================================================================================================*/\n"
+"QMenuBar,\n"
+"QMenuBar::item {\n"
+"    color: black;\n"
+"    background-color: #f5f5f5; /* main background color */\n"
+"}\n"
+"\n"
+"QMenu,\n"
+"QMenu::item {\n"
+"    color: black;\n"
+"    background-color: #f5f5f5; /* main background color */\n"
+"    text-decoration: none;\n"
+"}\n"
+"\n"
+"QMenuBar::item:selected,\n"
+"QMenuBar::item:pressed,\n"
+"QMenu::item:selected,\n"
+"QMenu::item:pressed {\n"
+"    color: white;\n"
+"    background-color: #5e90fa;\n"
+"}\n"
+"\n"
+"QMenu::right-arrow {\n"
+"    width: 10px;\n"
+"    height: 10px;\n"
+"    image:url(qss:images/right_arrow_dark.png);\n"
+"    margin-right: 2px;\n"
+"}\n"
+"\n"
+"QMenu::right-arrow:selected {\n"
+"    image:url(qss:images/right_arrow_lighter.png);\n"
+"}\n"
+"\n"
+"QMenu::item {\n"
+"    padding: 2px 16px 2px 26px; /* make room for icon at left */\n"
+"    border: 1px solid transparent; /* reserve space for selection border */\n"
+"}\n"
+"\n"
+"QMenu::icon {\n"
+"    margin-left: 2px;\n"
+"}\n"
+"\n"
+"QMenu::separator {\n"
+"    height: 1px;\n"
+"    background-color: rgba(0,0,0,30);\n"
+"    margin: 6px 4px;\n"
+"}\n"
+"\n"
+"QMenu::indicator:non-exclusive:checked {\n"
+"    color: white;\n"
+"}\n"
+"\n"
+"/* Fix for elements inside a drop-down menu */\n"
+"QMenu QRadioButton,\n"
+"QMenu QCheckBox,\n"
+"QMenu QPushButton,\n"
+"QMenu QToolButton {\n"
+"    color: black; /* same as regular QRadioButton and QCheckBox */\n"
+"}\n"
+"\n"
+"QMenu QRadioButton:hover,\n"
+"QMenu QCheckBox:hover,\n"
+"QMenu QPushButton:hover,\n"
+"QMenu QToolButton:hover,\n"
+"QMenu QPushButton:pressed,\n"
+"QMenu QToolButton:pressed,\n"
+"QMenu QPushButton:selected,\n"
+"QMenu QToolButton:selected {\n"
+"    color: white;\n"
+"    background-color: #5e90fa; /* same as QMenu::item:selected and QMenu::item:pressed */\n"
+"}\n"
+"\n"
+"QMenu QRadioButton:disabled,\n"
+"QMenu QCheckBox:disabled {\n"
+"    color: #6e6e6e;\n"
+"}\n"
+"\n"
+"QMenu QRadioButton::indicator:disabled,\n"
+"QMenu QCheckBox::indicator:disabled {\n"
+"    color: #6e6e6e;\n"
+"    background-color: transparent;\n"
+"    border: 1px solid #6e6e6e;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Tool bar\n"
+"==================================================================================================*/\n"
+"QToolBar {\n"
+"    border: none;\n"
+"    padding: 2px;\n"
+"}\n"
+"\n"
+"QToolBar::handle:top,\n"
+"QToolBar::handle:bottom,\n"
+"QToolBar::handle:horizontal {\n"
+"    background-image: url(qss:images/Hmovetoolbar_dark.png);\n"
+"    width: 10px;\n"
+"    margin: 4px 2px;\n"
+"    background-position: top right;\n"
+"    background-repeat: repeat-y;\n"
+"}\n"
+"\n"
+"QToolBar::handle:left,\n"
+"QToolBar::handle:right,\n"
+"QToolBar::handle:vertical {\n"
+"    background-image: url(qss:images/Vmovetoolbar_dark.png);\n"
+"    height: 10px;\n"
+"    margin: 2px 4px;\n"
+"    background-position: left bottom;\n"
+"    background-repeat: repeat-x;\n"
+"}\n"
+"\n"
+"QToolBar::separator:top,\n"
+"QToolBar::separator:bottom,\n"
+"QToolBar::separator:horizontal {\n"
+"    width: 1px;\n"
+"    margin: 6px 4px;\n"
+"    background-color: rgba(0,0,0,30);\n"
+"}\n"
+"\n"
+"QToolBar::separator:left,\n"
+"QToolBar::separator:right,\n"
+"QToolBar::separator:vertical {\n"
+"    height: 1px;\n"
+"    margin: 4px 6px;\n"
+"    background-color: rgba(0,0,0,30);\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Group box\n"
+"==================================================================================================*/\n"
+"QGroupBox {\n"
+"    color: rgba(0,0,0,120);\n"
+"    border:1px solid rgba(0, 0, 0, 20); /* lighter than its own border-color */;\n"
+"    border-radius: 3px;\n"
+"    margin-top: 10px;\n"
+"    padding: 6px;\n"
+"    background-color: rgba(255, 255, 255, 15);\n"
+"}\n"
+"\n"
+"QGroupBox:title {\n"
+"    top: -8px;\n"
+"    left: 12px;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Tooltip\n"
+"==================================================================================================*/\n"
+"QToolTip {\n"
+"    color: white;\n"
+"    background-color: #828282;\n"
+"    /*opacity: 90%; doesn\'t correctly work */\n"
+"    padding: 4px;\n"
+"    border-radius: 3px; /* has no effect */\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Dock widget\n"
+"==================================================================================================*/\n"
+"QDockWidget {\n"
+"    color: rgba(0,0,0,120);\n"
+"    titlebar-close-icon: url(qss:images/close_dark.png);\n"
+"    titlebar-normal-icon: url(qss:images/undock_dark.png);\n"
+"}\n"
+"\n"
+"QDockWidget::title {\n"
+"    text-align: center;\n"
+"    background-color: rgba(0,0,0,10);\n"
+"    border: 4px solid #f5f5f5; /* fix to simulate margin between this :title and tabs */ /* same as main background color */\n"
+"    border-radius: 6px; /* bigger than normal due to previous border fix */\n"
+"    padding: 4px 0px; /* also needed because of previous border fix */\n"
+"}\n"
+"\n"
+"QDockWidget::close-button,\n"
+"QDockWidget::float-button {\n"
+"    border: none;\n"
+"    background: transparent;\n"
+"    border-radius: 3px;\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: right center;\n"
+"}\n"
+"\n"
+"QDockWidget::close-button {\n"
+"    right: 4px;\n"
+"}\n"
+"    \n"
+"QDockWidget::float-button {\n"
+"    right: 22px;\n"
+"}\n"
+"\n"
+"QDockWidget::close-button:hover,\n"
+"QDockWidget::float-button:hover {\n"
+"    background-color: rgba(0,0,0,15);\n"
+"}\n"
+"\n"
+"QDockWidget::close-button:pressed,\n"
+"QDockWidget::float-button:pressed {\n"
+"    background-color: rgba(0,0,0,30);\n"
+"}\n"
+"\n"
+"/* fix for Python Console (probably there is a smarter way to arrive to it) */\n"
+"QDockWidget > QFrame {\n"
+"    background-color: #f0f0f0;\n"
+"    border: 1px solid #c3c3c3;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Progress bar\n"
+"==================================================================================================*/\n"
+"QProgressBar,\n"
+"QProgressBar:horizontal {\n"
+"    color: white;\n"
+"    background-color: rgba(0,0,0,10);\n"
+"    text-align: center;\n"
+"    border: 1px solid rgba(0,0,0,80);\n"
+"    padding: 1px;\n"
+"    border-radius: 3px;\n"
+"}\n"
+"QProgressBar::chunk,\n"
+"QProgressBar::chunk:horizontal {\n"
+"    background-color: qlineargradient(spread:pad, x1:1, y1:0.545, x2:1, y2:0, stop:0 #3874f2, stop:1 #5e90fa);\n"
+"    border-radius: 3px;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Scroll\n"
+"==================================================================================================*/\n"
+"QAbstractScrollArea {\n"
+"    border-radius: 2px;\n"
+"    background-color: transparent;\n"
+"}\n"
+"\n"
+"QAbstractScrollArea::corner {\n"
+"    border: none;\n"
+"    background-color: transparent;\n"
+"}\n"
+"\n"
+"QScrollBar:horizontal {\n"
+"    background-color: transparent;\n"
+"    height: 15px;\n"
+"    margin: 0px;\n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical,\n"
+"QScrollBar::handle:horizontal {\n"
+"    background-color: rgba(0,0,0,80);\n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical:hover,\n"
+"QScrollBar::handle:horizontal:hover {\n"
+"    background-color: rgba(0,0,0,100);\n"
+"}\n"
+"\n"
+"QScrollBar::handle:horizontal {\n"
+"    min-width: 5px;\n"
+"    border-radius: 3px;\n"
+"    margin: 4px 15px;\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:horizontal {\n"
+"    margin: 1px 3px 0px 3px; /* 1px to correctly fit the 10px width image */\n"
+"    border-image: url(qss:images/left_arrow_dark.png);\n"
+"    width: 6px;\n"
+"    height: 10px;\n"
+"    subcontrol-position: left;\n"
+"    subcontrol-origin: margin;\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:horizontal {\n"
+"    margin: 1px 3px 0px 3px; /* 1px to correctly fit the 10px width image */\n"
+"    border-image: url(qss:images/right_arrow_dark.png);\n"
+"    width: 6px;\n"
+"    height: 10px;\n"
+"    subcontrol-position: right;\n"
+"    subcontrol-origin: margin;\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:horizontal:hover,\n"
+"QScrollBar::sub-line:horizontal:on {\n"
+"    border-image: url(qss:images/left_arrow_darker.png);\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:horizontal:hover,\n"
+"QScrollBar::add-line:horizontal:on {\n"
+"    border-image: url(qss:images/right_arrow_darker.png);\n"
+"}\n"
+"\n"
+"QScrollBar::up-arrow:horizontal,\n"
+"QScrollBar::down-arrow:horizontal {\n"
+"    background-color: none;\n"
+"}\n"
+"\n"
+"QScrollBar::add-page:horizontal,\n"
+"QScrollBar::sub-page:horizontal {\n"
+"    background-color: transparent;\n"
+"}\n"
+"\n"
+"QScrollBar:vertical {\n"
+"    background-color: transparent;\n"
+"    width: 15px;\n"
+"    margin: 0px;\n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical {\n"
+"    min-height: 5px;\n"
+"    border-radius: 3px;\n"
+"    margin: 15px 4px;\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:vertical {\n"
+"    margin: 3px 0px 3px 1px; /* 1px to correctly fit the 10px width image */\n"
+"    border-image: url(qss:images/up_arrow_dark.png);\n"
+"    height: 6px;\n"
+"    width: 10px;\n"
+"    subcontrol-position: top;\n"
+"    subcontrol-origin: margin;\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical {\n"
+"    margin: 3px 0px 3px 1px; /* 1px to correctly fit the 10px width image */\n"
+"    border-image: url(qss:images/down_arrow_dark.png);\n"
+"    height: 6px;\n"
+"    width: 10px;\n"
+"    subcontrol-position: bottom;\n"
+"    subcontrol-origin: margin;\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:vertical:hover,\n"
+"QScrollBar::sub-line:vertical:on {\n"
+"    border-image: url(qss:images/up_arrow_darker.png);\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical:hover,\n"
+"QScrollBar::add-line:vertical:on {\n"
+"    border-image: url(qss:images/down_arrow_darker.png);\n"
+"}\n"
+"\n"
+"QScrollBar::up-arrow:vertical,\n"
+"QScrollBar::down-arrow:vertical {\n"
+"    background-color: none;\n"
+"}\n"
+"\n"
+"QScrollBar::add-page:vertical,\n"
+"QScrollBar::sub-page:vertical {\n"
+"    background-color: transparent;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Tab bar\n"
+"==================================================================================================*/\n"
+"QTabWidget::pane {\n"
+"    background-color: transparent; /* temporal (transparent background) */ /* tab content background color */\n"
+"    position: absolute;\n"
+"}\n"
+"\n"
+"QTabWidget::pane:top {\n"
+"    top: -1px;\n"
+"    border-top: 1px solid #d2d2d2;\n"
+"}\n"
+"\n"
+"QTabWidget::pane:bottom {\n"
+"    bottom: -1px;\n"
+"    border-bottom: 1px solid #d2d2d2;\n"
+"}\n"
+"\n"
+"QTabWidget::pane:left {\n"
+"    right: -1px;\n"
+"    border-right: 1px solid #d2d2d2;\n"
+"}\n"
+"\n"
+"QTabWidget::pane:right {\n"
+"    left: -1px;\n"
+"    border-left: 1px solid #d2d2d2;\n"
+"}\n"
+"\n"
+"QTabWidget::tab-bar:top,\n"
+"QTabWidget::tab-bar:bottom {\n"
+"    left: 10px;\n"
+"}\n"
+"\n"
+"QTabWidget::tab-bar:left,\n"
+"QTabWidget::tab-bar:right {\n"
+"    top: 10px;\n"
+"}\n"
+"\n"
+"QTabBar {\n"
+"    qproperty-drawBase: 0; /* important */\n"
+"    background-color: transparent;\n"
+"}\n"
+"\n"
+"/* Workaround for QTabBars created from docked QDockWidgets which don\'t draw the border if not set and reseted as follows: */\n"
+"QTabBar {\n"
+"    border-top: 1px solid #d2d2d2;  /* set color for all QTabBars */\n"
+"}\n"
+"QDockWidget QTabBar {\n"
+"    border-color: transparent; /* set color for all QTabBars but ones created from QDockWidget */\n"
+"}\n"
+"QDialog QTabBar {\n"
+"    border-color: transparent; /* set color for QTabBars inside Preferences dialog */\n"
+"}\n"
+"/* end fix */\n"
+"\n"
+"QTabBar::tab {\n"
+"    background-color: transparent;\n"
+"    border: 1px solid transparent;\n"
+"    padding: 3px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:top,\n"
+"QTabBar::tab:bottom {\n"
+"    border-top-width: 4px; /* same as selected tab colored border in order to center close-button */\n"
+"    border-bottom-width: 4px; /* same as selected tab colored border in order to center close-button */\n"
+"    min-width: 11ex;\n"
+"    margin-left: 2px;\n"
+"    margin-right: 2px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:left,\n"
+"QTabBar::tab:right {\n"
+"    border-left-width: 4px; /* same as selected tab colored border in order to center close-button */\n"
+"    border-right-width: 4px; /* same as selected tab colored border in order to center close-button */\n"
+"    min-height: 14ex;\n"
+"    margin-top: 2px;\n"
+"    margin-bottom: 2px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:selected {\n"
+"    background-color: #f5f5f5; /* same as tab content background color */\n"
+"    border-color: #d2d2d2;\n"
+"}\n"
+"\n"
+"QTabBar::tab:top:selected {\n"
+"    border-top: 4px solid qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #5e90fa, stop:1 #3874f2); /* selection color */\n"
+"    border-bottom-color: #f5f5f5; /* same as tab content background color */\n"
+"}\n"
+"\n"
+"QTabBar::tab:bottom:selected {\n"
+"    border-bottom: 4px solid qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #5e90fa, stop:1 #3874f2); /* selection color */\n"
+"    border-top-color: #f5f5f5; /* same as tab content background color */\n"
+"}\n"
+"\n"
+"QTabBar::tab:right:selected {\n"
+"    border-left: 4px solid qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #5e90fa, stop:1 #3874f2); /* selection color */\n"
+"    border-right-color: #f5f5f5; /* same as tab content background color */\n"
+"}\n"
+"\n"
+"QTabBar::tab:left:selected {\n"
+"    border-right: 4px solid qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #5e90fa, stop:1 #3874f2); /* selection color */\n"
+"    border-left-color: #f5f5f5; /* same as tab content background color */\n"
+"}\n"
+"\n"
+"QTabBar::tab:!selected {\n"
+"    color: rgba(0,0,0,160);\n"
+"}\n"
+"\n"
+"QTabBar::tab:!selected:hover {\n"
+"    color: rgba(0,0,0,220);\n"
+"    background-color: rgba(0,0,0,20);\n"
+"}\n"
+"\n"
+"QTabBar::tab:first:selected {\n"
+"    margin-left: 0; /* the first selected tab has nothing to overlap with on the left */\n"
+"}\n"
+"\n"
+"QTabBar::tab:last:selected {\n"
+"    margin-right: 0; /* the last selected tab has nothing to overlap with on the right */\n"
+"}\n"
+"\n"
+"QTabBar::tab:only-one {\n"
+"    margin: 0; /* if there is only one tab, we don\'t want overlapping margins */\n"
+"}\n"
+"\n"
+"/* hack to access Preference TabBar background */\n"
+"QDialog#Gui__Dialog__DlgPreferences > QFrame QFrame {\n"
+"    background-color: transparent; /* main background color (in Windows is #f5f5f5) */\n"
+"}\n"
+"\n"
+"/* fix for previous hack that broke QTabWidget background on Windows */\n"
+"QDialog#Gui__Dialog__DlgPreferences QTabWidget::pane {\n"
+"    background-color: transparent; /* temporal (transparent background) */\n"
+"}\n"
+"\n"
+"/* hack to correctly align Preferences icon list on OSX */\n"
+"QDialog#Gui__Dialog__DlgPreferences > QListView {\n"
+"    min-width: 130px;\n"
+"}\n"
+"\n"
+"/* unique styles for sections inside Preferences */\n"
+"QDialog#Gui__Dialog__DlgPreferences > QListView::item {\n"
+"    border-radius: 6px;\n"
+"}\n"
+"\n"
+"QDialog#Gui__Dialog__DlgPreferences > QListView::item:hover {\n"
+"    background-color: #dcdcdc;\n"
+"}\n"
+"\n"
+"QDialog#Gui__Dialog__DlgPreferences > QListView::item:selected {\n"
+"    color: white;\n"
+"    background-color: #5e90fa;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Tab bar buttons\n"
+"==================================================================================================*/\n"
+"/* Close button */\n"
+"QTabBar::close-button {\n"
+"    subcontrol-origin: margin;\n"
+"    subcontrol-position: center right; /* only works for QT 4.6 and newer */;\n"
+"    border-radius: 2px;\n"
+"    background-image: url(qss:images/close_dark.png);\n"
+"    background-position: center center;\n"
+"    background-repeat: none;\n"
+"}\n"
+"\n"
+"QTabBar::close-button:hover {\n"
+"    background-color: rgba(0,0,0,20);\n"
+"}\n"
+"\n"
+"QTabBar::close-button:pressed {\n"
+"    background-color: rgba(0,0,0,30);\n"
+"}\n"
+"\n"
+"/* Fix for lists inside Model tab */\n"
+"QDockWidget QTreeView,\n"
+"QDockWidget QListView,\n"
+"QDockWidget QTableView {\n"
+"    margin: 6px;\n"
+"    border: 1px solid #c3c3c3; /* same as regular QTreeView, QListView and QTableView */\n"
+"    min-height: 40px; /* neccesary in some areas of FreeCAD */\n"
+"}\n"
+"\n"
+"/* Buttons to scroll tabs if there is not space to show all of them: */\n"
+"QTabBar::scroller {\n"
+"    width: 20px; /* the width of the scroll buttons */\n"
+"}\n"
+"\n"
+"QTabBar QToolButton,\n"
+"QTabBar QToolButton:hover {\n"
+"    background-color: #f5f5f5; /* same as main background color */\n"
+"}\n"
+"\n"
+"QTabBar QToolButton::right-arrow:enabled {\n"
+"     image: url(qss:images/right_arrow_dark.png);\n"
+"}\n"
+"\n"
+"QTabBar QToolButton::right-arrow:disabled,\n"
+"QTabBar QToolButton::right-arrow:off {\n"
+"     image: url(qss:images/right_arrow_disabled_dark.png);\n"
+"}\n"
+"\n"
+"QTabBar QToolButton::right-arrow:hover {\n"
+"     image: url(qss:images/right_arrow_darker.png);\n"
+"}\n"
+"\n"
+" QTabBar QToolButton::left-arrow:enabled {\n"
+"     image: url(qss:images/left_arrow_dark.png);\n"
+"}\n"
+"\n"
+" QTabBar QToolButton::left-arrow:disabled,\n"
+" QTabBar QToolButton::left-arrow:off {\n"
+"     image: url(qss:images/left_arrow_disabled_dark.png);\n"
+"}\n"
+"\n"
+" QTabBar QToolButton::left-arrow:hover {\n"
+"     image: url(qss:images/left_arrow_darker.png);\n"
+"}\n"
+"\n"
+" QTabBar QToolButton::up-arrow:enabled {\n"
+"     image: url(qss:images/up_arrow_dark.png);\n"
+"}\n"
+"\n"
+" QTabBar QToolButton::up-arrow:disabled,\n"
+" QTabBar QToolButton::up-arrow:off {\n"
+"     image: url(qss:images/up_arrow_disabled_dark.png);\n"
+"}\n"
+"\n"
+" QTabBar QToolButton::up-arrow:hover {\n"
+"     image: url(qss:images/up_arrow_darker.png);\n"
+"}\n"
+"\n"
+" QTabBar QToolButton::down-arrow:enabled {\n"
+"     image: url(qss:images/down_arrow_dark.png);\n"
+"}\n"
+"\n"
+" QTabBar QToolButton::down-arrow:disabled,\n"
+" QTabBar QToolButton::down-arrow:off {\n"
+"     image: url(qss:images/down_arrow_disabled_dark.png);\n"
+"}\n"
+"\n"
+" QTabBar QToolButton::down-arrow:hover {\n"
+"     image: url(qss:images/down_arrow_darker.png);\n"
+"}\n"
+"\n"
+"QTabBar::tear {\n"
+"    /* default OS tear better */\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Tree and list views\n"
+"==================================================================================================*/\n"
+"QTreeView,\n"
+"QListView,\n"
+"QTableView {\n"
+"    background-color: #f0f0f0;\n"
+"    alternate-background-color: #e6e6e6; /* related with QListView background  */\n"
+"    border: 1px solid #c3c3c3; \n"
+"    selection-color: white;\n"
+"    selection-background-color: #5e90fa; /* should be similar to QListView::item selected background-color */\n"
+"    show-decoration-selected: 1; /* make the selection span the entire width of the view */\n"
+"    border-radius: 3px;\n"
+"}\n"
+"\n"
+"QListView::item:hover,\n"
+"QTreeView::item:hover  {\n"
+"    background-color: transparent; /* fix to homogenize it on all OSs */\n"
+"}\n"
+"\n"
+"QListView::item:selected,\n"
+"QTreeView::item:selected  {\n"
+"    color: white; /* should be similar to QListView selection-color */\n"
+"    background-color: #5e90fa; /* should be similar to QListView selection-background-color */\n"
+"    show-decoration-selected: 1; /* make the selection span the entire width of the view */\n"
+"}\n"
+"\n"
+"/* Property Editor QTreeView (FreeCAD custom widget) */\n"
+"Gui--PropertyEditor--PropertyEditor {\n"
+"    gridline-color: #d2d2d2; /* same as Group header background */\n"
+"}\n"
+"\n"
+"/* fix for column items background when a link is present */\n"
+"Gui--PropertyEditor--PropertyEditor > QWidget > QFrame:focus {\n"
+"    background-color: #cbd8e6; /* same as focused background color */\n"
+"}\n"
+"\n"
+"/* hack to hide weird redundant information inside the value of a Placement cell */\n"
+"Gui--PropertyEditor--PropertyEditor > QWidget > QWidget > QLabel,\n"
+"Gui--PropertyEditor--PropertyEditor > QWidget > QWidget > QLabel:disabled {\n"
+"    color: transparent;\n"
+"    background-color: transparent;\n"
+"    border: none;\n"
+"    border-radius: 0px;\n"
+"    margin: 0px;\n"
+"    padding: 0px;\n"
+"}\n"
+"\n"
+"/* hack to hide non editable cells inside Property values */\n"
+"Gui--PropertyEditor--PropertyEditor QLineEdit:read-only,\n"
+"Gui--PropertyEditor--PropertyEditor QLineEdit:disabled,\n"
+"Gui--PropertyEditor--PropertyEditor QAbstractSpinBox:read-only,\n"
+"Gui--PropertyEditor--PropertyEditor QAbstractSpinBox:disabled {\n"
+"    color: transparent;\n"
+"    border-color: transparent;\n"
+"    background-color: transparent;\n"
+"    selection-color: transparent;\n"
+"    selection-background-color: transparent;\n"
+"}\n"
+"\n"
+"/* hack to disable margin inside Property values to following elements */\n"
+"Gui--PropertyEditor--PropertyEditor QSpinBox,\n"
+"Gui--PropertyEditor--PropertyEditor QDoubleSpinBox,\n"
+"Gui--PropertyEditor--PropertyEditor QAbstractSpinBox,\n"
+"Gui--PropertyEditor--PropertyEditor QLineEdit,\n"
+"Gui--PropertyEditor--PropertyEditor QComboBox {\n"
+"    margin-left: 0px;\n"
+"    margin-right: 0px;\n"
+"    padding-top: 0px;\n"
+"    padding-bottom: 0px;\n"
+"}\n"
+"\n"
+"/* reset min-height to 0px inside list views */\n"
+"QTreeView > QWidget > QComboBox,\n"
+"QTreeView > QWidget > QAbstractSpinBox,\n"
+"QTreeView > QWidget > QSpinBox,\n"
+"QTreeView > QWidget > QDoubleSpinBox,\n"
+"QTreeView > QWidget > QLineEdit,\n"
+"QTreeView > QWidget > QTextEdit,\n"
+"QTreeView > QWidget > QTimeEdit,\n"
+"QTreeView > QWidget > QDateEdit,\n"
+"QTreeView > QWidget > QDateTimeEdit,\n"
+"QTreeView > QWidget > Gui--ColorButton {\n"
+"    min-height: 0px;\n"
+"}\n"
+"\n"
+"/* set border-radius to 0px inside list views */\n"
+"QTreeView > QWidget > QComboBox,\n"
+"QTreeView > QWidget > QAbstractSpinBox,\n"
+"QTreeView > QWidget > QSpinBox,\n"
+"QTreeView > QWidget > QDoubleSpinBox,\n"
+"QTreeView > QWidget > QLineEdit,\n"
+"QTreeView > QWidget > QTextEdit,\n"
+"QTreeView > QWidget > QTimeEdit,\n"
+"QTreeView > QWidget > QDateEdit,\n"
+"QTreeView > QWidget > QDateTimeEdit,\n"
+"QTreeView > QWidget > QComboBox:drop-down,\n"
+"QTreeView > QWidget > QAbstractSpinBox:up-button,\n"
+"QTreeView > QWidget > QSpinBox:up-button,\n"
+"QTreeView > QWidget > QDoubleSpinBox:up-button,\n"
+"QTreeView > QWidget > QTimeEdit:up-button,\n"
+"QTreeView > QWidget > QDateEdit:up-button,\n"
+"QTreeView > QWidget > QDateTimeEdit:up-button,\n"
+"QTreeView > QWidget > QAbstractSpinBox:down-button,\n"
+"QTreeView > QWidget > QSpinBox:down-button,\n"
+"QTreeView > QWidget > QDoubleSpinBox:down-button,\n"
+"QTreeView > QWidget > QTimeEdit:down-button,\n"
+"QTreeView > QWidget > QDateEdit:down-button,\n"
+"QTreeView > QWidget > QDateTimeEdit:down-button,\n"
+"QTreeView > QWidget > Gui--ColorButton {\n"
+"    border-radius: 0px;\n"
+"}\n"
+"\n"
+"/* set focus colors to best viewing the editable fields */\n"
+"QTreeView > QWidget > QComboBox:focus,\n"
+"QTreeView > QWidget > QAbstractSpinBox:focus,\n"
+"QTreeView > QWidget > QSpinBox:focus,\n"
+"QTreeView > QWidget > QDoubleSpinBox:focus,\n"
+"QTreeView > QWidget > QLineEdit:focus,\n"
+"QTreeView > QWidget > QTextEdit:focus,\n"
+"QTreeView > QWidget > QTimeEdit:focus,\n"
+"QTreeView > QWidget > QDateEdit:focus,\n"
+"QTreeView > QWidget > QDateTimeEdit:focus {\n"
+"    border-color: #cbd8e6; /* same as focused background color */\n"
+"    border-bottom-color: #7cabf9; /* same as focused border color */\n"
+"}\n"
+"\n"
+"QTreeView > QWidget > QAbstractSpinBox:read-only,\n"
+"QTreeView > QWidget > QSpinBox:read-only,\n"
+"QTreeView > QWidget > QDoubleSpinBox:read-only,\n"
+"QTreeView > QWidget > QLineEdit:read-only,\n"
+"QTreeView > QWidget > QTextEdit:read-only,\n"
+"QTreeView > QWidget > QTimeEdit:read-only,\n"
+"QTreeView > QWidget > QDateEdit:read-only,\n"
+"QTreeView > QWidget > QDateTimeEdit:read-only {\n"
+"    color: transparent;\n"
+"    background-color: transparent;\n"
+"    border-color: transparent;\n"
+"}\n"
+"\n"
+"/* Fix to correctly (not totally) draw QTextEdit on OSX at Page properties: \"Page result\", \"Template\" and \"Editable Texts\" */\n"
+"Gui--PropertyEditor--PropertyEditor > QWidget > QWidget > QWidget {\n"
+"    min-height: 14px;\n"
+"    border-radius: 0px; /* reset */\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Header of tree and list views\n"
+"==================================================================================================*/\n"
+"QHeaderView {\n"
+"    background-color: #c3c3c3;\n"
+"    border-top-left-radius: 2px; /* 1px less than its container */\n"
+"    border-top-right-radius: 2px; /* 1px less than its container */\n"
+"    border-bottom-left-radius: 0px;\n"
+"    border-bottom-right-radius: 0px;\n"
+"}\n"
+"\n"
+"QHeaderView::section {\n"
+"    border:none;\n"
+"    padding: 4px 6px;\n"
+"    background-color: #c3c3c3;\n"
+"}\n"
+"\n"
+"QHeaderView::section:horizontal {\n"
+"    padding: 4px 6px; /* left and right value similar to QHeaderView::section */\n"
+"    border-right: 1px solid rgba(0,0,0,30);\n"
+"}\n"
+"\n"
+"QHeaderView::section:vertical {\n"
+"    border-bottom: 1px solid rgba(0,0,0,30);\n"
+"}\n"
+"\n"
+"QTableCornerButton::section {\n"
+"    background-color: #c3c3c3;\n"
+"    border-top: none;\n"
+"    border-left: none;\n"
+"    border-right: 1px solid rgba(0,0,0,30);\n"
+"    border-bottom: 1px solid rgba(0,0,0,30);\n"
+"}\n"
+"\n"
+"QHeaderView::section:last {\n"
+"    border-right: none;\n"
+"}\n"
+"\n"
+"QHeaderView::up-arrow {\n"
+"    image: url(qss:images/up_arrow_dark.png);\n"
+"}\n"
+"\n"
+"QHeaderView::up-arrow:hover {\n"
+"    image: url(qss:images/up_arrow_darker.png);\n"
+"}\n"
+"\n"
+"QHeaderView::down-arrow {\n"
+"    image: url(qss:images/down_arrow_dark.png);\n"
+"}\n"
+"\n"
+"QHeaderView::down-arrow:hover {\n"
+"    image: url(qss:images/down_arrow_darker.png);\n"
+"}\n"
+"\n"
+"/* Group header inside Property Editor (FreeCAD custom widget) */\n"
+"Gui--PropertyEditor--PropertyEditor {\n"
+"    qproperty-groupTextColor: #828282; /* same as main background color */\n"
+"    qproperty-groupBackground: #d2d2d2; /* same as item gridlines */\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Branch system for QTreeViews\n"
+"==================================================================================================*/\n"
+"QTreeView::branch  {\n"
+"    background: transparent;\n"
+"}\n"
+"\n"
+"QTreeView::branch:has-siblings:!adjoins-item  {\n"
+"    border-image: url(qss:images/branch_vline.png) 0;\n"
+"}\n"
+"\n"
+"QTreeView::branch:has-siblings:adjoins-item  {\n"
+"    border-image: url(qss:images/branch_more.png) 0;\n"
+"}\n"
+"\n"
+"QTreeView::branch:!has-children:!has-siblings:adjoins-item  {\n"
+"    border-image: url(qss:images/branch_end.png) 0;\n"
+"}\n"
+"\n"
+"QTreeView::branch:closed:has-children:has-siblings  {\n"
+"    image: url(qss:images/branch_closed_dark.png);\n"
+"}\n"
+"\n"
+"QTreeView::branch:has-children:!has-siblings:closed  {\n"
+"    image: url(qss:images/branch_closed_dark.png);\n"
+"    border-image: url(qss:images/branch_end.png) 0;\n"
+"}\n"
+"\n"
+"QTreeView::branch:open:has-children:has-siblings  {\n"
+"    image: url(qss:images/branch_open_dark.png);\n"
+"    border-image: url(qss:images/branch_more.png) 0;\n"
+"}\n"
+"\n"
+"QTreeView::branch:open:has-children:!has-siblings  {\n"
+"    image: url(qss:images/branch_open_dark.png);\n"
+"    border-image: url(qss:images/branch_end.png) 0;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Splitter and windows separator\n"
+"==================================================================================================*/\n"
+"QSplitter::handle {\n"
+"    margin: 0px 11px;\n"
+"    padding: 0px;\n"
+"}\n"
+"\n"
+"QSplitter::handle:horizontal {\n"
+"    background-image: url(qss:images/splitter_vertical_dark.png);\n"
+"    background-position: center center;\n"
+"    background-repeat: none;\n"
+"    margin: 4px 2px 4px 2px;\n"
+"    width: 2px;\n"
+"}\n"
+"\n"
+"QSplitter::handle:vertical {\n"
+"    background-image: url(qss:images/splitter_horizontal_dark.png);\n"
+"    background-position: center center;\n"
+"    background-repeat: none;\n"
+"    margin: 2px 4px 2px 4px;\n"
+"    height: 2px;\n"
+"}\n"
+"\n"
+"/* Similar to the splitter is the following window separator (but horizontal/vertical is on the opposite way) */\n"
+"QMainWindow::separator {\n"
+"    background-position: center center;\n"
+"    background-repeat: none;\n"
+"}\n"
+"\n"
+"QMainWindow::separator:horizontal {\n"
+"    height: 2px;\n"
+"    background-image: url(qss:images/splitter_horizontal_dark.png);\n"
+"    margin: 4px 2px 4px 2px;\n"
+"}\n"
+"\n"
+"QMainWindow::separator:vertical {\n"
+"    width: 2px;\n"
+"    background-image: url(qss:images/splitter_vertical_dark.png);\n"
+"    margin: 2px 4px 2px 4px;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Text/Python editor (macros, etc...)\n"
+"==================================================================================================*/\n"
+"QPlainTextEdit,\n"
+"QPlainTextEdit:focus {\n"
+"    background-color: #f0f0f0;\n"
+"    selection-color: white;\n"
+"    selection-background-color: #3874f2;\n"
+"    border: 1px solid #c3c3c3;\n"
+"    border-radius: 3px;\n"
+"    margin: 4px;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Tasks panel (custom FreeCAD class)\n"
+"==================================================================================================*/\n"
+"/* Action group */\n"
+"QFrame[class=\"panel\"] {\n"
+"    background-color: transparent; /* temporal (transparent background) */\n"
+"}\n"
+"\n"
+"QSint--ActionGroup {\n"
+"    padding: 0px; /* if not reset, it might create problems with QPushButtons and other elements */\n"
+"    margin: 0px; /* if not reset, it might create problems with QPushButtons and other elements */\n"
+"}\n"
+"\n"
+"/* Separator line */\n"
+"QSint--ActionGroup QFrame[height=\"1\"],\n"
+"QSint--ActionGroup QFrame[height=\"2\"],\n"
+"QSint--ActionGroup QFrame[height=\"3\"],\n"
+"QSint--ActionGroup QFrame[width=\"1\"],\n"
+"QSint--ActionGroup QFrame[width=\"2\"],\n"
+"QSint--ActionGroup QFrame[width=\"3\"] {\n"
+"    border-color: rgba(0,0,0,60);\n"
+"}\n"
+"\n"
+"/* Panel header */\n"
+"QSint--ActionGroup QFrame[class=\"header\"] {\n"
+"    border: none;\n"
+"    background-color: #b6b6b6; /* Task Panel Header background color */\n"
+"    border-top-left-radius: 3px;\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-left-radius: 0px;\n"
+"    border-bottom-right-radius: 0px;\n"
+"    margin: 0px;\n"
+"    padding: 0px;\n"
+"}\n"
+"\n"
+"QSint--ActionGroup QFrame[class=\"header\"]:hover {\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #5e90fa, stop:1 #3874f2);\n"
+"}\n"
+"\n"
+"QSint--ActionGroup QToolButton[class=\"header\"] {\n"
+"    color: white; /* Task Panel Header text color */\n"
+"    text-align: left;\n"
+"    font-weight: bold;\n"
+"    border: none;\n"
+"    margin: 0px;\n"
+"    padding: 0px;\n"
+"}\n"
+"\n"
+"QSint--ActionGroup QFrame[class=\"header\"] QLabel {\n"
+"    background-color: transparent;\n"
+"    background-image: url(qss:images/down_arrow_light.png);\n"
+"    background-repeat: none;\n"
+"    background-position: center center;\n"
+"    padding: 0px;\n"
+"    margin: 0px;\n"
+"}\n"
+"\n"
+"QSint--ActionGroup QFrame[class=\"header\"] QLabel:hover {\n"
+"    background-color: transparent;\n"
+"    background-image: url(qss:images/down_arrow_lighter.png);\n"
+"}\n"
+"\n"
+"QSint--ActionGroup QFrame[class=\"header\"] QLabel[fold=\"true\"] {\n"
+"    background-color: transparent;\n"
+"    background-image: url(qss:images/up_arrow_light.png);\n"
+"    background-repeat: none;\n"
+"    background-position: center center;\n"
+"    padding: 0px;\n"
+"    margin: 0px;\n"
+"}\n"
+"\n"
+"QSint--ActionGroup QFrame[class=\"header\"] QLabel[fold=\"true\"]:hover {\n"
+"    background-color: transparent;\n"
+"    background-image: url(qss:images/up_arrow_lighter.png);\n"
+"}\n"
+"\n"
+"QSint--ActionGroup QFrame[class=\"content\"] {\n"
+"    background-color: #e6e6e6; /* Task Panel background color */\n"
+"    margin: 0px;\n"
+"    padding: 0px;\n"
+"    border: none;\n"
+"    border-top-left-radius: 0px;\n"
+"    border-top-right-radius: 0px;\n"
+"    border-bottom-left-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;\n"
+"}\n"
+"\n"
+"QSint--ActionGroup QFrame[class=\"content\"] > QWidget {\n"
+"    background-color: #e6e6e6; /* Task Panel background color */\n"
+"}\n"
+"\n"
+"/* Fixs for tabs inside Task Panel */\n"
+"QSint--ActionGroup QFrame[class=\"content\"] QTabBar::tab:top:selected {\n"
+"    border-bottom-color: #e6e6e6; /* same as Task Panel background color */\n"
+"}\n"
+"\n"
+"QSint--ActionGroup QFrame[class=\"content\"] QTabBar::tab:bottom:selected {\n"
+"    border-top-color: #e6e6e6; /* same as Task Panel background color */\n"
+"}\n"
+"\n"
+"QSint--ActionGroup QFrame[class=\"content\"] QTabBar::tab:right:selected {\n"
+"    border-right-color: #e6e6e6; /* same as Task Panel background color */\n"
+"}\n"
+"\n"
+"QSint--ActionGroup QFrame[class=\"content\"] QTabBar::tab:left:selected {\n"
+"    border-left-color: #e6e6e6; /* same as Task Panel background color */\n"
+"}\n"
+"\n"
+"/* Fix for buttons with icons that showed cropped (still not happy with result) */\n"
+"QSint--ActionGroup QFrame[class=\"content\"] > QWidget > QPushButton {\n"
+"    padding: 2px; /* bigger padding crops text and icons... */\n"
+"    margin: 0px;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Buttons\n"
+"==================================================================================================*/\n"
+"/* Common */\n"
+"QComboBox,\n"
+"QAbstractSpinBox,\n"
+"QSpinBox,\n"
+"QDoubleSpinBox,\n"
+"QLineEdit,\n"
+"QTextEdit,\n"
+"QTimeEdit,\n"
+"QDateEdit,\n"
+"QDateTimeEdit {\n"
+"    color: #6e6e6e;\n"
+"    background-color: #e0e0e0;\n"
+"    selection-color: white;\n"
+"    selection-background-color: #5e90fa;\n"
+"    border: 1px solid #e0e0e0;\n"
+"    border-radius: 3px;\n"
+"    min-width: 50px; /* it ensures the default value is correctly displayed */\n"
+"    min-height: 20px; /* important to be a pair number in order to up/down buttons to be divisible by two (if not set could create a blank line in Ubuntu. Its downside is that it\'s needed to reset it (min-width: 0px) on following elements that can\'t have it such as fields inside QToolBar and inside QTreeView (Property editor) */\n"
+"    padding: 1px 2px; /* temporal: could don\'t be compatible with elements inside Tree/List view */\n"
+"}\n"
+"\n"
+"/* shifts text/number editable field to the left to make space for the up/down or drop-down buttons */\n"
+"QComboBox,\n"
+"QAbstractSpinBox,\n"
+"QSpinBox,\n"
+"QDoubleSpinBox,\n"
+"QTimeEdit,\n"
+"QDateEdit,\n"
+"QDateTimeEdit {\n"
+"    padding-right: 20px;\n"
+"}\n"
+"\n"
+"/* when QTextEdit are no editable */\n"
+"QTextEdit:!editable {\n"
+"    background-color: #f0f0f0;\n"
+"    border: 1px solid #c3c3c3;\n"
+"}\n"
+"\n"
+"QComboBox:focus,\n"
+"QAbstractSpinBox:focus,\n"
+"QSpinBox:focus,\n"
+"QDoubleSpinBox:focus,\n"
+"QLineEdit:focus,\n"
+"QTextEdit:focus,\n"
+"QTimeEdit:focus,\n"
+"QDateEdit:focus,\n"
+"QDateTimeEdit:focus {\n"
+"    color: black;\n"
+"    border-color: #7cabf9;\n"
+"    border-right-color: qlineargradient(spread:pad, x1:1, y1:0.8, x2:1, y2:0, stop:0 #5e90fa, stop:1 #7cabf9); /* same as up/down or drop-down button color */\n"
+"    background-color: #cbd8e6;\n"
+"}\n"
+"\n"
+"QComboBox:disabled,\n"
+"QAbstractSpinBox:disabled,\n"
+"QSpinBox:disabled,\n"
+"QDoubleSpinBox:disabled,\n"
+"QLineEdit:disabled,\n"
+"QTextEdit:disabled,\n"
+"QTimeEdit:disabled,\n"
+"QDateEdit:disabled,\n"
+"QDateTimeEdit:disabled {\n"
+"    color: #c3c3c3;\n"
+"    background-color: #e0e0e0; /* same as enabled color */\n"
+"    border-color: #e0e0e0; /* same as enabled color */\n"
+"}\n"
+"\n"
+"QAbstractSpinBox:up-button,\n"
+"QSpinBox:up-button,\n"
+"QDoubleSpinBox:up-button,\n"
+"QTimeEdit:up-button,\n"
+"QDateEdit:up-button,\n"
+"QDateTimeEdit:up-button,\n"
+"QAbstractSpinBox:down-button,\n"
+"QSpinBox:down-button,\n"
+"QDoubleSpinBox:down-button,\n"
+"QTimeEdit:down-button,\n"
+"QDateEdit:down-button,\n"
+"QDateTimeEdit:down-button {\n"
+"    background-color: #d2d2d2;\n"
+"    subcontrol-origin: border; /* important */\n"
+"    width: 20px; /* same as QComboBox ... QDateTimeEdit padding-right */\n"
+"}\n"
+"\n"
+"QAbstractSpinBox:up-button,\n"
+"QSpinBox:up-button,\n"
+"QDoubleSpinBox:up-button,\n"
+"QTimeEdit:up-button,\n"
+"QDateEdit:up-button,\n"
+"QDateTimeEdit:up-button {\n"
+"    subcontrol-position: top right;\n"
+"    border-top-right-radius: 3px;\n"
+"}\n"
+"\n"
+"QAbstractSpinBox:down-button,\n"
+"QSpinBox:down-button,\n"
+"QDoubleSpinBox:down-button,\n"
+"QTimeEdit:down-button,\n"
+"QDateEdit:down-button,\n"
+"QDateTimeEdit:down-button {\n"
+"    subcontrol-position: bottom right;\n"
+"    border-bottom-right-radius: 3px;\n"
+"}\n"
+"\n"
+"QAbstractSpinBox:up-button:focus,\n"
+"QSpinBox:up-button:focus,\n"
+"QDoubleSpinBox:up-button:focus,\n"
+"QTimeEdit:up-button:focus,\n"
+"QDateEdit:up-button:focus,\n"
+"QDateTimeEdit:up-button:focus {\n"
+"    background-color: qlineargradient(spread:pad, x1:1, y1:0.8, x2:1, y2:0, stop:0 #6f9efa, stop:1 #7cabf9);\n"
+"}\n"
+"\n"
+"QAbstractSpinBox:down-button:focus,\n"
+"QSpinBox:down-button:focus,\n"
+"QDoubleSpinBox:down-button:focus,\n"
+"QTimeEdit:down-button:focus,\n"
+"QDateEdit:down-button:focus,\n"
+"QDateTimeEdit:down-button:focus {\n"
+"    background-color: qlineargradient(spread:pad, x1:1, y1:0.8, x2:1, y2:0, stop:0 #5e90fa, stop:1 #6f9efa);\n"
+"}\n"
+"\n"
+"QAbstractSpinBox:up-button:disabled,\n"
+"QSpinBox:up-button:disabled,\n"
+"QDoubleSpinBox:up-button:disabled,\n"
+"QTimeEdit:up-button:disabled,\n"
+"QDateEdit:up-button:disabled,\n"
+"QDateTimeEdit:up-button:disabled,\n"
+"QAbstractSpinBox:down-button:disabled,\n"
+"QSpinBox:down-button:disabled,\n"
+"QDoubleSpinBox:down-button:disabled,\n"
+"QTimeEdit:down-button:disabled,\n"
+"QDateEdit:down-button:disabled,\n"
+"QDateTimeEdit:down-button:disabled {\n"
+"    background-color: transparent;\n"
+"}\n"
+"\n"
+"QAbstractSpinBox::up-arrow,\n"
+"QSpinBox::up-arrow,\n"
+"QDoubleSpinBox::up-arrow,\n"
+"QTimeEdit::up-arrow,\n"
+"QDateEdit::up-arrow,\n"
+"QDateTimeEdit::up-arrow {\n"
+"    image: url(qss:images/up_arrow_dark.png);\n"
+"    top: 2px; /* fix symmetry between up and down images */\n"
+"}\n"
+"\n"
+"QAbstractSpinBox::up-arrow:focus,\n"
+"QSpinBox::up-arrow:focus,\n"
+"QDoubleSpinBox::up-arrow:focus,\n"
+"QTimeEdit::up-arrow:focus,\n"
+"QDateEdit::up-arrow:focus,\n"
+"QDateTimeEdit::up-arrow:focus {\n"
+"    image: url(qss:images/up_arrow_lighter.png);\n"
+"}\n"
+"\n"
+"QAbstractSpinBox::up-arrow:off,\n"
+"QSpinBox::up-arrow:off,\n"
+"QDoubleSpinBox::up-arrow:off,\n"
+"QTimeEdit::up-arrow:off,\n"
+"QDateEdit::up-arrow:off,\n"
+"QDateTimeEdit::up-arrow:off {\n"
+"    image: url(qss:images/up_arrow_disabled_dark.png);\n"
+"}\n"
+"\n"
+"QAbstractSpinBox::up-arrow:disabled,\n"
+"QSpinBox::up-arrow:disabled,\n"
+"QDoubleSpinBox::up-arrow:disabled,\n"
+"QTimeEdit::up-arrow:disabled,\n"
+"QDateEdit::up-arrow:disabled,\n"
+"QDateTimeEdit::up-arrow:disabled {\n"
+"    image: url(qss:images/up_arrow_disabled_dark.png);\n"
+"}\n"
+"\n"
+"QAbstractSpinBox::down-arrow,\n"
+"QSpinBox::down-arrow,\n"
+"QDoubleSpinBox::down-arrow,\n"
+"QTimeEdit::down-arrow,\n"
+"QDateEdit::down-arrow,\n"
+"QDateTimeEdit::down-arrow {\n"
+"    image: url(qss:images/down_arrow_dark.png);\n"
+"    bottom: 0px; /* fix simetry between up and down images */\n"
+"}\n"
+"\n"
+"QAbstractSpinBox::down-arrow:focus,\n"
+"QSpinBox::down-arrow:focus,\n"
+"QDoubleSpinBox::down-arrow:focus,\n"
+"QTimeEdit::down-arrow:focus,\n"
+"QDateEdit::down-arrow:focus,\n"
+"QDateTimeEdit::down-arrow:focus {\n"
+"    image: url(qss:images/down_arrow_lighter.png);\n"
+"}\n"
+"\n"
+"QAbstractSpinBox::down-arrow:off,\n"
+"QSpinBox::down-arrow:off,\n"
+"QDoubleSpinBox::down-arrow:off,\n"
+"QTimeEdit::down-arrow:off,\n"
+"QDateEdit::down-arrow:off,\n"
+"QDateTimeEdit::down-arrow:off {\n"
+"    image: url(qss:images/down_arrow_disabled_dark.png);\n"
+"}\n"
+"\n"
+"QAbstractSpinBox::down-arrow:disabled,\n"
+"QSpinBox::down-arrow:disabled,\n"
+"QDoubleSpinBox::down-arrow:disabled,\n"
+"QTimeEdit::down-arrow:disabled,\n"
+"QDateEdit::down-arrow:disabled,\n"
+"QDateTimeEdit::down-arrow:disabled {\n"
+"    image: url(qss:images/down_arrow_disabled_dark.png);\n"
+"}\n"
+"\n"
+"/* ComboBox */\n"
+"QComboBox::drop-down {\n"
+"    background-color: #d2d2d2;\n"
+"    subcontrol-origin: border; /* important */\n"
+"    subcontrol-position: top right;\n"
+"    width: 20px;\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;\n"
+"}\n"
+"\n"
+"QComboBox::drop-down:on,\n"
+"QComboBox::drop-down:focus {\n"
+"    background-color: qlineargradient(spread:pad, x1:1, y1:0.8, x2:1, y2:0, stop:0 #5e90fa, stop:1 #7cabf9);\n"
+"}\n"
+"\n"
+"QComboBox::down-arrow {\n"
+"    image: url(qss:images/down_arrow_dark.png);\n"
+"}\n"
+"\n"
+"QComboBox::down-arrow:on,\n"
+"QComboBox::down-arrow:focus {\n"
+"    image: url(qss:images/down_arrow_lighter.png);\n"
+"}\n"
+"\n"
+"QComboBox::down-arrow:off,\n"
+"QComboBox::down-arrow:disabled {\n"
+"    image: url(qss:images/down_arrow_disabled_dark.png);\n"
+"}\n"
+"\n"
+"/* ComboBox menu */\n"
+"QComboBox {\n"
+"    selection-color: white;\n"
+"    selection-background-color: #5e90fa;\n"
+"}\n"
+"\n"
+"QComboBox QAbstractItemView {\n"
+"    color: #6e6e6e; /* same as regular QComboBox color */\n"
+"    background-color: transparent;\n"
+"    selection-color: white;\n"
+"    selection-background-color: #5e90fa;\n"
+"    border-width: 5px 0px 5px 0px;\n"
+"    border-style: solid;\n"
+"    border-color: transparent;\n"
+"    margin: 0px -1px 0px 0px; /* temporal: hack for Mac... try it on Windows and Linux */\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Push button\n"
+"==================================================================================================*/\n"
+"\n"
+"\n"
+"/* Fix for Expressions description QFrame that is \"broken\" with initial reset */\n"
+"Gui--PropertyEditor--PropertyEditor > QWidget > QWidget > QWidget > QWidget > QFrame {\n"
+"    background-color: #f5f5f5; /* main background color */\n"
+"    border: 1px solid #dcdcdc;\n"
+"    border-radius: 2px;\n"
+"    padding: 2px 6px;\n"
+"}\n"
+"\n"
+"QPushButton:checked {\n"
+"    background-color: #5e90fa;\n"
+"    border-color: #3874f2;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Tool button inside QDialogs that works as QPushButtons\n"
+"==================================================================================================*/\n"
+"/* found under Tools -> Customize -> Macros -> Pixmap \"...\" button */\n"
+"QDialog QToolButton {\n"
+"    color: #6e6e6e;\n"
+"    text-align: center;\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0.3, x2:0, y2:1, stop:0 #f5f5f5, stop:1 #e6e6e6);\n"
+"    border: 1px solid #d2d2d2;\n"
+"    border-bottom-color: #c3c3c3; /* simulates shadow under the button */\n"
+"    padding: 0px; /* different than regular QPushButton */\n"
+"    margin: 2px; /* different than regular QPushButton */\n"
+"    min-height: 16px; /* same as QTabBar QPushButton min-width */\n"
+"    border-radius: 4px;\n"
+"}\n"
+"\n"
+"QDialog QToolButton:hover,\n"
+"QDialog QToolButton:focus {\n"
+"    color: white;\n"
+"    border-color: #3874f2;\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #5e90fa, stop:1 #3874f2);\n"
+"}\n"
+"\n"
+"QDialog QToolButton:disabled,\n"
+"QDialog QToolButton:disabled:checked {\n"
+"    color: #b6b6b6;\n"
+"    border-color: #e6e6e6;\n"
+"    background-color: #e6e6e6;\n"
+"}\n"
+"\n"
+"QDialog QToolButton:pressed {\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #3874f2, stop:1 #5e90fa);\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Tool button inside Task Panel content that works as QPushButtons\n"
+"==================================================================================================*/\n"
+"/* found inside Part Design Workbench and \"make a draft on a face\" Task panel options */\n"
+"QSint--ActionGroup QFrame[class=\"content\"] QToolButton {\n"
+"    color: #6e6e6e;\n"
+"    text-align: center;\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0.3, x2:0, y2:1, stop:0 #f5f5f5, stop:1 #e6e6e6);\n"
+"    border: 1px solid #d2d2d2;\n"
+"    border-bottom-color: #c3c3c3; /* simulates shadow under the button */\n"
+"    padding: 2px 6px; /* different than regular QPushButton */\n"
+"    margin: 2px; /* different than regular QPushButton */\n"
+"    min-height: 16px; /* same as QTabBar QPushButton min-width */\n"
+"    border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSint--ActionGroup QFrame[class=\"content\"] QToolButton:hover,\n"
+"QSint--ActionGroup QFrame[class=\"content\"] QToolButton:focus {\n"
+"    color: white;\n"
+"    border-color: #3874f2;\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #5e90fa, stop:1 #3874f2);\n"
+"}\n"
+"\n"
+"QSint--ActionGroup QFrame[class=\"content\"] QToolButton:disabled,\n"
+"QSint--ActionGroup QFrame[class=\"content\"] QToolButton:disabled:checked {\n"
+"    color: #b6b6b6;\n"
+"    border-color: #e6e6e6;\n"
+"    background-color: #e6e6e6;\n"
+"}\n"
+"\n"
+"QSint--ActionGroup QFrame[class=\"content\"] QToolButton:pressed {\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #3874f2, stop:1 #5e90fa);\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Radio button\n"
+"==================================================================================================*/\n"
+"QRadioButton::indicator:unchecked{\n"
+"    color: #505050;\n"
+"    background-color: rgba(0, 0, 0, 20);\n"
+"    border: 1px solid #505050;\n"
+"}\n"
+"\n"
+"QRadioButton::indicator:checked {\n"
+"    background-color: #5e90fa; /* QCheckBox has the same color */\n"
+"    border: 1px solid #3874f2; /* QCheckBox has the same color */\n"
+"    image:url(qss:images/radiobutton_light.png);\n"
+"}\n"
+"\n"
+"QRadioButton,\n"
+"QRadioButton:disabled {\n"
+"    color: #505050;\n"
+"    padding: 3px;\n"
+"    outline: none;\n"
+"    background-color: transparent;\n"
+"}\n"
+"\n"
+"QRadioButton::indicator {\n"
+"    width: 11px;\n"
+"    height: 11px;\n"
+"    border-radius: 6px;\n"
+"}\n"
+"\n"
+"QRadioButton::indicator:pressed {\n"
+"    border-color: #adc5ed;\n"
+"}\n"
+"\n"
+"QRadioButton::indicator:disabled {\n"
+"    color: #6e6e6e;\n"
+"    background-color: transparent;\n"
+"    border: 1px solid #6e6e6e;\n"
+"}\n"
+"\n"
+"QRadioButton:focus {\n"
+"    border: none;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Checkbox\n"
+"==================================================================================================*/\n"
+"QCheckBox,\n"
+"QCheckBox:disabled {\n"
+"    color: #505050;\n"
+"    padding: 3px;\n"
+"    outline: none;\n"
+"    background-color: transparent;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator {\n"
+"    color: #c8c8c8;\n"
+"    background-color: rgba(0,0,0,20);\n"
+"    border: 1px solid #505050;\n"
+"    width: 11px;\n"
+"    height: 11px;\n"
+"    border-radius:2px;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:pressed,\n"
+"QCheckBox::indicator:non-exclusive:checked:pressed,\n"
+"QCheckBox::indicator:indeterminate:pressed,\n"
+"QCheckBox::indicator:checked:pressed {\n"
+"    border-color: #adc5ed;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:checked {\n"
+"    background-color: #5e90fa; /* QRadioButton has the same color */\n"
+"    border: 1px solid #3874f2; /* QRadioButton has the same color */\n"
+"    image:url(qss:images/checkbox_light.png);\n"
+"}\n"
+"\n"
+"QCheckBox:disabled {\n"
+"    color: rgba(0,0,0,40);\n"
+"    background-color: transparent;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:disabled {\n"
+"    background-color: rgba(0,0,0,20);\n"
+"    border: 1px solid rgba(0,0,0,20);\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:indeterminate {\n"
+"    background-color: #5e90fa;\n"
+"    border: 1px solid #3874f2;\n"
+"    image: url(qss:images/checkbox_indeterminate_light.png);\n"
+"}\n"
+"\n"
+"QCheckBox:focus {\n"
+"    border: none;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Checkboxs inside QListWidget and QTreeView\n"
+"==================================================================================================*/\n"
+"QListWidget::indicator,\n"
+"QTreeView::indicator {\n"
+"    color: #c8c8c8;\n"
+"    background-color: rgba(0,0,0,20);\n"
+"    border: 1px solid #505050;\n"
+"    width: 11px;\n"
+"    height: 11px;\n"
+"    border-radius:2px;\n"
+"}\n"
+"\n"
+"/* fix for QTreeView::indicator loosing its margin */\n"
+"QTreeView::indicator {\n"
+"    margin: 3px;\n"
+"}\n"
+"\n"
+"QListWidget::indicator:selected,\n"
+"QTreeView::indicator:selected {\n"
+"    background-color: #e6e6e6;\n"
+"}\n"
+"\n"
+"QListWidget::indicator:checked:selected,\n"
+"QListWidget::indicator:indeterminate:selected,\n"
+"QTreeView::indicator:checked:selected,\n"
+"QTreeView::indicator:indeterminate:selected {\n"
+"    background-color: #7cabf9; /* slighly lighter than default */\n"
+"    border-color: #2053c0; /* slighly darker than default */\n"
+"}\n"
+"\n"
+"QListWidget::indicator:pressed,\n"
+"QListWidget::indicator:non-exclusive:checked:pressed,\n"
+"QListWidget::indicator:indeterminate:pressed,\n"
+"QListWidget::indicator:checked:pressed,\n"
+"QTreeView::indicator:pressed,\n"
+"QTreeView::indicator:non-exclusive:checked:pressed,\n"
+"QTreeView::indicator:indeterminate:pressed,\n"
+"QTreeView::indicator:checked:pressed {\n"
+"    border-color: #adc5ed;\n"
+"}\n"
+"\n"
+"QListWidget::indicator:checked,\n"
+"QTreeView::indicator:checked {\n"
+"    background-color: #5e90fa; /* QRadioButton has the same color */\n"
+"    border: 1px solid #3874f2; /* QRadioButton has the same color */\n"
+"    image:url(qss:images/checkbox_light.png);\n"
+"}\n"
+"\n"
+"QListWidget::indicator:disabled,\n"
+"QTreeView::indicator:disabled {\n"
+"    background-color: rgba(0,0,0,20);\n"
+"    border: 1px solid rgba(0,0,0,20);\n"
+"}\n"
+"\n"
+"QListWidget::indicator:indeterminate,\n"
+"QTreeView::indicator:indeterminate {\n"
+"    background-color: #5e90fa;\n"
+"    border: 1px solid #3874f2;\n"
+"    image: url(qss:images/checkbox_indeterminate_light.png);\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Slider\n"
+"==================================================================================================*/\n"
+"QSlider,\n"
+"QSlider:active,\n"
+"QSlider:!active {\n"
+"    border: none;\n"
+"    background-color: transparent;\n"
+"}\n"
+"\n"
+"QSlider:horizontal {\n"
+"    padding: 0px 10px;\n"
+"}\n"
+"\n"
+"QSlider:vertical {\n"
+"    padding: 10px 0px;\n"
+"}\n"
+"\n"
+"QSlider::groove {\n"
+"    background-color: rgba(0,0,0,30);\n"
+"    border: 1px solid rgba(0,0,0,40);\n"
+"    border-radius: 5px;\n"
+"    margin: 4px 0px;\n"
+"}\n"
+"\n"
+"QSlider::groove:horizontal {\n"
+"    height: 8px;\n"
+"}\n"
+"\n"
+"QSlider::groove:vertical {\n"
+"    width: 8px;\n"
+"}\n"
+"\n"
+"QSlider::groove:horizontal:disabled,\n"
+"QSlider::groove:vertical:disabled {\n"
+"    border-color:  #dcdcdc;\n"
+"    background-color: #dcdcdc;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal,\n"
+"QSlider::handle:vertical {\n"
+"    background-color: #b6b6b6;\n"
+"    border: 1px solid #b6b6b6;\n"
+"    width: 14px;\n"
+"    height: 14px;\n"
+"    border-radius: 8px;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal {\n"
+"    margin: -4px 0;\n"
+"}\n"
+"\n"
+"QSlider::handle:vertical {\n"
+"    margin: 0 -4px;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal:hover,\n"
+"QSlider::handle:vertical:hover,\n"
+"QSlider::handle:horizontal:pressed,\n"
+"QSlider::handle:vertical:pressed {\n"
+"    border-color: #5e90fa;\n"
+"    background-color: #5e90fa;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal:disabled,\n"
+"QSlider::handle:vertical:disabled {\n"
+"    border-color: #dcdcdc;\n"
+"    background-color: #dcdcdc;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Toolbar buttons\n"
+"==================================================================================================*/\n"
+"/*QToolBar > QComboBox,   disabled because creates different margins for body and drop-down button */\n"
+"QToolBar > QAbstractSpinBox,\n"
+"QToolBar > QSpinBox,\n"
+"QToolBar > QDoubleSpinBox,\n"
+"QToolBar > QLineEdit,\n"
+"QToolBar > QTextEdit,\n"
+"QToolBar > QTimeEdit,\n"
+"QToolBar > QDateEdit,\n"
+"QToolBar > QDateTimeEdit {\n"
+"    margin: 0px 2px;\n"
+"    padding: 0px;\n"
+"    min-width: 70px; /* necessary to show its content */\n"
+"}\n"
+"\n"
+"QToolBar > QComboBox,\n"
+"QToolBar > QAbstractSpinBox,\n"
+"QToolBar > QSpinBox,\n"
+"QToolBar > QDoubleSpinBox,\n"
+"QToolBar > QLineEdit,\n"
+"QToolBar > QTextEdit,\n"
+"QToolBar > QTimeEdit,\n"
+"QToolBar > QDateEdit,\n"
+"QToolBar > QDateTimeEdit {\n"
+"    min-height: 0px; /* reset it inside Tool Bar due to the user ability to set the \"size of toolbar icons\" inside Preferences  */\n"
+"}\n"
+"\n"
+"QToolBar > QPushButton {\n"
+"    padding: 0px;\n"
+"    margin: 1px; /* doesn\'t work with :left, :right:, :top or :bottom sub-controls */\n"
+"    min-width: 16px; /* could not be larger due to switchable Preferences \"Size of toolbar icons\" */\n"
+"    min-height: 16px; /* could not be larger due to switchable Preferences \"Size of toolbar icons\" */\n"
+"    border-radius: 4px; /* same as regular QPushButton */\n"
+"}\n"
+"\n"
+"QToolBar > QPushButton:checked {\n"
+"    border: 1px solid #7cabf9;\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #cbd8e6, stop:1 #7cabf9);\n"
+"}\n"
+"\n"
+"QToolBar > QPushButton:!checked {\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0.3, x2:0, y2:1, stop:0 #f5f5f5, stop:1 #e6e6e6);\n"
+"    border: 1px solid #d2d2d2;\n"
+"    border-bottom-color: #c3c3c3; /* simulates shadow under the button */\n"
+"}\n"
+"\n"
+"QToolBar > QPushButton:checked:hover {\n"
+"    border-color: #6f9efa;\n"
+"}\n"
+"\n"
+"QToolBar > QPushButton:!checked:hover {\n"
+"    color: black;\n"
+"    border-color: #b6b6b6;\n"
+"}\n"
+"\n"
+"QToolBar > QPushButton:checked:pressed {\n"
+"    background-color: #7cabf9;\n"
+"}\n"
+"\n"
+"QToolBar > QPushButton:!checked:pressed {\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #b6b6b6, stop:1 #e6e6e6);\n"
+"}\n"
+"\n"
+"QToolBar > QPushButton:checked:disabled,\n"
+"QToolBar > QPushButton:!checked:disabled {\n"
+"    border: none;\n"
+"    background-color: transparent;\n"
+"}\n"
+"\n"
+"QToolBar > QToolButton {\n"
+"    margin: 2px;\n"
+"    padding: 2px;\n"
+"    border-radius: 3px;\n"
+"}\n"
+"\n"
+"QToolBar > QToolButton:hover {\n"
+"    background-color: rgba(0,0,0,20);\n"
+"}\n"
+"\n"
+"QToolBar > QToolButton:pressed {\n"
+"    background-color: rgba(0,0,0,30);\n"
+"}\n"
+"\n"
+"/* ToolBar menu buttons (buttons with drop-down menu) */\n"
+"QToolBar > QToolButton#qt_toolbutton_menubutton {\n"
+"    padding-right: 20px; /* Hack to add more width to buttons with menu */\n"
+"    border: 1px solid transparent;\n"
+"    border-radius: 3px;\n"
+"}\n"
+"\n"
+"QToolBar > QToolButton#qt_toolbutton_menubutton:hover,\n"
+"QToolBar > QToolButton#qt_toolbutton_menubutton:pressed,\n"
+"QToolBar > QToolButton#qt_toolbutton_menubutton:open {\n"
+"    border: 1px solid #7cabf9;\n"
+"}\n"
+"\n"
+"QToolBar QToolButton::menu-button,\n"
+"QToolBar > QToolButton#qt_toolbutton_menubutton::menu-button {\n"
+"    border: none;\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;\n"
+"    width: 16px; /* 16px width + 4px for border = 20px allocated above */\n"
+"    outline: none;\n"
+"    background-color: transparent;\n"
+"}\n"
+"\n"
+"QToolBar > QToolButton#qt_toolbutton_menubutton::menu-button:hover,\n"
+"QToolBar > QToolButton#qt_toolbutton_menubutton::menu-button:pressed,\n"
+"QToolBar > QToolButton#qt_toolbutton_menubutton::menu-button:open {\n"
+"    background-color: qlineargradient(spread:pad, x1:1, y1:0.8, x2:1, y2:0, stop:0 #5e90fa, stop:1 #7cabf9);\n"
+"}\n"
+"\n"
+"QToolBar > QToolButton::menu-arrow {\n"
+"    background-image: url(qss:images/down_arrow_dark.png);\n"
+"    background-position: center center;\n"
+"    background-repeat: none;\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: bottom right;\n"
+"    height: 10px; /* same as arrow image */\n"
+"}\n"
+"\n"
+"QToolBar > QToolButton::menu-arrow:hover {\n"
+"    background-image: url(qss:images/down_arrow_lighter.png);\n"
+"}\n"
+"\n"
+"QToolBar > QToolButton::menu-arrow:open {\n"
+"    background-image: url(qss:images/down_arrow_lighter.png);\n"
+"}\n"
+"\n"
+"/* when QToolButton is checked: */\n"
+"QToolButton:checked {\n"
+"    border: 1px solid #7cabf9;\n"
+"    background-color: rgba(124,171,249,60); /* transparency for #7cabf9 color */\n"
+"}\n"
+"\n"
+"QToolButton:checked:hover {\n"
+"    border: 1px solid #7cabf9;\n"
+"    background-color: rgba(124,171,249,80); /* transparency for #7cabf9 color */\n"
+"}\n"
+"\n"
+"/*The \"show more\" button  (it can also be stylable with \"QToolBarExtension\" */\n"
+"QToolBar QToolButton#qt_toolbar_ext_button {\n"
+"    margin: 0px;\n"
+"    padding: 0px;\n"
+"    /*background-image: url(qss:images/more_dark.png);*/\n"
+"    image: transparent;\n"
+"    background-repeat: none;\n"
+"    background-position: center left;\n"
+"}\n"
+"\n"
+"QToolBar QToolButton#qt_toolbar_ext_button:hover {\n"
+"    /*background-image: url(qss:images/more_light.png);*/\n"
+"    border-color: #e0e0e0;\n"
+"    background-color: #e0e0e0;\n"
+"}\n"
+"\n"
+"QToolBar QToolButton#qt_toolbar_ext_button:on {\n"
+"    /*background-image: url(qss:images/more_light.png);*/\n"
+"    border-color: #e0e0e0;\n"
+"    background-color: #e0e0e0;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"Tables (spreadsheets)\n"
+"==================================================================================================*/\n"
+"QTableView {\n"
+"    gridline-color: #d2d2d2;\n"
+"    selection-color: #1b3774;\n"
+"    selection-background-color: #cbd8e6;\n"
+"}\n"
+"\n"
+"QTableView::item:hover  {\n"
+"    background-color: rgba(0,0,0,10);  /* temporal: is it displayed in Linux or Windows? on OSX it isn\'t */\n"
+"}\n"
+"\n"
+"QTableView::item:disabled  {\n"
+"    color: #616161;\n"
+"}\n"
+"\n"
+"QTableView::item:selected  {\n"
+"    color: #1b3774;\n"
+"    border-color: #cbd8e6; /* same as focused background color */\n"
+"    border-bottom-color: #7cabf9; /* same as focused border color */\n"
+"}\n"
+"\n"
+"/* fix for elements inside the cells */\n"
+"QTableView > QWidget > QComboBox,\n"
+"QTableView > QWidget > QAbstractSpinBox,\n"
+"QTableView > QWidget > QSpinBox,\n"
+"QTableView > QWidget > QDoubleSpinBox,\n"
+"QTableView > QWidget > QLineEdit,\n"
+"QTableView > QWidget > QTextEdit,\n"
+"QTableView > QWidget > QTimeEdit,\n"
+"QTableView > QWidget > QDateEdit,\n"
+"QTableView > QWidget > QDateTimeEdit,\n"
+"QTableView > QWidget > QComboBox:drop-down,\n"
+"QTableView > QWidget > QAbstractSpinBox:up-button,\n"
+"QTableView > QWidget > QSpinBox:up-button,\n"
+"QTableView > QWidget > QDoubleSpinBox:up-button,\n"
+"QTableView > QWidget > QTimeEdit:up-button,\n"
+"QTableView > QWidget > QDateEdit:up-button,\n"
+"QTableView > QWidget > QDateTimeEdit:up-button,\n"
+"QTableView > QWidget > QAbstractSpinBox:down-button,\n"
+"QTableView > QWidget > QSpinBox:down-button,\n"
+"QTableView > QWidget > QDoubleSpinBox:down-button,\n"
+"QTableView > QWidget > QTimeEdit:down-button,\n"
+"QTableView > QWidget > QDateEdit:down-button,\n"
+"QTableView > QWidget > QDateTimeEdit:down-button,\n"
+"QTableView > QWidget > Gui--ColorButton {\n"
+"    border-radius: 0px;\n"
+"}\n"
+"\n"
+"QTableView > QWidget > QComboBox,\n"
+"QTableView > QWidget > QAbstractSpinBox,\n"
+"QTableView > QWidget > QSpinBox,\n"
+"QTableView > QWidget > QDoubleSpinBox,\n"
+"QTableView > QWidget > QLineEdit,\n"
+"QTableView > QWidget > QTextEdit,\n"
+"QTableView > QWidget > QTimeEdit,\n"
+"QTableView > QWidget > QDateEdit,\n"
+"QTableView > QWidget > QDateTimeEdit {\n"
+"    color: black;\n"
+"    background-color: transparent;\n"
+"    border-color: transparent;\n"
+"}\n"
+"\n"
+"QTableView > QWidget > QComboBox:drop-down,\n"
+"QTableView > QWidget > QAbstractSpinBox:up-button,\n"
+"QTableView > QWidget > QSpinBox:up-button,\n"
+"QTableView > QWidget > QDoubleSpinBox:up-button,\n"
+"QTableView > QWidget > QTimeEdit:up-button,\n"
+"QTableView > QWidget > QDateEdit:up-button,\n"
+"QTableView > QWidget > QDateTimeEdit:up-button,\n"
+"QTableView > QWidget > QAbstractSpinBox:down-button,\n"
+"QTableView > QWidget > QSpinBox:down-button,\n"
+"QTableView > QWidget > QDoubleSpinBox:down-button,\n"
+"QTableView > QWidget > QTimeEdit:down-button,\n"
+"QTableView > QWidget > QDateEdit:down-button,\n"
+"QTableView > QWidget > QDateTimeEdit:down-button,\n"
+"QTableView > QWidget > Gui--ColorButton {\n"
+"    background-color: rgba(0,0,0,30);\n"
+"}\n"
+"\n"
+"QTableView > QWidget > QComboBox:focus,\n"
+"QTableView > QWidget > QAbstractSpinBox:focus,\n"
+"QTableView > QWidget > QSpinBox:focus,\n"
+"QTableView > QWidget > QDoubleSpinBox:focus,\n"
+"QTableView > QWidget > QLineEdit:focus,\n"
+"QTableView > QWidget > QTextEdit:focus,\n"
+"QTableView > QWidget > QTimeEdit:focus,\n"
+"QTableView > QWidget > QDateEdit:focus,\n"
+"QTableView > QWidget > QDateTimeEdit:focus {\n"
+"    color: #1b3774;\n"
+"    selection-color: white;\n"
+"    selection-background-color: #5e90fa;\n"
+"    border-color: #cbd8e6;\n"
+"    background-color: #cbd8e6;\n"
+"}\n"
+"\n"
+"QTableView > QWidget > QComboBox:disabled,\n"
+"QTableView > QWidget > QAbstractSpinBox:disabled,\n"
+"QTableView > QWidget > QSpinBox:disabled,\n"
+"QTableView > QWidget > QDoubleSpinBox:disabled,\n"
+"QTableView > QWidget > QLineEdit:disabled,\n"
+"QTableView > QWidget > QTextEdit:disabled,\n"
+"QTableView > QWidget > QTimeEdit:disabled,\n"
+"QTableView > QWidget > QDateEdit:disabled,\n"
+"QTableView > QWidget > QDateTimeEdit:disabled {\n"
+"    color: rgba(0,0,0,120);\n"
+"    background-color: transparent;\n"
+"    border-color: transparent;\n"
+"}\n"
+"\n"
+"QTableView > QWidget > QComboBox:read-only,\n"
+"QTableView > QWidget > QAbstractSpinBox:read-only,\n"
+"QTableView > QWidget > QSpinBox:read-only,\n"
+"QTableView > QWidget > QDoubleSpinBox:read-only,\n"
+"QTableView > QWidget > QLineEdit:read-only,\n"
+"QTableView > QWidget > QTextEdit:read-only,\n"
+"QTableView > QWidget > QTimeEdit:read-only,\n"
+"QTableView > QWidget > QDateEdit:read-only,\n"
+"QTableView > QWidget > QDateTimeEdit:read-only {\n"
+"    color: black;\n"
+"    background-color: transparent;\n"
+"    border-color: transparent;\n"
+"}\n"
+"\n"
+"\n"
+"/*==================================================================================================\n"
+"EXPERIMENTAL\n"
+"==================================================================================================*/\n"
+"\n"
+"/* Fix for preventing elements in different rows to accidentaly overlap */\n"
+"QDialog QGroupBox QFrame {\n"
+"    margin: 2px 0px;\n"
+"}\n"
+"\n"
+"*[mandatoryField=\"true\"] { background-color: cyan }\n"
+"QPushButton {\n"
+"    border-radius: 20px;\n"
+"    color: rgb(230, 230, 230);\n"
+"    text-align: center;\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #5e90fa, stop:1 #3874f2);\n"
+"    border: 1px solid #d2d2d2;\n"
+"    border-bottom-color: #c3c3c3; /* simulates shadow under the button */\n"
+"    padding: 4px 22px;\n"
+"    margin: 4px 4px;\n"
+"    min-height: 16px; /* same as QTabBar QPushButton min-width */\n"
+"    border-radius:20px;\n"
+"}\n"
+"\n"
+"QPushButton:hover,\n"
+"QPushButton:focus {\n"
+"    color: white;\n"
+"    border: 1px solid rgb(49, 44, 113);\n"
+"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512438 rgba(69, 124, 225, 255), stop:1 rgba(82, 157, 255, 255))\n"
+"}\n"
+"\n"
+"QPushButton:disabled,\n"
+"QPushButton:disabled:checked {\n"
+"    color: #b6b6b6;\n"
+"    border-color: #e6e6e6;\n"
+"    background-color: #e6e6e6;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #3874f2, stop:1 #5e90fa);\n"
+"}\n"
+"\n"
+"QPushButton:checked {\n"
+"    background-color: rgb(35, 72, 147);\n"
+"    border-color: #3874f2;\n"
+"}\n"
+"\n"
+"/* Color Buttons */\n"
+"Gui--ColorButton,\n"
+"Gui--ColorButton:disabled {\n"
+"    padding: 0px; /* reset */\n"
+"    margin: 0px; /* reset */\n"
+"}\n"
+"\n"
+"Gui--ColorButton {\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0.3, x2:0, y2:1, stop:0 #f5f5f5, stop:1 #e6e6e6);\n"
+"    border: 1px solid #d2d2d2;\n"
+"    border-bottom-color: #c3c3c3; /* simulates shadow under the button */\n"
+"}\n"
+"\n"
+"Gui--ColorButton:disabled {\n"
+"    border-color: transparent;\n"
+"    background-color: rgba(0,0,0,10);\n"
+"}\n"
+"\n"
+"Gui--ColorButton:hover,\n"
+"Gui--ColorButton:focus {\n"
+"    border-color: #3874f2;\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #5e90fa, stop:1 #3874f2);\n"
+"}\n"
+"\n"
+"Gui--ColorButton:pressed {\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #3874f2, stop:1 #5e90fa);\n"
+"}\n"
+"\n"
+"/* Pushbutton style for \"...\" inside Placement cell which launches Placement tool */\n"
+"Gui--PropertyEditor--PropertyEditor > QWidget > QWidget > QPushButton {\n"
+"    background-color: #b6b6b6;\n"
+"    border: 1px solid #828282;\n"
+"    min-width: 16px; /* reset it due to larger value on regular QPushButton, same or bigger value as regular QPushButton min-height */\n"
+"    border-radius: 0px;\n"
+"    margin: 0px; /* reset */\n"
+"    padding: 0px; /* reset */\n"
+"}\n"
+"\n"
+"/* Fix for Expressions description QFrame that is \"broken\" with initial reset */\n"
+"Gui--PropertyEditor--PropertyEditor > QWidget > QWidget > QWidget > QWidget > QFrame {\n"
+"    background-color: #f5f5f5; /* main background color */\n"
+"    border: 1px solid #dcdcdc;\n"
+"    border-radius: 2px;\n"
+"    padding: 2px 6px;\n"
+"}\n"
+"\n"
+"QPushButton:checked {\n"
+"    background-color: #5e90fa;\n"
+"    border-color: #3874f2;\n"
+"}\n"
+"QPushButton:disabled{\n"
+"color:rgb(198, 198, 198);\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512438 rgba(112, 174, 234, 255), stop:1 rgba(82, 157, 255, 255));\n"
+"}")
         self.tableWidget_5.setObjectName("tableWidget_5")
-        self.tableWidget_5.setColumnCount(6)
+        self.tableWidget_5.setColumnCount(5)
         self.tableWidget_5.setRowCount(1)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget_5.setVerticalHeaderItem(0, item)
@@ -2773,7 +4892,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget_5.setHorizontalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_5.setHorizontalHeaderItem(5, item)
+        self.tableWidget_5.setItem(0, 0, item)
         self.pushButton_17 = QtWidgets.QPushButton(self.groupBox_7)
         self.pushButton_17.setEnabled(True)
         self.pushButton_17.setGeometry(QtCore.QRect(100, 210, 451, 51))
@@ -2835,7 +4954,7 @@ class Ui_MainWindow(object):
         self.lineEdit_24.setObjectName("lineEdit_24")
         self.label_54 = QtWidgets.QLabel(self.groupBox_7)
         self.label_54.setEnabled(True)
-        self.label_54.setGeometry(QtCore.QRect(596, 20, 81, 51))
+        self.label_54.setGeometry(QtCore.QRect(616, 20, 61, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -2945,7 +5064,7 @@ class Ui_MainWindow(object):
         self.groupBox_8.setTitle("")
         self.groupBox_8.setObjectName("groupBox_8")
         self.lineEdit_25 = QtWidgets.QLineEdit(self.groupBox_8)
-        self.lineEdit_25.setGeometry(QtCore.QRect(330, 39, 391, 41))
+        self.lineEdit_25.setGeometry(QtCore.QRect(220, 36, 521, 51))
         font = QtGui.QFont()
         font.setPointSize(13)
         self.lineEdit_25.setFont(font)
@@ -2953,18 +5072,6 @@ class Ui_MainWindow(object):
 "")
         self.lineEdit_25.setPlaceholderText("")
         self.lineEdit_25.setObjectName("lineEdit_25")
-        self.pushButton_19 = QtWidgets.QPushButton(self.groupBox_8)
-        self.pushButton_19.setGeometry(QtCore.QRect(10, 33, 241, 51))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(14)
-        self.pushButton_19.setFont(font)
-        self.pushButton_19.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.pushButton_19.setStyleSheet("border-radius: 20px;\n"
-"")
-        self.pushButton_19.setIcon(icon6)
-        self.pushButton_19.setIconSize(QtCore.QSize(33, 33))
-        self.pushButton_19.setObjectName("pushButton_19")
         self.tableWidget_6 = QtWidgets.QTableWidget(self.groupBox_8)
         self.tableWidget_6.setGeometry(QtCore.QRect(10, 100, 981, 521))
         self.tableWidget_6.setStyleSheet("border-radius: 60px;\n"
@@ -2984,7 +5091,7 @@ class Ui_MainWindow(object):
         self.tableWidget_6.setHorizontalHeaderItem(3, item)
         self.label_55 = QtWidgets.QLabel(self.groupBox_8)
         self.label_55.setEnabled(True)
-        self.label_55.setGeometry(QtCore.QRect(740, 30, 241, 51))
+        self.label_55.setGeometry(QtCore.QRect(760, 33, 111, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -2992,6 +5099,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.label_55.setFont(font)
         self.label_55.setObjectName("label_55")
+        self.pushButton_36 = QtWidgets.QPushButton(self.groupBox_8)
+        self.pushButton_36.setGeometry(QtCore.QRect(20, 30, 181, 61))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(14)
+        self.pushButton_36.setFont(font)
+        self.pushButton_36.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.pushButton_36.setStyleSheet("border-radius:26px;")
+        self.pushButton_36.setIcon(icon6)
+        self.pushButton_36.setIconSize(QtCore.QSize(40, 40))
+        self.pushButton_36.setObjectName("pushButton_36")
         self.tabWidget_2.addTab(self.tab_12, "")
         self.tabWidget.addTab(self.tab_4, "")
         self.tab_5 = QtWidgets.QWidget()
@@ -3056,7 +5174,7 @@ class Ui_MainWindow(object):
         self.tableWidget_7.setAutoFillBackground(False)
         self.tableWidget_7.setLocale(QtCore.QLocale(QtCore.QLocale.Arabic, QtCore.QLocale.Iraq))
         self.tableWidget_7.setObjectName("tableWidget_7")
-        self.tableWidget_7.setColumnCount(6)
+        self.tableWidget_7.setColumnCount(9)
         self.tableWidget_7.setRowCount(1)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget_7.setVerticalHeaderItem(0, item)
@@ -3072,6 +5190,12 @@ class Ui_MainWindow(object):
         self.tableWidget_7.setHorizontalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget_7.setHorizontalHeaderItem(5, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_7.setHorizontalHeaderItem(6, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_7.setHorizontalHeaderItem(7, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_7.setHorizontalHeaderItem(8, item)
         self.tabWidget_3.addTab(self.tab_8, "")
         self.tab_9 = QtWidgets.QWidget()
         self.tab_9.setObjectName("tab_9")
@@ -3087,7 +5211,7 @@ class Ui_MainWindow(object):
         self.groupBox_4.setCheckable(False)
         self.groupBox_4.setObjectName("groupBox_4")
         self.label_45 = QtWidgets.QLabel(self.groupBox_4)
-        self.label_45.setGeometry(QtCore.QRect(350, 50, 121, 51))
+        self.label_45.setGeometry(QtCore.QRect(380, 50, 101, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -3096,7 +5220,7 @@ class Ui_MainWindow(object):
         self.label_45.setFont(font)
         self.label_45.setObjectName("label_45")
         self.lineEdit_28 = QtWidgets.QLineEdit(self.groupBox_4)
-        self.lineEdit_28.setGeometry(QtCore.QRect(50, 50, 281, 51))
+        self.lineEdit_28.setGeometry(QtCore.QRect(10, 50, 361, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(11)
@@ -3132,7 +5256,7 @@ class Ui_MainWindow(object):
         self.pushButton_26.setIconSize(QtCore.QSize(53, 53))
         self.pushButton_26.setObjectName("pushButton_26")
         self.label_56 = QtWidgets.QLabel(self.groupBox_4)
-        self.label_56.setGeometry(QtCore.QRect(360, 170, 111, 51))
+        self.label_56.setGeometry(QtCore.QRect(390, 110, 91, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -3141,8 +5265,9 @@ class Ui_MainWindow(object):
         self.label_56.setFont(font)
         self.label_56.setObjectName("label_56")
         self.comboBox_22 = QtWidgets.QComboBox(self.groupBox_4)
-        self.comboBox_22.setGeometry(QtCore.QRect(50, 180, 281, 41))
+        self.comboBox_22.setGeometry(QtCore.QRect(10, 120, 371, 41))
         font = QtGui.QFont()
+        font.setFamily("Segoe UI")
         font.setPointSize(11)
         self.comboBox_22.setFont(font)
         self.comboBox_22.setObjectName("comboBox_22")
@@ -3152,7 +5277,7 @@ class Ui_MainWindow(object):
         self.comboBox_22.addItem("")
         self.comboBox_22.addItem("")
         self.label_58 = QtWidgets.QLabel(self.groupBox_4)
-        self.label_58.setGeometry(QtCore.QRect(361, 110, 111, 51))
+        self.label_58.setGeometry(QtCore.QRect(361, 170, 111, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -3161,19 +5286,14 @@ class Ui_MainWindow(object):
         self.label_58.setFont(font)
         self.label_58.setObjectName("label_58")
         self.comboBox_23 = QtWidgets.QComboBox(self.groupBox_4)
-        self.comboBox_23.setGeometry(QtCore.QRect(51, 120, 281, 41))
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        self.comboBox_23.setFont(font)
-        self.comboBox_23.setEditable(True)
-        self.comboBox_23.setObjectName("comboBox_23")
-        self.textEdit_2 = QtWidgets.QTextEdit(self.groupBox_4)
-        self.textEdit_2.setGeometry(QtCore.QRect(50, 300, 281, 81))
+        self.comboBox_23.setEnabled(True)
+        self.comboBox_23.setGeometry(QtCore.QRect(70, 180, 311, 41))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        self.textEdit_2.setFont(font)
-        self.textEdit_2.setObjectName("textEdit_2")
+        font.setPointSize(11)
+        self.comboBox_23.setFont(font)
+        self.comboBox_23.setEditable(False)
+        self.comboBox_23.setObjectName("comboBox_23")
         self.label_47 = QtWidgets.QLabel(self.groupBox_4)
         self.label_47.setGeometry(QtCore.QRect(370, 400, 101, 51))
         font = QtGui.QFont()
@@ -3183,15 +5303,8 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.label_47.setFont(font)
         self.label_47.setObjectName("label_47")
-        self.textEdit_3 = QtWidgets.QTextEdit(self.groupBox_4)
-        self.textEdit_3.setGeometry(QtCore.QRect(50, 410, 281, 41))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(11)
-        self.textEdit_3.setFont(font)
-        self.textEdit_3.setObjectName("textEdit_3")
         self.spinBox_5 = QtWidgets.QSpinBox(self.groupBox_4)
-        self.spinBox_5.setGeometry(QtCore.QRect(53, 470, 281, 41))
+        self.spinBox_5.setGeometry(QtCore.QRect(13, 470, 321, 41))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -3207,17 +5320,18 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.label_61.setFont(font)
         self.label_61.setObjectName("label_61")
-        self.comboBox_30 = QtWidgets.QComboBox(self.groupBox_4)
-        self.comboBox_30.setGeometry(QtCore.QRect(50, 240, 281, 41))
+        self.comboBox_11 = QtWidgets.QComboBox(self.groupBox_4)
+        self.comboBox_11.setEnabled(True)
+        self.comboBox_11.setGeometry(QtCore.QRect(69, 240, 311, 41))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(11)
-        self.comboBox_30.setFont(font)
-        self.comboBox_30.setEditable(True)
-        self.comboBox_30.setObjectName("comboBox_30")
+        self.comboBox_11.setFont(font)
+        self.comboBox_11.setEditable(False)
+        self.comboBox_11.setObjectName("comboBox_11")
         self.pushButton_39 = QtWidgets.QPushButton(self.groupBox_4)
         self.pushButton_39.setEnabled(True)
-        self.pushButton_39.setGeometry(QtCore.QRect(1, 235, 51, 51))
+        self.pushButton_39.setGeometry(QtCore.QRect(3, 236, 51, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(13)
@@ -3225,12 +5339,14 @@ class Ui_MainWindow(object):
         self.pushButton_39.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_39.setStyleSheet("")
         self.pushButton_39.setText("")
-        self.pushButton_39.setIcon(icon7)
-        self.pushButton_39.setIconSize(QtCore.QSize(40, 40))
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap(":/go-back-arrow.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_39.setIcon(icon9)
+        self.pushButton_39.setIconSize(QtCore.QSize(30, 30))
         self.pushButton_39.setObjectName("pushButton_39")
         self.pushButton_46 = QtWidgets.QPushButton(self.groupBox_4)
         self.pushButton_46.setEnabled(True)
-        self.pushButton_46.setGeometry(QtCore.QRect(0, 113, 51, 51))
+        self.pushButton_46.setGeometry(QtCore.QRect(3, 173, 51, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(13)
@@ -3238,9 +5354,25 @@ class Ui_MainWindow(object):
         self.pushButton_46.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_46.setStyleSheet("")
         self.pushButton_46.setText("")
-        self.pushButton_46.setIcon(icon7)
-        self.pushButton_46.setIconSize(QtCore.QSize(40, 40))
+        self.pushButton_46.setIcon(icon9)
+        self.pushButton_46.setIconSize(QtCore.QSize(30, 30))
         self.pushButton_46.setObjectName("pushButton_46")
+        self.lineEdit_40 = QtWidgets.QLineEdit(self.groupBox_4)
+        self.lineEdit_40.setGeometry(QtCore.QRect(8, 310, 341, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(11)
+        self.lineEdit_40.setFont(font)
+        self.lineEdit_40.setStyleSheet("border-radius:20px;")
+        self.lineEdit_40.setObjectName("lineEdit_40")
+        self.lineEdit_48 = QtWidgets.QLineEdit(self.groupBox_4)
+        self.lineEdit_48.setGeometry(QtCore.QRect(8, 399, 341, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(11)
+        self.lineEdit_48.setFont(font)
+        self.lineEdit_48.setStyleSheet("border-radius:20px;")
+        self.lineEdit_48.setObjectName("lineEdit_48")
         self.groupBox_9 = QtWidgets.QGroupBox(self.tab_9)
         self.groupBox_9.setGeometry(QtCore.QRect(0, -4, 501, 691))
         font = QtGui.QFont()
@@ -3250,7 +5382,7 @@ class Ui_MainWindow(object):
         self.groupBox_9.setStyleSheet("border-radius:20px;")
         self.groupBox_9.setObjectName("groupBox_9")
         self.comboBox_21 = QtWidgets.QComboBox(self.groupBox_9)
-        self.comboBox_21.setGeometry(QtCore.QRect(20, 50, 381, 41))
+        self.comboBox_21.setGeometry(QtCore.QRect(20, 50, 311, 41))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(11)
@@ -3275,20 +5407,13 @@ class Ui_MainWindow(object):
         self.pushButton_28.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_28.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.pushButton_28.setStyleSheet("")
-        icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap(":/icons8-delete-bin-100.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_28.setIcon(icon9)
+        icon10 = QtGui.QIcon()
+        icon10.addPixmap(QtGui.QPixmap(":/icons8-delete-bin-100.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_28.setIcon(icon10)
         self.pushButton_28.setIconSize(QtCore.QSize(53, 53))
         self.pushButton_28.setObjectName("pushButton_28")
-        self.textEdit_4 = QtWidgets.QTextEdit(self.groupBox_9)
-        self.textEdit_4.setGeometry(QtCore.QRect(14, 462, 341, 41))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(11)
-        self.textEdit_4.setFont(font)
-        self.textEdit_4.setObjectName("textEdit_4")
         self.label_49 = QtWidgets.QLabel(self.groupBox_9)
-        self.label_49.setGeometry(QtCore.QRect(399, 452, 81, 51))
+        self.label_49.setGeometry(QtCore.QRect(399, 440, 81, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -3306,15 +5431,16 @@ class Ui_MainWindow(object):
         self.label_50.setFont(font)
         self.label_50.setObjectName("label_50")
         self.comboBox_31 = QtWidgets.QComboBox(self.groupBox_9)
-        self.comboBox_31.setGeometry(QtCore.QRect(106, 296, 291, 41))
+        self.comboBox_31.setEnabled(True)
+        self.comboBox_31.setGeometry(QtCore.QRect(66, 296, 281, 41))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(11)
         self.comboBox_31.setFont(font)
-        self.comboBox_31.setEditable(True)
+        self.comboBox_31.setEditable(False)
         self.comboBox_31.setObjectName("comboBox_31")
         self.label_57 = QtWidgets.QLabel(self.groupBox_9)
-        self.label_57.setGeometry(QtCore.QRect(406, 226, 91, 51))
+        self.label_57.setGeometry(QtCore.QRect(406, 170, 91, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -3322,15 +5448,8 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.label_57.setFont(font)
         self.label_57.setObjectName("label_57")
-        self.textEdit_5 = QtWidgets.QTextEdit(self.groupBox_9)
-        self.textEdit_5.setGeometry(QtCore.QRect(15, 356, 341, 81))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        self.textEdit_5.setFont(font)
-        self.textEdit_5.setObjectName("textEdit_5")
         self.label_51 = QtWidgets.QLabel(self.groupBox_9)
-        self.label_51.setGeometry(QtCore.QRect(352, 366, 141, 51))
+        self.label_51.setGeometry(QtCore.QRect(362, 366, 131, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -3339,7 +5458,7 @@ class Ui_MainWindow(object):
         self.label_51.setFont(font)
         self.label_51.setObjectName("label_51")
         self.label_59 = QtWidgets.QLabel(self.groupBox_9)
-        self.label_59.setGeometry(QtCore.QRect(408, 166, 91, 51))
+        self.label_59.setGeometry(QtCore.QRect(407, 230, 91, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -3348,7 +5467,7 @@ class Ui_MainWindow(object):
         self.label_59.setFont(font)
         self.label_59.setObjectName("label_59")
         self.label_52 = QtWidgets.QLabel(self.groupBox_9)
-        self.label_52.setGeometry(QtCore.QRect(397, 106, 101, 51))
+        self.label_52.setGeometry(QtCore.QRect(397, 100, 101, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -3357,14 +5476,14 @@ class Ui_MainWindow(object):
         self.label_52.setFont(font)
         self.label_52.setObjectName("label_52")
         self.lineEdit_29 = QtWidgets.QLineEdit(self.groupBox_9)
-        self.lineEdit_29.setGeometry(QtCore.QRect(19, 106, 381, 51))
+        self.lineEdit_29.setGeometry(QtCore.QRect(19, 106, 311, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(13)
         self.lineEdit_29.setFont(font)
         self.lineEdit_29.setObjectName("lineEdit_29")
         self.label_62 = QtWidgets.QLabel(self.groupBox_9)
-        self.label_62.setGeometry(QtCore.QRect(418, 286, 81, 51))
+        self.label_62.setGeometry(QtCore.QRect(417, 286, 81, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -3373,7 +5492,7 @@ class Ui_MainWindow(object):
         self.label_62.setFont(font)
         self.label_62.setObjectName("label_62")
         self.spinBox_6 = QtWidgets.QSpinBox(self.groupBox_9)
-        self.spinBox_6.setGeometry(QtCore.QRect(22, 526, 361, 41))
+        self.spinBox_6.setGeometry(QtCore.QRect(11, 526, 341, 41))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -3383,7 +5502,7 @@ class Ui_MainWindow(object):
         self.spinBox_6.setProperty("showGroupSeparator", False)
         self.spinBox_6.setObjectName("spinBox_6")
         self.comboBox_25 = QtWidgets.QComboBox(self.groupBox_9)
-        self.comboBox_25.setGeometry(QtCore.QRect(19, 236, 381, 41))
+        self.comboBox_25.setGeometry(QtCore.QRect(19, 180, 321, 41))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(11)
@@ -3395,39 +5514,26 @@ class Ui_MainWindow(object):
         self.comboBox_25.addItem("")
         self.comboBox_25.addItem("")
         self.comboBox_26 = QtWidgets.QComboBox(self.groupBox_9)
-        self.comboBox_26.setGeometry(QtCore.QRect(70, 176, 331, 41))
+        self.comboBox_26.setEnabled(True)
+        self.comboBox_26.setGeometry(QtCore.QRect(63, 240, 281, 41))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(11)
         self.comboBox_26.setFont(font)
-        self.comboBox_26.setEditable(True)
+        self.comboBox_26.setEditable(False)
         self.comboBox_26.setObjectName("comboBox_26")
         self.pushButton_40 = QtWidgets.QPushButton(self.groupBox_9)
         self.pushButton_40.setEnabled(True)
-        self.pushButton_40.setGeometry(QtCore.QRect(57, 290, 51, 51))
+        self.pushButton_40.setGeometry(QtCore.QRect(2, 290, 51, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(13)
+        font.setPointSize(1)
         self.pushButton_40.setFont(font)
         self.pushButton_40.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_40.setStyleSheet("")
-        self.pushButton_40.setText("")
-        self.pushButton_40.setIcon(icon7)
-        self.pushButton_40.setIconSize(QtCore.QSize(40, 40))
+        self.pushButton_40.setIcon(icon9)
+        self.pushButton_40.setIconSize(QtCore.QSize(30, 30))
         self.pushButton_40.setObjectName("pushButton_40")
-        self.pushButton_41 = QtWidgets.QPushButton(self.groupBox_9)
-        self.pushButton_41.setEnabled(True)
-        self.pushButton_41.setGeometry(QtCore.QRect(3, 290, 51, 51))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(13)
-        self.pushButton_41.setFont(font)
-        self.pushButton_41.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton_41.setStyleSheet("")
-        self.pushButton_41.setText("")
-        self.pushButton_41.setIcon(icon9)
-        self.pushButton_41.setIconSize(QtCore.QSize(40, 40))
-        self.pushButton_41.setObjectName("pushButton_41")
         self.label_71 = QtWidgets.QLabel(self.groupBox_9)
         self.label_71.setGeometry(QtCore.QRect(420, 45, 71, 51))
         font = QtGui.QFont()
@@ -3439,7 +5545,7 @@ class Ui_MainWindow(object):
         self.label_71.setObjectName("label_71")
         self.pushButton_45 = QtWidgets.QPushButton(self.groupBox_9)
         self.pushButton_45.setEnabled(True)
-        self.pushButton_45.setGeometry(QtCore.QRect(13, 170, 51, 51))
+        self.pushButton_45.setGeometry(QtCore.QRect(2, 234, 51, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(13)
@@ -3447,10 +5553,27 @@ class Ui_MainWindow(object):
         self.pushButton_45.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_45.setStyleSheet("")
         self.pushButton_45.setText("")
-        self.pushButton_45.setIcon(icon7)
-        self.pushButton_45.setIconSize(QtCore.QSize(40, 40))
+        self.pushButton_45.setIcon(icon9)
+        self.pushButton_45.setIconSize(QtCore.QSize(30, 30))
         self.pushButton_45.setObjectName("pushButton_45")
+        self.lineEdit_38 = QtWidgets.QLineEdit(self.groupBox_9)
+        self.lineEdit_38.setGeometry(QtCore.QRect(10, 446, 341, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(11)
+        self.lineEdit_38.setFont(font)
+        self.lineEdit_38.setObjectName("lineEdit_38")
+        self.lineEdit_39 = QtWidgets.QLineEdit(self.groupBox_9)
+        self.lineEdit_39.setGeometry(QtCore.QRect(10, 370, 341, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(11)
+        self.lineEdit_39.setFont(font)
+        self.lineEdit_39.setObjectName("lineEdit_39")
         self.tabWidget_3.addTab(self.tab_9, "")
+        self.tab_20 = QtWidgets.QWidget()
+        self.tab_20.setObjectName("tab_20")
+        self.tabWidget_3.addTab(self.tab_20, "")
         self.tabWidget.addTab(self.tab_5, "")
         self.tab_6 = QtWidgets.QWidget()
         self.tab_6.setObjectName("tab_6")
@@ -3483,6 +5606,9 @@ class Ui_MainWindow(object):
         self.comboBox_20.addItem("")
         self.comboBox_20.addItem("")
         self.comboBox_20.addItem("")
+        self.comboBox_20.addItem("")
+        self.comboBox_20.addItem("")
+        self.comboBox_20.addItem("")
         self.comboBox_24 = QtWidgets.QComboBox(self.tab_6)
         self.comboBox_24.setGeometry(QtCore.QRect(585, 47, 281, 41))
         font = QtGui.QFont()
@@ -3491,6 +5617,7 @@ class Ui_MainWindow(object):
         self.comboBox_24.setFont(font)
         self.comboBox_24.setStyleSheet("border-radius:20px;")
         self.comboBox_24.setObjectName("comboBox_24")
+        self.comboBox_24.addItem("")
         self.comboBox_24.addItem("")
         self.comboBox_24.addItem("")
         self.comboBox_24.addItem("")
@@ -3526,7 +5653,7 @@ class Ui_MainWindow(object):
         self.pushButton_22.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_22.setStyleSheet("border-radius: 20px;\n"
 "")
-        self.pushButton_22.setIcon(icon9)
+        self.pushButton_22.setIcon(icon10)
         self.pushButton_22.setIconSize(QtCore.QSize(40, 40))
         self.pushButton_22.setObjectName("pushButton_22")
         self.tabWidget.addTab(self.tab_6, "")
@@ -3543,6 +5670,9 @@ class Ui_MainWindow(object):
         self.tabWidget_4.setFont(font)
         self.tabWidget_4.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.tabWidget_4.setStyleSheet("")
+        self.tabWidget_4.setTabPosition(QtWidgets.QTabWidget.North)
+        self.tabWidget_4.setTabShape(QtWidgets.QTabWidget.Rounded)
+        self.tabWidget_4.setDocumentMode(False)
         self.tabWidget_4.setObjectName("tabWidget_4")
         self.tab_14 = QtWidgets.QWidget()
         self.tab_14.setObjectName("tab_14")
@@ -3916,37 +6046,23 @@ class Ui_MainWindow(object):
         self.tabWidget_4.addTab(self.tab_10, "")
         self.tab_13 = QtWidgets.QWidget()
         self.tab_13.setObjectName("tab_13")
-        self.lineEdit_16 = QtWidgets.QLineEdit(self.tab_13)
+        self.groupBox_14 = QtWidgets.QGroupBox(self.tab_13)
+        self.groupBox_14.setGeometry(QtCore.QRect(0, 0, 1001, 631))
+        self.groupBox_14.setStyleSheet("border-radius:20px;")
+        self.groupBox_14.setTitle("")
+        self.groupBox_14.setObjectName("groupBox_14")
+        self.lineEdit_16 = QtWidgets.QLineEdit(self.groupBox_14)
         self.lineEdit_16.setEnabled(True)
-        self.lineEdit_16.setGeometry(QtCore.QRect(530, 56, 251, 41))
+        self.lineEdit_16.setGeometry(QtCore.QRect(526, 22, 251, 41))
         font = QtGui.QFont()
         font.setPointSize(13)
         self.lineEdit_16.setFont(font)
         self.lineEdit_16.setStyleSheet("border-radius:20px;")
         self.lineEdit_16.setPlaceholderText("")
         self.lineEdit_16.setObjectName("lineEdit_16")
-        self.label_64 = QtWidgets.QLabel(self.tab_13)
-        self.label_64.setEnabled(True)
-        self.label_64.setGeometry(QtCore.QRect(810, 50, 111, 51))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_64.setFont(font)
-        self.label_64.setObjectName("label_64")
-        self.lineEdit_18 = QtWidgets.QLineEdit(self.tab_13)
-        self.lineEdit_18.setEnabled(True)
-        self.lineEdit_18.setGeometry(QtCore.QRect(90, 57, 251, 41))
-        font = QtGui.QFont()
-        font.setPointSize(13)
-        self.lineEdit_18.setFont(font)
-        self.lineEdit_18.setStyleSheet("border-radius:20px;")
-        self.lineEdit_18.setPlaceholderText("")
-        self.lineEdit_18.setObjectName("lineEdit_18")
-        self.label_65 = QtWidgets.QLabel(self.tab_13)
+        self.label_65 = QtWidgets.QLabel(self.groupBox_14)
         self.label_65.setEnabled(True)
-        self.label_65.setGeometry(QtCore.QRect(370, 51, 111, 51))
+        self.label_65.setGeometry(QtCore.QRect(366, 17, 111, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -3954,161 +6070,37 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.label_65.setFont(font)
         self.label_65.setObjectName("label_65")
-        self.lineEdit_19 = QtWidgets.QLineEdit(self.tab_13)
-        self.lineEdit_19.setEnabled(True)
-        self.lineEdit_19.setGeometry(QtCore.QRect(90, 183, 251, 41))
-        font = QtGui.QFont()
-        font.setPointSize(13)
-        self.lineEdit_19.setFont(font)
-        self.lineEdit_19.setStyleSheet("border-radius:20px;")
-        self.lineEdit_19.setPlaceholderText("")
-        self.lineEdit_19.setObjectName("lineEdit_19")
-        self.lineEdit_20 = QtWidgets.QLineEdit(self.tab_13)
-        self.lineEdit_20.setEnabled(True)
-        self.lineEdit_20.setGeometry(QtCore.QRect(530, 182, 251, 41))
-        font = QtGui.QFont()
-        font.setPointSize(13)
-        self.lineEdit_20.setFont(font)
-        self.lineEdit_20.setStyleSheet("border-radius:20px;")
-        self.lineEdit_20.setPlaceholderText("")
-        self.lineEdit_20.setObjectName("lineEdit_20")
-        self.label_69 = QtWidgets.QLabel(self.tab_13)
-        self.label_69.setEnabled(True)
-        self.label_69.setGeometry(QtCore.QRect(810, 176, 111, 51))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_69.setFont(font)
-        self.label_69.setObjectName("label_69")
-        self.label_70 = QtWidgets.QLabel(self.tab_13)
-        self.label_70.setEnabled(True)
-        self.label_70.setGeometry(QtCore.QRect(370, 177, 111, 51))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_70.setFont(font)
-        self.label_70.setObjectName("label_70")
-        self.lineEdit_22 = QtWidgets.QLineEdit(self.tab_13)
+        self.lineEdit_22 = QtWidgets.QLineEdit(self.groupBox_14)
         self.lineEdit_22.setEnabled(True)
-        self.lineEdit_22.setGeometry(QtCore.QRect(90, 306, 251, 41))
+        self.lineEdit_22.setGeometry(QtCore.QRect(86, 272, 251, 41))
         font = QtGui.QFont()
         font.setPointSize(13)
         self.lineEdit_22.setFont(font)
         self.lineEdit_22.setStyleSheet("border-radius:20px;")
         self.lineEdit_22.setPlaceholderText("")
         self.lineEdit_22.setObjectName("lineEdit_22")
-        self.lineEdit_23 = QtWidgets.QLineEdit(self.tab_13)
-        self.lineEdit_23.setEnabled(True)
-        self.lineEdit_23.setGeometry(QtCore.QRect(530, 305, 251, 41))
+        self.label_80 = QtWidgets.QLabel(self.groupBox_14)
+        self.label_80.setEnabled(True)
+        self.label_80.setGeometry(QtCore.QRect(806, 75, 111, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_80.setFont(font)
+        self.label_80.setObjectName("label_80")
+        self.lineEdit_43 = QtWidgets.QLineEdit(self.groupBox_14)
+        self.lineEdit_43.setEnabled(True)
+        self.lineEdit_43.setGeometry(QtCore.QRect(526, 486, 251, 41))
         font = QtGui.QFont()
         font.setPointSize(13)
-        self.lineEdit_23.setFont(font)
-        self.lineEdit_23.setStyleSheet("border-radius:20px;")
-        self.lineEdit_23.setPlaceholderText("")
-        self.lineEdit_23.setObjectName("lineEdit_23")
-        self.label_72 = QtWidgets.QLabel(self.tab_13)
-        self.label_72.setEnabled(True)
-        self.label_72.setGeometry(QtCore.QRect(810, 299, 111, 51))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_72.setFont(font)
-        self.label_72.setObjectName("label_72")
-        self.label_73 = QtWidgets.QLabel(self.tab_13)
-        self.label_73.setEnabled(True)
-        self.label_73.setGeometry(QtCore.QRect(370, 300, 111, 51))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_73.setFont(font)
-        self.label_73.setObjectName("label_73")
-        self.lineEdit_34 = QtWidgets.QLineEdit(self.tab_13)
-        self.lineEdit_34.setEnabled(True)
-        self.lineEdit_34.setGeometry(QtCore.QRect(90, 516, 251, 41))
-        font = QtGui.QFont()
-        font.setPointSize(13)
-        self.lineEdit_34.setFont(font)
-        self.lineEdit_34.setStyleSheet("border-radius:20px;")
-        self.lineEdit_34.setPlaceholderText("")
-        self.lineEdit_34.setObjectName("lineEdit_34")
-        self.label_74 = QtWidgets.QLabel(self.tab_13)
-        self.label_74.setEnabled(True)
-        self.label_74.setGeometry(QtCore.QRect(390, 510, 111, 51))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_74.setFont(font)
-        self.label_74.setObjectName("label_74")
-        self.lineEdit_35 = QtWidgets.QLineEdit(self.tab_13)
-        self.lineEdit_35.setEnabled(True)
-        self.lineEdit_35.setGeometry(QtCore.QRect(90, 376, 251, 41))
-        font = QtGui.QFont()
-        font.setPointSize(13)
-        self.lineEdit_35.setFont(font)
-        self.lineEdit_35.setStyleSheet("border-radius:20px;")
-        self.lineEdit_35.setPlaceholderText("")
-        self.lineEdit_35.setObjectName("lineEdit_35")
-        self.lineEdit_37 = QtWidgets.QLineEdit(self.tab_13)
-        self.lineEdit_37.setEnabled(True)
-        self.lineEdit_37.setGeometry(QtCore.QRect(530, 375, 251, 41))
-        font = QtGui.QFont()
-        font.setPointSize(13)
-        self.lineEdit_37.setFont(font)
-        self.lineEdit_37.setStyleSheet("border-radius:20px;")
-        self.lineEdit_37.setPlaceholderText("")
-        self.lineEdit_37.setObjectName("lineEdit_37")
-        self.label_75 = QtWidgets.QLabel(self.tab_13)
-        self.label_75.setEnabled(True)
-        self.label_75.setGeometry(QtCore.QRect(790, 369, 131, 51))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_75.setFont(font)
-        self.label_75.setObjectName("label_75")
-        self.label_76 = QtWidgets.QLabel(self.tab_13)
-        self.label_76.setEnabled(True)
-        self.label_76.setGeometry(QtCore.QRect(340, 370, 161, 51))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_76.setFont(font)
-        self.label_76.setObjectName("label_76")
-        self.label_77 = QtWidgets.QLabel(self.tab_13)
-        self.label_77.setEnabled(True)
-        self.label_77.setGeometry(QtCore.QRect(350, 444, 151, 51))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_77.setFont(font)
-        self.label_77.setObjectName("label_77")
-        self.lineEdit_41 = QtWidgets.QLineEdit(self.tab_13)
-        self.lineEdit_41.setEnabled(True)
-        self.lineEdit_41.setGeometry(QtCore.QRect(530, 449, 251, 41))
-        font = QtGui.QFont()
-        font.setPointSize(13)
-        self.lineEdit_41.setFont(font)
-        self.lineEdit_41.setStyleSheet("border-radius:20px;")
-        self.lineEdit_41.setPlaceholderText("")
-        self.lineEdit_41.setObjectName("lineEdit_41")
-        self.label_78 = QtWidgets.QLabel(self.tab_13)
+        self.lineEdit_43.setFont(font)
+        self.lineEdit_43.setStyleSheet("border-radius:20px;")
+        self.lineEdit_43.setPlaceholderText("")
+        self.lineEdit_43.setObjectName("lineEdit_43")
+        self.label_78 = QtWidgets.QLabel(self.groupBox_14)
         self.label_78.setEnabled(True)
-        self.label_78.setGeometry(QtCore.QRect(780, 443, 141, 51))
+        self.label_78.setGeometry(QtCore.QRect(786, 409, 131, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -4116,18 +6108,246 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.label_78.setFont(font)
         self.label_78.setObjectName("label_78")
-        self.lineEdit_42 = QtWidgets.QLineEdit(self.tab_13)
+        self.lineEdit_45 = QtWidgets.QLineEdit(self.groupBox_14)
+        self.lineEdit_45.setEnabled(True)
+        self.lineEdit_45.setGeometry(QtCore.QRect(526, 81, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        self.lineEdit_45.setFont(font)
+        self.lineEdit_45.setStyleSheet("border-radius:20px;")
+        self.lineEdit_45.setPlaceholderText("")
+        self.lineEdit_45.setObjectName("lineEdit_45")
+        self.lineEdit_34 = QtWidgets.QLineEdit(self.groupBox_14)
+        self.lineEdit_34.setEnabled(True)
+        self.lineEdit_34.setGeometry(QtCore.QRect(86, 482, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        self.lineEdit_34.setFont(font)
+        self.lineEdit_34.setStyleSheet("border-radius:20px;")
+        self.lineEdit_34.setPlaceholderText("")
+        self.lineEdit_34.setObjectName("lineEdit_34")
+        self.label_83 = QtWidgets.QLabel(self.groupBox_14)
+        self.label_83.setEnabled(True)
+        self.label_83.setGeometry(QtCore.QRect(366, 206, 111, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_83.setFont(font)
+        self.label_83.setObjectName("label_83")
+        self.label_76 = QtWidgets.QLabel(self.groupBox_14)
+        self.label_76.setEnabled(True)
+        self.label_76.setGeometry(QtCore.QRect(346, 336, 151, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_76.setFont(font)
+        self.label_76.setObjectName("label_76")
+        self.label_75 = QtWidgets.QLabel(self.groupBox_14)
+        self.label_75.setEnabled(True)
+        self.label_75.setGeometry(QtCore.QRect(786, 335, 131, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_75.setFont(font)
+        self.label_75.setObjectName("label_75")
+        self.lineEdit_35 = QtWidgets.QLineEdit(self.groupBox_14)
+        self.lineEdit_35.setEnabled(True)
+        self.lineEdit_35.setGeometry(QtCore.QRect(86, 342, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        self.lineEdit_35.setFont(font)
+        self.lineEdit_35.setStyleSheet("border-radius:20px;")
+        self.lineEdit_35.setPlaceholderText("")
+        self.lineEdit_35.setObjectName("lineEdit_35")
+        self.lineEdit_20 = QtWidgets.QLineEdit(self.groupBox_14)
+        self.lineEdit_20.setEnabled(True)
+        self.lineEdit_20.setGeometry(QtCore.QRect(526, 148, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        self.lineEdit_20.setFont(font)
+        self.lineEdit_20.setStyleSheet("border-radius:20px;")
+        self.lineEdit_20.setPlaceholderText("")
+        self.lineEdit_20.setObjectName("lineEdit_20")
+        self.lineEdit_18 = QtWidgets.QLineEdit(self.groupBox_14)
+        self.lineEdit_18.setEnabled(True)
+        self.lineEdit_18.setGeometry(QtCore.QRect(86, 23, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        self.lineEdit_18.setFont(font)
+        self.lineEdit_18.setStyleSheet("border-radius:20px;")
+        self.lineEdit_18.setPlaceholderText("")
+        self.lineEdit_18.setObjectName("lineEdit_18")
+        self.lineEdit_42 = QtWidgets.QLineEdit(self.groupBox_14)
         self.lineEdit_42.setEnabled(True)
-        self.lineEdit_42.setGeometry(QtCore.QRect(90, 450, 251, 41))
+        self.lineEdit_42.setGeometry(QtCore.QRect(86, 416, 251, 41))
         font = QtGui.QFont()
         font.setPointSize(13)
         self.lineEdit_42.setFont(font)
         self.lineEdit_42.setStyleSheet("border-radius:20px;")
         self.lineEdit_42.setPlaceholderText("")
         self.lineEdit_42.setObjectName("lineEdit_42")
-        self.label_79 = QtWidgets.QLabel(self.tab_13)
+        self.label_82 = QtWidgets.QLabel(self.groupBox_14)
+        self.label_82.setEnabled(True)
+        self.label_82.setGeometry(QtCore.QRect(806, 205, 111, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_82.setFont(font)
+        self.label_82.setObjectName("label_82")
+        self.label_74 = QtWidgets.QLabel(self.groupBox_14)
+        self.label_74.setEnabled(True)
+        self.label_74.setGeometry(QtCore.QRect(426, 476, 71, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_74.setFont(font)
+        self.label_74.setObjectName("label_74")
+        self.label_69 = QtWidgets.QLabel(self.groupBox_14)
+        self.label_69.setEnabled(True)
+        self.label_69.setGeometry(QtCore.QRect(806, 142, 111, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_69.setFont(font)
+        self.label_69.setObjectName("label_69")
+        self.lineEdit_46 = QtWidgets.QLineEdit(self.groupBox_14)
+        self.lineEdit_46.setEnabled(True)
+        self.lineEdit_46.setGeometry(QtCore.QRect(526, 211, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        self.lineEdit_46.setFont(font)
+        self.lineEdit_46.setStyleSheet("border-radius:20px;")
+        self.lineEdit_46.setPlaceholderText("")
+        self.lineEdit_46.setObjectName("lineEdit_46")
+        self.label_72 = QtWidgets.QLabel(self.groupBox_14)
+        self.label_72.setEnabled(True)
+        self.label_72.setGeometry(QtCore.QRect(806, 265, 111, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_72.setFont(font)
+        self.label_72.setObjectName("label_72")
+        self.label_73 = QtWidgets.QLabel(self.groupBox_14)
+        self.label_73.setEnabled(True)
+        self.label_73.setGeometry(QtCore.QRect(366, 266, 111, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_73.setFont(font)
+        self.label_73.setObjectName("label_73")
+        self.lineEdit_23 = QtWidgets.QLineEdit(self.groupBox_14)
+        self.lineEdit_23.setEnabled(True)
+        self.lineEdit_23.setGeometry(QtCore.QRect(526, 271, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        self.lineEdit_23.setFont(font)
+        self.lineEdit_23.setStyleSheet("border-radius:20px;")
+        self.lineEdit_23.setPlaceholderText("")
+        self.lineEdit_23.setObjectName("lineEdit_23")
+        self.lineEdit_37 = QtWidgets.QLineEdit(self.groupBox_14)
+        self.lineEdit_37.setEnabled(True)
+        self.lineEdit_37.setGeometry(QtCore.QRect(526, 341, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        self.lineEdit_37.setFont(font)
+        self.lineEdit_37.setStyleSheet("border-radius:20px;")
+        self.lineEdit_37.setPlaceholderText("")
+        self.lineEdit_37.setObjectName("lineEdit_37")
+        self.lineEdit_47 = QtWidgets.QLineEdit(self.groupBox_14)
+        self.lineEdit_47.setEnabled(True)
+        self.lineEdit_47.setGeometry(QtCore.QRect(86, 212, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        self.lineEdit_47.setFont(font)
+        self.lineEdit_47.setStyleSheet("border-radius:20px;")
+        self.lineEdit_47.setPlaceholderText("")
+        self.lineEdit_47.setObjectName("lineEdit_47")
+        self.lineEdit_41 = QtWidgets.QLineEdit(self.groupBox_14)
+        self.lineEdit_41.setEnabled(True)
+        self.lineEdit_41.setGeometry(QtCore.QRect(526, 415, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        self.lineEdit_41.setFont(font)
+        self.lineEdit_41.setStyleSheet("border-radius:20px;")
+        self.lineEdit_41.setPlaceholderText("")
+        self.lineEdit_41.setObjectName("lineEdit_41")
+        self.label_70 = QtWidgets.QLabel(self.groupBox_14)
+        self.label_70.setEnabled(True)
+        self.label_70.setGeometry(QtCore.QRect(366, 143, 111, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_70.setFont(font)
+        self.label_70.setObjectName("label_70")
+        self.label_81 = QtWidgets.QLabel(self.groupBox_14)
+        self.label_81.setEnabled(True)
+        self.label_81.setGeometry(QtCore.QRect(366, 76, 111, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_81.setFont(font)
+        self.label_81.setObjectName("label_81")
+        self.label_77 = QtWidgets.QLabel(self.groupBox_14)
+        self.label_77.setEnabled(True)
+        self.label_77.setGeometry(QtCore.QRect(346, 410, 151, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_77.setFont(font)
+        self.label_77.setObjectName("label_77")
+        self.lineEdit_44 = QtWidgets.QLineEdit(self.groupBox_14)
+        self.lineEdit_44.setEnabled(True)
+        self.lineEdit_44.setGeometry(QtCore.QRect(86, 82, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        self.lineEdit_44.setFont(font)
+        self.lineEdit_44.setStyleSheet("border-radius:20px;")
+        self.lineEdit_44.setPlaceholderText("")
+        self.lineEdit_44.setObjectName("lineEdit_44")
+        self.lineEdit_19 = QtWidgets.QLineEdit(self.groupBox_14)
+        self.lineEdit_19.setEnabled(True)
+        self.lineEdit_19.setGeometry(QtCore.QRect(86, 149, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        self.lineEdit_19.setFont(font)
+        self.lineEdit_19.setStyleSheet("border-radius:20px;")
+        self.lineEdit_19.setPlaceholderText("")
+        self.lineEdit_19.setObjectName("lineEdit_19")
+        self.label_64 = QtWidgets.QLabel(self.groupBox_14)
+        self.label_64.setEnabled(True)
+        self.label_64.setGeometry(QtCore.QRect(806, 16, 111, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_64.setFont(font)
+        self.label_64.setObjectName("label_64")
+        self.label_79 = QtWidgets.QLabel(self.groupBox_14)
         self.label_79.setEnabled(True)
-        self.label_79.setGeometry(QtCore.QRect(780, 514, 141, 51))
+        self.label_79.setGeometry(QtCore.QRect(806, 480, 111, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(12)
@@ -4135,18 +6355,9 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.label_79.setFont(font)
         self.label_79.setObjectName("label_79")
-        self.lineEdit_43 = QtWidgets.QLineEdit(self.tab_13)
-        self.lineEdit_43.setEnabled(True)
-        self.lineEdit_43.setGeometry(QtCore.QRect(530, 520, 251, 41))
-        font = QtGui.QFont()
-        font.setPointSize(13)
-        self.lineEdit_43.setFont(font)
-        self.lineEdit_43.setStyleSheet("border-radius:20px;")
-        self.lineEdit_43.setPlaceholderText("")
-        self.lineEdit_43.setObjectName("lineEdit_43")
-        self.pushButton_31 = QtWidgets.QPushButton(self.tab_13)
+        self.pushButton_31 = QtWidgets.QPushButton(self.groupBox_14)
         self.pushButton_31.setEnabled(True)
-        self.pushButton_31.setGeometry(QtCore.QRect(240, 578, 451, 71))
+        self.pushButton_31.setGeometry(QtCore.QRect(268, 550, 451, 71))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(15)
@@ -4156,82 +6367,6 @@ class Ui_MainWindow(object):
         self.pushButton_31.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_31.setStyleSheet("border-radius:20px;")
         self.pushButton_31.setObjectName("pushButton_31")
-        self.lineEdit_44 = QtWidgets.QLineEdit(self.tab_13)
-        self.lineEdit_44.setEnabled(True)
-        self.lineEdit_44.setGeometry(QtCore.QRect(90, 116, 251, 41))
-        font = QtGui.QFont()
-        font.setPointSize(13)
-        self.lineEdit_44.setFont(font)
-        self.lineEdit_44.setStyleSheet("border-radius:20px;")
-        self.lineEdit_44.setPlaceholderText("")
-        self.lineEdit_44.setObjectName("lineEdit_44")
-        self.lineEdit_45 = QtWidgets.QLineEdit(self.tab_13)
-        self.lineEdit_45.setEnabled(True)
-        self.lineEdit_45.setGeometry(QtCore.QRect(530, 115, 251, 41))
-        font = QtGui.QFont()
-        font.setPointSize(13)
-        self.lineEdit_45.setFont(font)
-        self.lineEdit_45.setStyleSheet("border-radius:20px;")
-        self.lineEdit_45.setPlaceholderText("")
-        self.lineEdit_45.setObjectName("lineEdit_45")
-        self.label_80 = QtWidgets.QLabel(self.tab_13)
-        self.label_80.setEnabled(True)
-        self.label_80.setGeometry(QtCore.QRect(810, 109, 111, 51))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_80.setFont(font)
-        self.label_80.setObjectName("label_80")
-        self.label_81 = QtWidgets.QLabel(self.tab_13)
-        self.label_81.setEnabled(True)
-        self.label_81.setGeometry(QtCore.QRect(370, 110, 111, 51))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_81.setFont(font)
-        self.label_81.setObjectName("label_81")
-        self.label_82 = QtWidgets.QLabel(self.tab_13)
-        self.label_82.setEnabled(True)
-        self.label_82.setGeometry(QtCore.QRect(810, 239, 111, 51))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_82.setFont(font)
-        self.label_82.setObjectName("label_82")
-        self.lineEdit_46 = QtWidgets.QLineEdit(self.tab_13)
-        self.lineEdit_46.setEnabled(True)
-        self.lineEdit_46.setGeometry(QtCore.QRect(530, 245, 251, 41))
-        font = QtGui.QFont()
-        font.setPointSize(13)
-        self.lineEdit_46.setFont(font)
-        self.lineEdit_46.setStyleSheet("border-radius:20px;")
-        self.lineEdit_46.setPlaceholderText("")
-        self.lineEdit_46.setObjectName("lineEdit_46")
-        self.lineEdit_47 = QtWidgets.QLineEdit(self.tab_13)
-        self.lineEdit_47.setEnabled(True)
-        self.lineEdit_47.setGeometry(QtCore.QRect(90, 246, 251, 41))
-        font = QtGui.QFont()
-        font.setPointSize(13)
-        self.lineEdit_47.setFont(font)
-        self.lineEdit_47.setStyleSheet("border-radius:20px;")
-        self.lineEdit_47.setPlaceholderText("")
-        self.lineEdit_47.setObjectName("lineEdit_47")
-        self.label_83 = QtWidgets.QLabel(self.tab_13)
-        self.label_83.setEnabled(True)
-        self.label_83.setGeometry(QtCore.QRect(370, 240, 111, 51))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_83.setFont(font)
-        self.label_83.setObjectName("label_83")
         self.tabWidget_4.addTab(self.tab_13, "")
         self.tab_15 = QtWidgets.QWidget()
         self.tab_15.setObjectName("tab_15")
@@ -4344,6 +6479,10 @@ class Ui_MainWindow(object):
         self.tab_16.setObjectName("tab_16")
         self.comboBox_5 = QtWidgets.QComboBox(self.tab_16)
         self.comboBox_5.setGeometry(QtCore.QRect(630, 23, 291, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        self.comboBox_5.setFont(font)
         self.comboBox_5.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.comboBox_5.setStyleSheet("border-radius:20px;")
         self.comboBox_5.setEditable(False)
@@ -4796,7 +6935,7 @@ class Ui_MainWindow(object):
         self.pushButton_37.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_37.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.pushButton_37.setStyleSheet("")
-        self.pushButton_37.setIcon(icon9)
+        self.pushButton_37.setIcon(icon10)
         self.pushButton_37.setIconSize(QtCore.QSize(43, 43))
         self.pushButton_37.setObjectName("pushButton_37")
         self.checkBox = QtWidgets.QCheckBox(self.groupBox_3)
@@ -5001,6 +7140,14 @@ class Ui_MainWindow(object):
         font.setPointSize(12)
         self.checkBox_9.setFont(font)
         self.checkBox_9.setObjectName("checkBox_9")
+        self.pushButton_53 = QtWidgets.QPushButton(self.groupBox_3)
+        self.pushButton_53.setGeometry(QtCore.QRect(152, 373, 141, 61))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(14)
+        self.pushButton_53.setFont(font)
+        self.pushButton_53.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.pushButton_53.setObjectName("pushButton_53")
         self.label_18 = QtWidgets.QLabel(self.tab_19)
         self.label_18.setEnabled(True)
         self.label_18.setGeometry(QtCore.QRect(701, 152, 141, 51))
@@ -5052,7 +7199,7 @@ class Ui_MainWindow(object):
         self.comboBox_3 = QtWidgets.QComboBox(self.tab_19)
         self.comboBox_3.setGeometry(QtCore.QRect(221, 13, 421, 51))
         font = QtGui.QFont()
-        font.setPointSize(11)
+        font.setPointSize(14)
         self.comboBox_3.setFont(font)
         self.comboBox_3.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.comboBox_3.setStyleSheet("border-radius:20px;")
@@ -5181,7 +7328,7 @@ class Ui_MainWindow(object):
         self.pushButton_49.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_49.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.pushButton_49.setStyleSheet("")
-        self.pushButton_49.setIcon(icon9)
+        self.pushButton_49.setIcon(icon10)
         self.pushButton_49.setIconSize(QtCore.QSize(63, 63))
         self.pushButton_49.setObjectName("pushButton_49")
         self.label_89 = QtWidgets.QLabel(self.groupBox_13)
@@ -5221,8 +7368,8 @@ class Ui_MainWindow(object):
         self.tabWidget.setCurrentIndex(0)
         self.tabWidget_5.setCurrentIndex(0)
         self.tabWidget_2.setCurrentIndex(0)
-        self.tabWidget_3.setCurrentIndex(1)
-        self.tabWidget_4.setCurrentIndex(6)
+        self.tabWidget_3.setCurrentIndex(0)
+        self.tabWidget_4.setCurrentIndex(4)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -5244,6 +7391,7 @@ class Ui_MainWindow(object):
         self.pushButton_10.setText(_translate("MainWindow", "استعادة كلمة المرور"))
         self.pushButton_21.setText(_translate("MainWindow", "عودة لتسجيل الدخول"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Tab 2"))
+        self.tableWidget_2.setSortingEnabled(True)
         item = self.tableWidget_2.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "الرقم التعريفي"))
         item = self.tableWidget_2.horizontalHeaderItem(1)
@@ -5254,12 +7402,13 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "طبيب المراجع"))
         item = self.tableWidget_2.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "التاريخ"))
-        self.label_60.setText(_translate("MainWindow", "الاسم الكامل للمراجع"))
-        self.pushButton_36.setText(_translate("MainWindow", "بحث"))
+        self.label_60.setText(_translate("MainWindow", "اسم للمراجع"))
+        self.pushButton_54.setText(_translate("MainWindow", "بحث"))
         self.tabWidget_5.setTabText(self.tabWidget_5.indexOf(self.tab_17), _translate("MainWindow", "كل المراجعين"))
         self.label_53.setText(_translate("MainWindow", "الرقم التعريفي للمراجع"))
         self.pushButton_29.setText(_translate("MainWindow", "بحث    "))
         self.groupBox_10.setTitle(_translate("MainWindow", "المعلومات العامة للمراجع"))
+        self.tableWidget_4.setSortingEnabled(True)
         item = self.tableWidget_4.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "الاسم"))
         item = self.tableWidget_4.horizontalHeaderItem(1)
@@ -5275,6 +7424,7 @@ class Ui_MainWindow(object):
         item = self.tableWidget_4.horizontalHeaderItem(6)
         item.setText(_translate("MainWindow", "المبلغ المدفوع"))
         self.groupBox_11.setTitle(_translate("MainWindow", "تحاليل المراجع"))
+        self.tableWidget_9.setSortingEnabled(True)
         item = self.tableWidget_9.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "الاسم"))
         item = self.tableWidget_9.horizontalHeaderItem(1)
@@ -5292,8 +7442,6 @@ class Ui_MainWindow(object):
         self.label_36.setText(_translate("MainWindow", "الجنس"))
         self.label_37.setText(_translate("MainWindow", "العمر"))
         self.label_38.setText(_translate("MainWindow", "ملاحظات"))
-        self.comboBox_15.setItemText(0, _translate("MainWindow", "عدوية شمس سعيد"))
-        self.comboBox_15.setItemText(1, _translate("MainWindow", "داود سلمان"))
         self.label_39.setText(_translate("MainWindow", "الطبيب"))
         self.label_42.setText(_translate("MainWindow", "اسم المراجع"))
         self.groupBox_7.setTitle(_translate("MainWindow", "التحليل"))
@@ -5301,17 +7449,18 @@ class Ui_MainWindow(object):
         self.comboBox_16.setItemText(0, _translate("MainWindow", "--------------------------"))
         self.label_41.setText(_translate("MainWindow", "النتيجة"))
         item = self.tableWidget_5.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "الاسم"))
-        item = self.tableWidget_5.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "التحليل"))
-        item = self.tableWidget_5.horizontalHeaderItem(2)
+        item = self.tableWidget_5.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "النتيجة"))
-        item = self.tableWidget_5.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "الطبيب"))
-        item = self.tableWidget_5.horizontalHeaderItem(4)
+        item = self.tableWidget_5.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "السعر"))
-        item = self.tableWidget_5.horizontalHeaderItem(5)
+        item = self.tableWidget_5.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "حذف"))
+        item = self.tableWidget_5.horizontalHeaderItem(4)
+        item.setText(_translate("MainWindow", "category"))
+        __sortingEnabled = self.tableWidget_5.isSortingEnabled()
+        self.tableWidget_5.setSortingEnabled(False)
+        self.tableWidget_5.setSortingEnabled(__sortingEnabled)
         self.pushButton_17.setText(_translate("MainWindow", "اضافة"))
         self.pushButton_18.setText(_translate("MainWindow", "طباعة  "))
         self.label_44.setText(_translate("MainWindow", "السعر الكلي"))
@@ -5321,7 +7470,6 @@ class Ui_MainWindow(object):
         self.pushButton_43.setText(_translate("MainWindow", "بحث بالتاريخ"))
         self.pushButton_44.setText(_translate("MainWindow", "اكثر من تحليل"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_11), _translate("MainWindow", "البيع اليومي"))
-        self.pushButton_19.setText(_translate("MainWindow", "بحث"))
         item = self.tableWidget_6.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "الرقم التعريفي"))
         item = self.tableWidget_6.horizontalHeaderItem(1)
@@ -5330,7 +7478,8 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "العمر"))
         item = self.tableWidget_6.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "الطبيب"))
-        self.label_55.setText(_translate("MainWindow", "الاسم الكامل للمراجع"))
+        self.label_55.setText(_translate("MainWindow", "اسم المراجع"))
+        self.pushButton_36.setText(_translate("MainWindow", "بحث"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_12), _translate("MainWindow", "مبيعات اليوم"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "Page"))
         self.comboBox_19.setItemText(0, _translate("MainWindow", "----------------------"))
@@ -5338,18 +7487,25 @@ class Ui_MainWindow(object):
         self.comboBox_19.setItemText(2, _translate("MainWindow", "السعر المطابق"))
         self.comboBox_19.setItemText(3, _translate("MainWindow", "الصنف"))
         self.pushButton_20.setText(_translate("MainWindow", "بحث"))
+        self.tableWidget_7.setSortingEnabled(True)
         item = self.tableWidget_7.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "اسم التحليل"))
+        item.setText(_translate("MainWindow", "id"))
         item = self.tableWidget_7.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "نوع النتيجة"))
+        item.setText(_translate("MainWindow", "اسم التحليل"))
         item = self.tableWidget_7.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "النتيجة الطبيعية"))
+        item.setText(_translate("MainWindow", "نوع النتيجة"))
         item = self.tableWidget_7.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "الوحدة"))
+        item.setText(_translate("MainWindow", "النتيجة الطبيعية"))
         item = self.tableWidget_7.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "السعر"))
+        item.setText(_translate("MainWindow", "الوحدة"))
         item = self.tableWidget_7.horizontalHeaderItem(5)
+        item.setText(_translate("MainWindow", "السعر"))
+        item = self.tableWidget_7.horizontalHeaderItem(6)
         item.setText(_translate("MainWindow", "الصنف"))
+        item = self.tableWidget_7.horizontalHeaderItem(7)
+        item.setText(_translate("MainWindow", "حفظ"))
+        item = self.tableWidget_7.horizontalHeaderItem(8)
+        item.setText(_translate("MainWindow", "حذف"))
         self.tabWidget_3.setTabText(self.tabWidget_3.indexOf(self.tab_8), _translate("MainWindow", "كل التحليلات"))
         self.groupBox_4.setTitle(_translate("MainWindow", "اضافة تحليل"))
         self.label_45.setText(_translate("MainWindow", "اسم التحليل"))
@@ -5363,7 +7519,6 @@ class Ui_MainWindow(object):
         self.comboBox_22.setItemText(3, _translate("MainWindow", "خيارات مع تعديل"))
         self.comboBox_22.setItemText(4, _translate("MainWindow", "عدد"))
         self.label_58.setText(_translate("MainWindow", "الصنف"))
-        self.textEdit_2.setPlaceholderText(_translate("MainWindow", "النتيجة الطبيعية التي سوف تطبع "))
         self.label_47.setText(_translate("MainWindow", "الوحدة"))
         self.label_61.setText(_translate("MainWindow", "الخيارات"))
         self.groupBox_9.setTitle(_translate("MainWindow", "تعديل تحليل"))
@@ -5373,7 +7528,6 @@ class Ui_MainWindow(object):
         self.label_49.setText(_translate("MainWindow", "الوحدة"))
         self.label_50.setText(_translate("MainWindow", "السعر"))
         self.label_57.setText(_translate("MainWindow", "نوع النتيجة"))
-        self.textEdit_5.setPlaceholderText(_translate("MainWindow", "النتيجة الطبيعية التي سوف تطبع "))
         self.label_51.setText(_translate("MainWindow", "النتيجة الطبيعية"))
         self.label_59.setText(_translate("MainWindow", "الصنف"))
         self.label_52.setText(_translate("MainWindow", "اسم التحليل"))
@@ -5383,9 +7537,12 @@ class Ui_MainWindow(object):
         self.comboBox_25.setItemText(2, _translate("MainWindow", "خيارات"))
         self.comboBox_25.setItemText(3, _translate("MainWindow", "خيارات مع تعديل"))
         self.comboBox_25.setItemText(4, _translate("MainWindow", "عدد"))
+        self.pushButton_40.setText(_translate("MainWindow", "."))
         self.label_71.setText(_translate("MainWindow", "التحليل"))
         self.tabWidget_3.setTabText(self.tabWidget_3.indexOf(self.tab_9), _translate("MainWindow", "اضافة تحليل"))
+        self.tabWidget_3.setTabText(self.tabWidget_3.indexOf(self.tab_20), _translate("MainWindow", "الاصناف"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), _translate("MainWindow", "Page"))
+        self.tableWidget_8.setSortingEnabled(True)
         item = self.tableWidget_8.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "المستخدم"))
         item = self.tableWidget_8.horizontalHeaderItem(1)
@@ -5400,6 +7557,9 @@ class Ui_MainWindow(object):
         self.comboBox_20.setItemText(3, _translate("MainWindow", "مشتريات"))
         self.comboBox_20.setItemText(4, _translate("MainWindow", "مراجعين"))
         self.comboBox_20.setItemText(5, _translate("MainWindow", "مستخدم"))
+        self.comboBox_20.setItemText(6, _translate("MainWindow", "طبيب"))
+        self.comboBox_20.setItemText(7, _translate("MainWindow", "تقرير"))
+        self.comboBox_20.setItemText(8, _translate("MainWindow", "احصائيات"))
         self.comboBox_24.setItemText(0, _translate("MainWindow", "--------------"))
         self.comboBox_24.setItemText(1, _translate("MainWindow", "تسجيل دخول"))
         self.comboBox_24.setItemText(2, _translate("MainWindow", "تسجيل خروج"))
@@ -5408,6 +7568,7 @@ class Ui_MainWindow(object):
         self.comboBox_24.setItemText(5, _translate("MainWindow", "حذف"))
         self.comboBox_24.setItemText(6, _translate("MainWindow", "بحث"))
         self.comboBox_24.setItemText(7, _translate("MainWindow", "طباعة"))
+        self.comboBox_24.setItemText(8, _translate("MainWindow", "معاينة"))
         self.label_15.setText(_translate("MainWindow", "العملية"))
         self.label_16.setText(_translate("MainWindow", "الحقل"))
         self.pushButton_22.setText(_translate("MainWindow", "حذف الكل    "))
@@ -5422,24 +7583,25 @@ class Ui_MainWindow(object):
         self.label_20.setText(_translate("MainWindow", "مسار حفظ الملفات"))
         self.pushButton_24.setText(_translate("MainWindow", "تطبيق"))
         self.tabWidget_4.setTabText(self.tabWidget_4.indexOf(self.tab_10), _translate("MainWindow", "المسارات"))
-        self.label_64.setText(_translate("MainWindow", "اسم المريض"))
         self.label_65.setText(_translate("MainWindow", "لقب المريض"))
+        self.label_80.setText(_translate("MainWindow", "اسم المريضة"))
+        self.label_78.setText(_translate("MainWindow", "اسم الموظف 2"))
+        self.label_83.setText(_translate("MainWindow", "لقب الطبيبة"))
+        self.label_76.setText(_translate("MainWindow", "شهادة الموظف 1"))
+        self.label_75.setText(_translate("MainWindow", "اسم الموظف 1"))
+        self.label_82.setText(_translate("MainWindow", "اسم الطبيبة"))
+        self.label_74.setText(_translate("MainWindow", "العنوان"))
         self.label_69.setText(_translate("MainWindow", "اسم الطبيب"))
-        self.label_70.setText(_translate("MainWindow", "لقب الطبيب"))
         self.label_72.setText(_translate("MainWindow", "رقم الهاتف 1"))
         self.label_73.setText(_translate("MainWindow", "رقم الهاتف 2"))
-        self.label_74.setText(_translate("MainWindow", "العنوان"))
-        self.label_75.setText(_translate("MainWindow", "اسم الموظف 1"))
-        self.label_76.setText(_translate("MainWindow", "شهادة الموظف 1"))
+        self.label_70.setText(_translate("MainWindow", "لقب الطبيب"))
+        self.label_81.setText(_translate("MainWindow", "لقب المريضة"))
         self.label_77.setText(_translate("MainWindow", "شهادة الموظف 2"))
-        self.label_78.setText(_translate("MainWindow", "اسم الموظف 2"))
+        self.label_64.setText(_translate("MainWindow", "اسم المريض"))
         self.label_79.setText(_translate("MainWindow", "اسم المختبر"))
         self.pushButton_31.setText(_translate("MainWindow", "تطبيق"))
-        self.label_80.setText(_translate("MainWindow", "اسم المريضة"))
-        self.label_81.setText(_translate("MainWindow", "لقب المريضة"))
-        self.label_82.setText(_translate("MainWindow", "اسم الطبيبة"))
-        self.label_83.setText(_translate("MainWindow", "لقب الطبيبة"))
         self.tabWidget_4.setTabText(self.tabWidget_4.indexOf(self.tab_13), _translate("MainWindow", "تعديل شكل التقارير"))
+        self.tableWidget_3.setSortingEnabled(True)
         item = self.tableWidget_3.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "الاسم"))
         item = self.tableWidget_3.horizontalHeaderItem(1)
@@ -5490,7 +7652,7 @@ class Ui_MainWindow(object):
         self.comboBox_2.setItemText(4, _translate("MainWindow", "السجل"))
         self.comboBox_2.setItemText(5, _translate("MainWindow", "الاعدادات"))
         self.label_22.setText(_translate("MainWindow", "الصفحة"))
-        self.pushButton_25.setText(_translate("MainWindow", "اضافة"))
+        self.pushButton_25.setText(_translate("MainWindow", "حفظ"))
         self.pushButton_37.setText(_translate("MainWindow", "حذف   "))
         self.checkBox.setText(_translate("MainWindow", "كامل الصلاحيات"))
         self.groupBox_19.setTitle(_translate("MainWindow", "صفحة السجل"))
@@ -5521,6 +7683,7 @@ class Ui_MainWindow(object):
         self.checkBox_15.setText(_translate("MainWindow", "معاينة التقرير"))
         self.checkBox_16.setText(_translate("MainWindow", "طبع التقرير"))
         self.checkBox_9.setText(_translate("MainWindow", "الدخول للصفحة"))
+        self.pushButton_53.setText(_translate("MainWindow", "اضافة"))
         self.label_18.setText(_translate("MainWindow", "الايميل"))
         self.label_17.setText(_translate("MainWindow", "كلمة المرور"))
         self.tabWidget_4.setTabText(self.tabWidget_4.indexOf(self.tab_19), _translate("MainWindow", "الموظفين"))

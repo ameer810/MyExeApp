@@ -1,7 +1,6 @@
 from PyQt5.QtWidgets import *
-from PyQt5.uic import loadUiType
-R_Class,_=loadUiType('add_buys_complete.ui')
-class Dialog(QWidget,R_Class):
+from add_buys_completepy2 import Ui_Dialog as main
+class Dialog(QWidget,main):
     def __init__(self,parent=None):
         super(Dialog, self).__init__(parent)
         QWidget.__init__(self)

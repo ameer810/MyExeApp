@@ -1,7 +1,6 @@
 from PyQt5.QtWidgets import QWidget
-from PyQt5.uic import loadUiType
-R_Class,_=loadUiType('mandobui.ui')
-class Dialog(QWidget,R_Class):
+from mandobuipy2 import Ui_Dialog as main
+class Dialog(QWidget,main):
     def __init__(self,parent=None):
         super(Dialog, self).__init__(parent)
         QWidget.__init__(self)

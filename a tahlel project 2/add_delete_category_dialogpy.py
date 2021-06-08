@@ -1,7 +1,6 @@
 from PyQt5.QtWidgets import QDialog
-from PyQt5.uic import loadUiType
-R_Class,_=loadUiType('add_delete_category_dialog.ui')
-class Dialog(QDialog,R_Class):
+from add_delete_category_dialogpy2 import Ui_Dialog as main
+class Dialog(QDialog,main):
     def __init__(self,parent=None):
         super(Dialog, self).__init__(parent)
         QDialog.__init__(self)

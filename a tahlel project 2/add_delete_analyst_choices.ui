@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>640</width>
-    <height>423</height>
+    <height>587</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -2121,102 +2121,155 @@ QPushButton:checked {
 QPushButton:disabled{
 color:rgb(198, 198, 198);
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512438 rgba(112, 174, 234, 255), stop:1 rgba(82, 157, 255, 255));
-}</string>
+}
+</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>525</x>
-     <y>30</y>
-     <width>101</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Segoe UI</family>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>اضافة خيار</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>171</x>
-     <y>33</y>
-     <width>351</width>
-     <height>41</height>
+     <x>2</x>
+     <y>-11</y>
+     <width>636</width>
+     <height>594</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-radius:20px;</string>
+    <string notr="true">QGroupBox{border:3px solid rgb(85, 170, 255)}</string>
    </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_26">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>30</y>
-     <width>161</width>
-     <height>51</height>
-    </rect>
+   <property name="title">
+    <string/>
    </property>
-   <property name="font">
-    <font>
-     <family>Segoe UI</family>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="cursor">
-    <cursorShape>PointingHandCursor</cursorShape>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <property name="text">
-    <string>اضافة</string>
-   </property>
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/icons8-add-new-100.png</normaloff>:/icons8-add-new-100.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>41</width>
-     <height>49</height>
-    </size>
-   </property>
-  </widget>
-  <widget class="QTableWidget" name="tableWidget">
-   <property name="geometry">
-    <rect>
-     <x>110</x>
-     <y>101</y>
-     <width>411</width>
-     <height>301</height>
-    </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::RightToLeft</enum>
-   </property>
-   <column>
-    <property name="text">
-     <string>الخيار</string>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>533</x>
+      <y>69</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
     </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>حفظ</string>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>12</pointsize>
+     </font>
     </property>
-   </column>
-   <column>
     <property name="text">
-     <string>حذف</string>
+     <string>اضافة خيار</string>
     </property>
-   </column>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>181</x>
+      <y>72</y>
+      <width>351</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius:20px;</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>14</x>
+      <y>129</y>
+      <width>610</width>
+      <height>431</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <column>
+     <property name="text">
+      <string>الخيار</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>حفظ</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>حذف</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QPushButton" name="pushButton_27">
+    <property name="geometry">
+     <rect>
+      <x>522</x>
+      <y>14</y>
+      <width>111</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius:none;
+
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.687, y2:0.704545, stop:0.0646766 rgba(255, 155, 155, 255), stop:0.751244 rgba(235, 54, 30, 255));</string>
+    </property>
+    <property name="text">
+     <string>اغلاق</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>41</width>
+      <height>49</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_26">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>69</y>
+      <width>161</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>اضافة</string>
+    </property>
+    <property name="icon">
+     <iconset resource="icons.qrc">
+      <normaloff>:/icons8-add-new-100.png</normaloff>:/icons8-add-new-100.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>41</width>
+      <height>49</height>
+     </size>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources>
