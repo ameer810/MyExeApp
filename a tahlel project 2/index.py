@@ -1777,7 +1777,7 @@ class mainapp(QMainWindow, main_wind):
                 (search_words,))
         if current_index == 0:
             self.cur.execute(
-                ''' SELECT id,name,category,defult,unit,price,sub_category,analyst_index FROM addanalyst ORDER BY sub_category''')
+                ''' SELECT id,name,category,defult,unit,price,sub_category,analyst_index FROM addanalyst ORDER BY sub_category ASC ,analyst_index ASC''')
         analyst_data = self.cur.fetchall()
         self.tableWidget_7.setRowCount(0)
         self.tableWidget_7.insertRow(0)
@@ -1830,7 +1830,7 @@ class mainapp(QMainWindow, main_wind):
                 col += 1
             row_pos = self.tableWidget_7.rowCount()
             self.tableWidget_7.insertRow(row_pos)
-        self.tableWidget_7.setSortingEnabled(True)
+        self.tableWidget_7.setSortingEnabled(False)
         if from_start:
             from_start =False
         else:
@@ -1924,9 +1924,9 @@ class mainapp(QMainWindow, main_wind):
             self.Analyst_Dialog2.pushButton_27.clicked.connect(lambda : self.Close_tslsol('no'))
         self.Analyst_Dialog2.show()
         if self.sender().text() == '.':
-            self.cur.execute(''' select name,analyst_index from addanalyst where sub_category=%s ''',(self.comboBox_26.currentText(),))
+            self.cur.execute(''' select name,analyst_index from addanalyst where sub_category=%s order by analyst_index ASC ''',(self.comboBox_26.currentText(),))
         else:
-            self.cur.execute(''' select name,analyst_index from addanalyst where sub_category=%s ''',(self.comboBox_23.currentText(),))
+            self.cur.execute(''' select name,analyst_index from addanalyst where sub_category=%s order by analyst_index ASC ''',(self.comboBox_23.currentText(),))
         data=self.cur.fetchall()
         print(len(data))
         mulist=[]
