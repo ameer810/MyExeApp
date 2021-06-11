@@ -5,7 +5,7 @@ import MySQLdb
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-# from PyQt5.uic import loadUiType
+from PyQt5.uic import loadUiType
 from docx import *
 from docx.shared import Pt
 import smtplib
@@ -21,11 +21,12 @@ from threading import Thread
 import add_buys_completepy
 import add_delete_category_dialogpy
 import add_delete_analyst_choices
+import add_delete_analyst_choicesrupy2
 import mandobuipy
 from mymain import Ui_MainWindow as main_wind
 import ast
 show_clients_check = False
-# FORM_CLASS, _ = loadUiType("design.ui")
+# main_wind, _ = loadUiType("design.ui")
 user_id = ''
 analyst_name_for_update_before = ''
 analyst_name_for_update = ''
@@ -98,6 +99,7 @@ class mainapp(QMainWindow, main_wind):
         os.system("TASKKILL /F /IM WINWORD.exe")
         os.system('start WINWORD.exe')
         self.tableWidget_5.setColumnHidden(4, True)
+        self.tableWidget_7.setColumnHidden(0, True)
         self.cur.execute(''' SELECT * FROM paths WHERE id=1 ''')
         mydata = self.cur.fetchone()
         word_files = mydata[1]
@@ -231,6 +233,10 @@ class mainapp(QMainWindow, main_wind):
         # if not addTrue:
         self.comboBox_16.currentIndexChanged.connect(self.Show_Type_of_result_category)
         self.comboBox_2.currentIndexChanged.connect(self.Show_permissions)
+        self.comboBox_23.currentIndexChanged.connect(lambda : self.tslsol_wout_b('not in edit'))
+        self.comboBox_26.currentIndexChanged.connect(lambda : self.tslsol_wout_b('in edit'))
+        self.pushButton_41.clicked.connect(self.Show_all_taslsol)
+        self.pushButton_50.clicked.connect(self.Show_all_taslsol)
         # QListView.currentChanged()
         # self.pushButton_31.clicked.connect(self.Chick_analyst_category)
         self.pushButton_32.clicked.connect(self.get_total_price)
@@ -520,7 +526,7 @@ class mainapp(QMainWindow, main_wind):
             Add_all_analysts_items_list.append(str(self.tableWidget_5.item(row, 0).text()))
 
     def Show_multy_Dialog(self):
-        self.get_client_id()
+        self.Show_All_one_client_analyst(from_add_multy='Not None')
         self.Add_all_analysts_items()
         global Add_all_analysts_items_list
         self.Dialog = multyclass.MultyDialog()
@@ -1046,6 +1052,13 @@ class mainapp(QMainWindow, main_wind):
                         print(e, '95ek;okpororr')
             all_result.append(str(result))
         # try:
+        for index,it in enumerate(categorys):
+            for index2,it2 in enumerate(it):
+                try:
+                    test = int(it2)
+                    categorys[index]=str(categorys[index])[:-1]
+                except Exception as e:
+                    pass
         self.Bio_Word(real_name, real_doctor, all_analyst, all_result, year, month, day, prev, genuses, categorys)
         # except Exception as e:
         #     print(e, '12erorr')
@@ -1283,8 +1296,9 @@ class mainapp(QMainWindow, main_wind):
             analyst_combo_result = self.comboBox_17.currentText()
             analyst_number_result = self.doubleSpinBox_7.value()
             client_id = self.spinBox.value()
-            self.cur.execute('''SELECT price,category,sub_category FROM addanalyst WHERE name = %s''', (analyst_name,))
+            self.cur.execute('''SELECT price,category,sub_category,analyst_index FROM addanalyst WHERE name = %s''', (analyst_name,))
             analyst_price = self.cur.fetchone()
+            analyst_index = str(analyst_price[3])
             latest_result = 1
             total_price = 0
             if analyst_price != None:
@@ -1308,13 +1322,13 @@ class mainapp(QMainWindow, main_wind):
                 self.cur.execute('''SELECT id FROM addclient WHERE client_name = %s''', (client_name,))
                 real_client_id = self.cur.fetchone()
                 self.cur.execute('''
-                   INSERT INTO addnewitem (client_name,client_id,client_age,genus,doctor_name,notes,analyst_name,analyst_result,price,total_price,date,sub_category)
-                   VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                   INSERT INTO addnewitem (client_name,client_id,client_age,genus,doctor_name,notes,analyst_name,analyst_result,price,total_price,date,sub_category,analyst_index)
+                   VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                 ''', (
                     client_name, real_client_id, client_age, client_genus, client_doctor, analyst_or_clients_notes,
                     analyst_name,
                     latest_result,
-                    total_price, total_price, datetime.datetime.now(), analyst_price[2],))
+                    total_price, total_price, datetime.datetime.now(), analyst_price[2],analyst_index,))
                 self.db.commit()
                 clients_name_glo.append(str(client_name))
                 if for_loop2 == False:
@@ -1418,7 +1432,7 @@ class mainapp(QMainWindow, main_wind):
                 except Exception as e:
                     print(e, '91erorr')
 
-    def Show_All_one_client_analyst(self):
+    def Show_All_one_client_analyst(self,from_add_multy=None):
         global client_id_glob
         global chick_if_add_new
         global select_by_date
@@ -1452,7 +1466,7 @@ class mainapp(QMainWindow, main_wind):
                     (id, str(from_date.toPyDate()), str(to_date.toPyDate()),))
             else:
                 self.cur.execute(
-                    '''SELECT client_name,analyst_name,analyst_result,doctor_name,total_price,sub_category,client_age,genus,notes FROM addnewitem WHERE client_id = %s AND DATE(date)=%s''',
+                    '''SELECT client_name,analyst_name,analyst_result,doctor_name,total_price,sub_category,client_age,genus,notes,analyst_index FROM addnewitem WHERE client_id = %s AND DATE(date)=%s''',
                     (self.spinBox.value(), datetime.date.today(),))
             analyst_data = self.cur.fetchall()
             if analyst_data:
@@ -1488,7 +1502,7 @@ class mainapp(QMainWindow, main_wind):
                             #     self.tableWidget_5.setItem(row, col, QTableWidgetItem(str(analyst_data[row][4])))
 
                         if col == 4:
-                            self.tableWidget_5.setItem(row, col, QTableWidgetItem(str(analyst_data[row][5])))
+                            self.tableWidget_5.setItem(row, col, QTableWidgetItem(str(analyst_data[row][5])+analyst_data[row][9]))
                         col += 1
                     row_pos = self.tableWidget_5.rowCount()
                     self.tableWidget_5.insertRow(row_pos)
@@ -1501,12 +1515,18 @@ class mainapp(QMainWindow, main_wind):
                     print(e, '90erorr')
                 self.Add_buttons_combo_spin_to_tableWidget()
             else:
-                QMessageBox.information(self, 'Error',
-                                        'الرقم الذي ادخلته غير صحيح او غير موجود في مبيعات اليوم يرجى ادخال رقم صحيح او مراجعة صفحة "مبيعات اليوم" للتأكد من الرقم')
+                global clients_name_glo
+                if client_name in clients_name_glo:
+                    if not from_add_multy:
+                        QMessageBox.information(self, 'Error','الرقم الذي ادخلته غير موجود في مبيعات اليوم يرجى مراجعة صفحة "مبيعات اليوم" للتأكد من الرقم')
+                else:
+                    if not from_add_multy:
+                        QMessageBox.information(self, 'Error','الرقم الذي ادخلته غير صحيح يرجى مراجعة صفحة "مبيعات اليوم" للتأكد من الرقم')
             # except Exception as e:
             #     print(e,'1erorr')
             self.get_total_price()
             select_by_date = False
+        print(from_add_multy, ';;;;;;;')
         self.Add_all_analysts_items()
 
     def Show_Type_of_result_category(self):
@@ -1743,24 +1763,24 @@ class mainapp(QMainWindow, main_wind):
         current_index = self.comboBox_19.currentIndex()
         if current_index == 1:
             self.cur.execute(
-                ''' SELECT id,name,category,defult,unit,price,sub_category FROM addanalyst WHERE name=%s ''',
+                ''' SELECT id,name,category,defult,unit,price,sub_category,analyst_index FROM addanalyst WHERE name=%s ''',
                 (search_words,))
         if current_index == 2:
             self.cur.execute(
-                ''' SELECT id,name,category,defult,unit,price,sub_category FROM addanalyst WHERE price=%s ''',
+                ''' SELECT id,name,category,defult,unit,price,sub_category,analyst_index FROM addanalyst WHERE price=%s ''',
                 (search_words,))
         if current_index == 3:
             self.cur.execute(
-                ''' SELECT id,name,category,defult,unit,price,sub_category FROM addanalyst WHERE sub_category=%s ''',
+                ''' SELECT id,name,category,defult,unit,price,sub_category,analyst_index FROM addanalyst WHERE sub_category=%s ''',
                 (search_words,))
         if current_index == 0:
             self.cur.execute(
-                ''' SELECT id,name,category,defult,unit,price,sub_category FROM addanalyst ORDER BY sub_category''')
+                ''' SELECT id,name,category,defult,unit,price,sub_category,analyst_index FROM addanalyst ORDER BY sub_category''')
         analyst_data = self.cur.fetchall()
         self.tableWidget_7.setRowCount(0)
         self.tableWidget_7.insertRow(0)
         for row in range(0,len(analyst_data)):
-            for col in range(0, 9):
+            for col in range(0, 10):
                 if col == 2:
                     my_combo2 = QComboBox()
                     my_combo2.addItems(['خيارات', 'عدد', 'خيارات مع تعديل', 'حقل كتابة'])
@@ -1777,13 +1797,26 @@ class mainapp(QMainWindow, main_wind):
                     my_spin = QSpinBox()
                     my_spin.setValue(analyst_data[row][5])
                     self.tableWidget_7.setCellWidget(row, col, my_spin)
-                elif col == 7:
+                elif col==7:
+                    mycobmbo = QComboBox(self)
+                    self.cur.execute(''' select name,analyst_index from addanalyst where sub_category=%s''',(analyst_data[row][6],))
+                    frData=self.cur.fetchall()
+                    liost=[]
+                    for ikp in range(1,len(frData)+1):
+                        liost.append(str(ikp))
+                    mycobmbo.addItems(liost)
+                    try:
+                        mycobmbo.setCurrentIndex(int(analyst_data[row][7])-1)
+                    except Exception as e:
+                        mycobmbo.setCurrentIndex(0)
+                    self.tableWidget_7.setCellWidget(row, col, mycobmbo)
+                elif col == 8:
                     my_push = QPushButton()
                     my_push.setText('حفظ')
                     my_push.setStyleSheet('border-radius:12px;')
                     my_push.clicked.connect(self.Handel_Save_Delete_analyst)
                     self.tableWidget_7.setCellWidget(row, col, my_push)
-                elif col == 8:
+                elif col == 9:
                     my_push2 = QPushButton()
                     my_push2.setText('حذف')
                     my_push2.setStyleSheet('''QPushButton:pressed{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.687, y2:0.704545, stop:0.0646766 rgba(255, 155, 155, 255), stop:0.751244 rgba(235, 54, 30, 255));}QPushButton{border-radius:12px;background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512438 rgba(235, 54, 30, 255), stop:0.875622 rgba(255, 155, 155, 255));}''')
@@ -1824,10 +1857,11 @@ class mainapp(QMainWindow, main_wind):
                 unit = ''
             price = self.tableWidget_7.cellWidget(index, 5).value()
             sub_category = self.tableWidget_7.cellWidget(index, 6).currentText()
+            analyst_index = self.tableWidget_7.cellWidget(index, 7).currentText()
             if name != '' and name:
                 self.cur.execute(
-                    ''' UPDATE addanalyst set name=%s,price=%s,category=%s,sub_category=%s,unit=%s,defult=%s where id=%s''',
-                    (name, price, category, sub_category, unit, default, r_id))
+                    ''' UPDATE addanalyst set name=%s,price=%s,category=%s,sub_category=%s,unit=%s,defult=%s,analyst_index=%s where id=%s''',
+                    (name, price, category, sub_category, unit, default,analyst_index, r_id,))
                 self.db.commit()
                 QMessageBox.information(self, '', 'تم حفظ بيانات التحليل بنجاح')
                 thread_0 = Thread(target=self.Add_Data_To_history, args=(4, 2,))
@@ -1850,6 +1884,68 @@ class mainapp(QMainWindow, main_wind):
                 thread_0.start()
                 thread_1 = Thread(target=self.History)
                 thread_1.start()
+    def tslsol_wout_b(self,uio=None):
+        print(uio,'jkej')
+
+        if uio=='in edit':
+            self.comboBox_30.clear()
+            self.cur.execute(''' select name from addanalyst where sub_category=%s ''',(self.comboBox_26.currentText(),))
+            data = self.cur.fetchall()
+            # print(data)
+            for i in range(1, len(data) + 1):
+                self.comboBox_30.addItem(str(i))
+        else:
+            self.comboBox_29.clear()
+            print('4440')
+            self.cur.execute(''' select name from addanalyst where sub_category=%s ''',(self.comboBox_23.currentText(),))
+            data = self.cur.fetchall()
+            print(data)
+            for i2 in range(1, len(data) + 1):
+                self.comboBox_29.addItem(str(i2))
+    def Close_tslsol(self,typet=None):
+        for i in range(0,self.Analyst_Dialog2.tableWidget.rowCount()-1):
+            if typet=='no':
+                self.cur.execute(''' update addanalyst set analyst_index=%s where name=%s and sub_category=%s ''',(self.Analyst_Dialog2.tableWidget.cellWidget(i,1).currentText(),self.Analyst_Dialog2.tableWidget.item(i,0).text(),self.comboBox_23.currentText(),))
+            else:
+                self.cur.execute(''' update addanalyst set analyst_index=%s where name=%s and sub_category=%s ''',(self.Analyst_Dialog2.tableWidget.cellWidget(i,1).currentText(),self.Analyst_Dialog2.tableWidget.item(i,0).text(),self.comboBox_26.currentText(),))
+        self.db.commit()
+        # self.comboBox_29.setCurrentText(str(self.Analyst_Dialog2.tableWidget.cellWidget(0,1).currentText()))
+        self.Analyst_Dialog2.close()
+    def Show_all_taslsol(self):
+        self.Analyst_Dialog2 = add_delete_analyst_choicesrupy2.Dialog()
+        self.Analyst_Dialog2.setWindowFlags(Qt.Window | Qt.FramelessWindowHint)
+        self.Analyst_Dialog2.tableWidget.setRowCount(0)
+        self.Analyst_Dialog2.tableWidget.insertRow(0)
+        if self.sender().text()=='.':
+            self.Analyst_Dialog2.pushButton_27.clicked.connect(lambda : self.Close_tslsol('from edit'))
+        else:
+            self.Analyst_Dialog2.pushButton_27.clicked.connect(lambda : self.Close_tslsol('no'))
+        self.Analyst_Dialog2.show()
+        if self.sender().text() == '.':
+            self.cur.execute(''' select name,analyst_index from addanalyst where sub_category=%s ''',(self.comboBox_26.currentText(),))
+        else:
+            self.cur.execute(''' select name,analyst_index from addanalyst where sub_category=%s ''',(self.comboBox_23.currentText(),))
+        data=self.cur.fetchall()
+        print(len(data))
+        mulist=[]
+        for iq in range(0,len(data)):
+            mulist.append(str(iq+1))
+        # combo = QComboBox()
+        # combo.addItems(mulist)
+        # combo.setCurrentIndex(0)
+        # self.Analyst_Dialog2.tableWidget.setItem(0, 0, QTableWidgetItem(str(self.lineEdit_28.text())))
+        # self.Analyst_Dialog2.tableWidget.setCellWidget(0, 1, combo)
+        if data:
+            count = 0
+            for index,i in enumerate(data):
+                self.Analyst_Dialog2.tableWidget.setItem(count, 0, QTableWidgetItem(str(data[index][0])))
+                combo=QComboBox()
+                combo.addItems(mulist)
+                if data[index][1]:
+                    combo.setCurrentIndex(int(data[index][1])-1)
+                self.Analyst_Dialog2.tableWidget.setCellWidget(count, 1, combo)
+                self.Analyst_Dialog2.tableWidget.insertRow(count + 1)
+                count += 1
     def Add_Analyst(self):
         global analysts_name_glo
         global Analyst_Choices_list
@@ -1869,11 +1965,12 @@ class mainapp(QMainWindow, main_wind):
             date = datetime.datetime.now()
             defult = self.lineEdit_40.text()
             unit = self.lineEdit_48.text()
+            analyst_index=self.comboBox_29.currentText()
             self.cur.execute(
-                ''' INSERT INTO addanalyst (name,price,category,sub_category,date,defult,unit,results) VALUES(%s,%s,%s,%s,%s,%s,%s,%s) ''',
+                ''' INSERT INTO addanalyst (name,price,category,sub_category,date,defult,unit,results,analyst_index) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s) ''',
                 (
                     str(analyst_name), analyst_price, analyst_result_category, sub_category,
-                    date, defult, unit, str(all_results)[1:-1]))
+                    date, defult, unit, str(all_results)[1:-1]),analyst_index)
             self.db.commit()
             self.lineEdit_28.setText('')  # analyst_name =
             self.comboBox_22.setCurrentIndex(0)  # analyst_result_category =
@@ -2035,15 +2132,16 @@ class mainapp(QMainWindow, main_wind):
             analyst_price = self.spinBox_6.value()
             sub_category = self.comboBox_26.currentText()
             date = datetime.datetime.now()
+            analyst_index = self.comboBox_30.currentText()
             results_number = self.comboBox_31.count()
             results = []
             for i in range(0, results_number):
                 self.comboBox_31.setCurrentIndex(i)
                 results.append(str(self.comboBox_31.currentText()))
-            mysql = '''UPDATE addanalyst SET name=%s,defult=%s,unit=%s,price=%s,category=%s,sub_category=%s,date=%s,results=%s where name=%s'''
+            mysql = '''UPDATE addanalyst SET name=%s,defult=%s,unit=%s,price=%s,category=%s,sub_category=%s,date=%s,results=%s,analyst_index=%s where name=%s'''
             values = (
                 str(analyst_name), defult, unit, analyst_price, analyst_result_category, sub_category, date,
-                str(results)[1:-1],
+                str(results)[1:-1],analyst_index,
                 analyst_name_before)
             self.cur.execute(mysql, values)
             self.db.commit()

@@ -2136,6 +2136,10 @@ QPushButton:checked {
 QPushButton:disabled{
 color:rgb(198, 198, 198);
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512438 rgba(112, 174, 234, 255), stop:1 rgba(82, 157, 255, 255));
+}
+QComboBox QAbstractItemView::item:!enabled {
+    
+	background-color: rgb(204, 204, 204);
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -6651,6 +6655,11 @@ font: 14pt &quot;Segoe UI&quot;;
         </column>
         <column>
          <property name="text">
+          <string>التسلسل</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
           <string>حفظ</string>
          </property>
         </column>
@@ -6731,9 +6740,9 @@ font: 14pt &quot;Segoe UI&quot;;
         <widget class="QLabel" name="label_46">
          <property name="geometry">
           <rect>
-           <x>340</x>
-           <y>310</y>
-           <width>141</width>
+           <x>350</x>
+           <y>370</y>
+           <width>131</width>
            <height>51</height>
           </rect>
          </property>
@@ -6753,7 +6762,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>360</x>
-           <y>463</y>
+           <y>510</y>
            <width>111</width>
            <height>51</height>
           </rect>
@@ -6914,7 +6923,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>370</x>
-           <y>400</y>
+           <y>450</y>
            <width>101</width>
            <height>51</height>
           </rect>
@@ -6935,7 +6944,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>13</x>
-           <y>470</y>
+           <y>517</y>
            <width>321</width>
            <height>41</height>
           </rect>
@@ -7073,7 +7082,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>8</x>
-           <y>310</y>
+           <y>370</y>
            <width>341</width>
            <height>51</height>
           </rect>
@@ -7092,7 +7101,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>8</x>
-           <y>399</y>
+           <y>449</y>
            <width>341</width>
            <height>51</height>
           </rect>
@@ -7105,6 +7114,81 @@ font: 14pt &quot;Segoe UI&quot;;
          </property>
          <property name="styleSheet">
           <string notr="true">border-radius:20px;</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboBox_29">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>300</y>
+           <width>311</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_90">
+         <property name="geometry">
+          <rect>
+           <x>389</x>
+           <y>290</y>
+           <width>91</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>12</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>التسلسل</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_41">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>3</x>
+           <y>295</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>13</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="icons.qrc">
+           <normaloff>:/go-back-arrow.png</normaloff>:/go-back-arrow.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
          </property>
         </widget>
        </widget>
@@ -7217,7 +7301,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>399</x>
-           <y>440</y>
+           <y>465</y>
            <width>81</width>
            <height>51</height>
           </rect>
@@ -7238,7 +7322,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>409</x>
-           <y>516</y>
+           <y>526</y>
            <width>71</width>
            <height>51</height>
           </rect>
@@ -7262,7 +7346,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>66</x>
-           <y>296</y>
+           <y>289</y>
            <width>281</width>
            <height>41</height>
           </rect>
@@ -7281,7 +7365,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>406</x>
-           <y>170</y>
+           <y>163</y>
            <width>91</width>
            <height>51</height>
           </rect>
@@ -7302,7 +7386,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>362</x>
-           <y>366</y>
+           <y>401</y>
            <width>131</width>
            <height>51</height>
           </rect>
@@ -7323,7 +7407,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>407</x>
-           <y>230</y>
+           <y>223</y>
            <width>91</width>
            <height>51</height>
           </rect>
@@ -7381,7 +7465,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>417</x>
-           <y>286</y>
+           <y>279</y>
            <width>81</width>
            <height>51</height>
           </rect>
@@ -7402,7 +7486,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>11</x>
-           <y>526</y>
+           <y>536</y>
            <width>341</width>
            <height>41</height>
           </rect>
@@ -7427,7 +7511,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>19</x>
-           <y>180</y>
+           <y>173</y>
            <width>321</width>
            <height>41</height>
           </rect>
@@ -7471,7 +7555,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>63</x>
-           <y>240</y>
+           <y>233</y>
            <width>281</width>
            <height>41</height>
           </rect>
@@ -7493,7 +7577,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>2</x>
-           <y>290</y>
+           <y>283</y>
            <width>51</width>
            <height>51</height>
           </rect>
@@ -7552,7 +7636,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>2</x>
-           <y>234</y>
+           <y>227</y>
            <width>51</width>
            <height>51</height>
           </rect>
@@ -7587,7 +7671,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>446</y>
+           <y>471</y>
            <width>341</width>
            <height>51</height>
           </rect>
@@ -7603,7 +7687,7 @@ font: 14pt &quot;Segoe UI&quot;;
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>370</y>
+           <y>405</y>
            <width>341</width>
            <height>51</height>
           </rect>
@@ -7613,6 +7697,81 @@ font: 14pt &quot;Segoe UI&quot;;
            <family>Segoe UI</family>
            <pointsize>11</pointsize>
           </font>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboBox_30">
+         <property name="geometry">
+          <rect>
+           <x>66</x>
+           <y>350</y>
+           <width>281</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_91">
+         <property name="geometry">
+          <rect>
+           <x>409</x>
+           <y>340</y>
+           <width>91</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>12</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>التسلسل</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_50">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>344</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>13</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>.</string>
+         </property>
+         <property name="icon">
+          <iconset resource="icons.qrc">
+           <normaloff>:/go-back-arrow.png</normaloff>:/go-back-arrow.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
          </property>
         </widget>
        </widget>
