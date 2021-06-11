@@ -1,4 +1,4 @@
-﻿import datetime
+import datetime
 import os
 import sys
 import MySQLdb
@@ -1298,7 +1298,10 @@ class mainapp(QMainWindow, main_wind):
             client_id = self.spinBox.value()
             self.cur.execute('''SELECT price,category,sub_category,analyst_index FROM addanalyst WHERE name = %s''', (analyst_name,))
             analyst_price = self.cur.fetchone()
-            analyst_index = str(analyst_price[3])
+            analyst_index=1
+            if analyst_price:
+                if analyst_price[3]:
+                    analyst_index = int(analyst_price[3])
             latest_result = 1
             total_price = 0
             if analyst_price != None:
@@ -1462,11 +1465,11 @@ class mainapp(QMainWindow, main_wind):
                 from_date = self.searchWidget.dateEdit_6.date()
                 to_date = self.searchWidget.dateEdit_5.date()
                 self.cur.execute(
-                    '''SELECT client_name,analyst_name,analyst_result,doctor_name,total_price,sub_category,client_age,genus,notes FROM addnewitem WHERE client_id = %s AND DATE(date)>=%s AND DATE(date)<=%s''',
+                    '''SELECT client_name,analyst_name,analyst_result,doctor_name,total_price,sub_category,client_age,genus,notes,analyst_index FROM addnewitem WHERE client_id = %s AND DATE(date)>=%s AND DATE(date)<=%s ORDER BY sub_category ASC, analyst_index ASC''',
                     (id, str(from_date.toPyDate()), str(to_date.toPyDate()),))
             else:
                 self.cur.execute(
-                    '''SELECT client_name,analyst_name,analyst_result,doctor_name,total_price,sub_category,client_age,genus,notes,analyst_index FROM addnewitem WHERE client_id = %s AND DATE(date)=%s''',
+                    '''SELECT client_name,analyst_name,analyst_result,doctor_name,total_price,sub_category,client_age,genus,notes,analyst_index FROM addnewitem  WHERE client_id = %s AND DATE(date)=%s ORDER BY sub_category ASC, analyst_index ASC''',
                     (self.spinBox.value(), datetime.date.today(),))
             analyst_data = self.cur.fetchall()
             if analyst_data:
@@ -1502,11 +1505,10 @@ class mainapp(QMainWindow, main_wind):
                             #     self.tableWidget_5.setItem(row, col, QTableWidgetItem(str(analyst_data[row][4])))
 
                         if col == 4:
-                            self.tableWidget_5.setItem(row, col, QTableWidgetItem(str(analyst_data[row][5])+analyst_data[row][9]))
+                            self.tableWidget_5.setItem(row, col, QTableWidgetItem(str(analyst_data[row][5])))
                         col += 1
                     row_pos = self.tableWidget_5.rowCount()
                     self.tableWidget_5.insertRow(row_pos)
-                self.tableWidget_5.sortItems(4, Qt.AscendingOrder)
                 chick_if_add_new = False
                 self.Show_All_The_Sales()
                 try:
@@ -1857,7 +1859,7 @@ class mainapp(QMainWindow, main_wind):
                 unit = ''
             price = self.tableWidget_7.cellWidget(index, 5).value()
             sub_category = self.tableWidget_7.cellWidget(index, 6).currentText()
-            analyst_index = self.tableWidget_7.cellWidget(index, 7).currentText()
+            analyst_index = int(self.tableWidget_7.cellWidget(index, 7).currentText())
             if name != '' and name:
                 self.cur.execute(
                     ''' UPDATE addanalyst set name=%s,price=%s,category=%s,sub_category=%s,unit=%s,defult=%s,analyst_index=%s where id=%s''',
@@ -1965,7 +1967,7 @@ class mainapp(QMainWindow, main_wind):
             date = datetime.datetime.now()
             defult = self.lineEdit_40.text()
             unit = self.lineEdit_48.text()
-            analyst_index=self.comboBox_29.currentText()
+            analyst_index=int(self.comboBox_29.currentText())
             self.cur.execute(
                 ''' INSERT INTO addanalyst (name,price,category,sub_category,date,defult,unit,results,analyst_index) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s) ''',
                 (
@@ -2132,7 +2134,7 @@ class mainapp(QMainWindow, main_wind):
             analyst_price = self.spinBox_6.value()
             sub_category = self.comboBox_26.currentText()
             date = datetime.datetime.now()
-            analyst_index = self.comboBox_30.currentText()
+            analyst_index = int(self.comboBox_30.currentText())
             results_number = self.comboBox_31.count()
             results = []
             for i in range(0, results_number):
