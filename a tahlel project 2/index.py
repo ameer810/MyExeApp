@@ -17,7 +17,6 @@ import searchDialog2
 import multyclass
 from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
-from threading import Thread
 import add_buys_completepy
 import add_delete_category_dialogpy
 import add_delete_analyst_choices
@@ -154,10 +153,9 @@ class mainapp(QMainWindow, main_wind):
         self.db.commit()
         QMessageBox.information(self, 'info', 'تم تحديث المعلومات بنجاح')
         self.Show_Word_Doc_Data()
-        thread_0 = Thread(target=self.Add_Data_To_history, args=(4, 7,))
-        thread_0.start()
-        thread_1 = Thread(target=self.History)
-        thread_1.start()
+        self.Add_Data_To_history(4, 7)
+        self.History()
+
         self.Update_Word_Info()
     def Update_Word_Info(self):
         global word_files
@@ -187,7 +185,6 @@ class mainapp(QMainWindow, main_wind):
             self.checkBox_40.setCheckState(True)
             self.checkBox_13.setCheckState(True)
             self.checkBox_16.setCheckState(True)
-            # self.checkBox_3.setCheckState(False)
             self.checkBox_14.setCheckState(True)
             self.checkBox_7.setCheckState(True)
             self.checkBox_11.setCheckState(True)
@@ -220,7 +217,6 @@ class mainapp(QMainWindow, main_wind):
         self.pushButton_14.clicked.connect(self.Dark_Theme)
         self.pushButton_11.clicked.connect(self.Dark_Gray_Theme)
         self.pushButton.clicked.connect(self.Open_Sales_Page)
-        # self.pushButton_6.clicked.connect(self.Open_Login_Page)
         self.pushButton_21.clicked.connect(self.Open_Login_Page)
         self.pushButton_4.clicked.connect(self.Open_Settings_Page)
         self.pushButton_12.clicked.connect(self.Open_Login_Page)
@@ -230,17 +226,13 @@ class mainapp(QMainWindow, main_wind):
         self.pushButton_8.clicked.connect(self.Open_ResetPassword_Page)
         self.pushButton_17.clicked.connect(lambda arg='no': self.Sales_Page(for_loop2=arg))
         self.pushButton_30.clicked.connect(self.get_client_id)
-        # if not addTrue:
         self.comboBox_16.currentIndexChanged.connect(self.Show_Type_of_result_category)
         self.comboBox_2.currentIndexChanged.connect(self.Show_permissions)
         self.comboBox_23.currentIndexChanged.connect(lambda : self.tslsol_wout_b('not in edit'))
         self.comboBox_26.currentIndexChanged.connect(lambda : self.tslsol_wout_b('in edit'))
         self.pushButton_41.clicked.connect(self.Show_all_taslsol)
         self.pushButton_50.clicked.connect(self.Show_all_taslsol)
-        # QListView.currentChanged()
-        # self.pushButton_31.clicked.connect(self.Chick_analyst_category)
         self.pushButton_32.clicked.connect(self.get_total_price)
-        # self.pushButton_33.clicked.connect(self.Show_analyst_in_Edit_Or_Delete)
         self.comboBox_21.currentTextChanged.connect(self.Show_analyst_in_Edit_Or_Delete)
         self.comboBox_28.currentTextChanged.connect(self.Show_Doctor_Data)
         self.comboBox_3.currentTextChanged.connect(self.Show_employee_data)
@@ -255,12 +247,10 @@ class mainapp(QMainWindow, main_wind):
         self.pushButton_36.clicked.connect(self.Search_In_All_Sales)
         self.comboBox_20.currentIndexChanged.connect(self.Search_In_History)
         self.comboBox_24.currentIndexChanged.connect(self.Search_In_History)
-        # self.pushButton_21.clicked.connect(self.Search_In_History)
         self.pushButton_35.clicked.connect(self.clear_data_in_sales)
         self.pushButton_10.clicked.connect(self.Reset_password)
         self.pushButton_26.clicked.connect(self.Add_Analyst)
         self.pushButton_34.clicked.connect(self.Preview)
-        # self.pushButton_23.clicked.connect(self.Print_empty_papers)
         self.pushButton_24.clicked.connect(self.Add_Path)
         self.pushButton_54.clicked.connect(self.Show_All_Clients)
 
@@ -307,7 +297,6 @@ class mainapp(QMainWindow, main_wind):
             item.setCheckState(Qt.Unchecked)
         else:
             item.setCheckState(Qt.Checked)
-        # self.Add_Buys_Dialog.comboBox_2.showPopup()
     def add_doctors_to_list(self):
         global all_doctors
         self.cur.execute(''' SELECT name FROM doctor ''')
@@ -330,10 +319,8 @@ class mainapp(QMainWindow, main_wind):
             QMessageBox.information(self, 'info', 'تم اضافة الطبيب بنجاح')
             self.Add_Doctor_Data()
             self.add_doctors_to_list()
-            thread_0 = Thread(target=self.Add_Data_To_history, args=(3, 6,))
-            thread_0.start()
-            thread_1 = Thread(target=self.History)
-            thread_1.start()
+            self.Add_Data_To_history(3,6)
+            self.History()
         except Exception as e:
             print(e, '95kerorr')
             QMessageBox.information(self, '', 'هذا الطبيب موجود بالفعل')
@@ -354,10 +341,8 @@ class mainapp(QMainWindow, main_wind):
                 QMessageBox.information(self, 'info', 'تم تحديث بيانات الطبيب بنجاح')
                 self.Add_Doctor_Data()
                 self.add_doctors_to_list()
-                thread_0 = Thread(target=self.Add_Data_To_history, args=(4, 6,))
-                thread_0.start()
-                thread_1 = Thread(target=self.History)
-                thread_1.start()
+                self.Add_Data_To_history(4,6)
+                self.History()
             except:
                 QMessageBox.information(self, '', 'لا يمكن تكرار اسم الطبيب , يرجى تغيير اسم الطبيب')
         else:
@@ -379,10 +364,8 @@ class mainapp(QMainWindow, main_wind):
                 QMessageBox.information(self, 'info', 'تم حذف الطبيب بنجاح')
                 self.Add_Doctor_Data()
                 self.add_doctors_to_list()
-                thread_0 = Thread(target=self.Add_Data_To_history, args=(5, 6,))
-                thread_0.start()
-                thread_1 = Thread(target=self.History)
-                thread_1.start()
+                self.Add_Data_To_history(5,6)
+                self.History()
         else:
             QMessageBox.information(self, '', 'هذا الطبيب غير موجود')
 
@@ -488,11 +471,7 @@ class mainapp(QMainWindow, main_wind):
         ritem = self.comboBox_16.model().itemFromIndex(item)
         self.comboBox_16.setCurrentText(ritem.text())
         self.Chick_analyst_category(item)
-        # if nitem.checkState() == Qt.Checked:
-        #     nitem.setCheckState(Qt.Unchecked)
-        # else:
-        #     # print('ggggggg')
-        #     nitem.setCheckState(Qt.Checked)
+
 
     def Set_Chick_State(self, item=None):
         try:
@@ -505,9 +484,6 @@ class mainapp(QMainWindow, main_wind):
             print(e, '95poerorr')
 
     def setCheckSateForAllItems(self, table=None, ListWidget=None):
-        # print(table,item)
-        # MyObject = self.Dialog.findChild(QListWidget, str(table))
-        # print(MyObject)
 
         if table.text() == 'الكل':
             if table.checkState() == Qt.Checked:
@@ -575,21 +551,17 @@ class mainapp(QMainWindow, main_wind):
                         else:
                             item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsUserCheckable)
             else:
-                # print('else')
                 break
-        # print(self.Dialog.tabWidget.count(), 'for sorry')
         self.Dialog.pushButton.clicked.connect(self.Handel_multy_Dialog)
         self.Dialog.exec_()
 
     def Handel_multy_Dialog(self):
         for i in range(0, self.Dialog.tabWidget.count()):
-            # print('ghg')
             listWidget_object = self.Dialog.findChild(QListWidget, f"listWidget_+{i + 1}")
             for row in range(0, listWidget_object.count()):
                 if listWidget_object.item(row).checkState() == Qt.Checked:
                     self.comboBox_16.setCurrentText(str(listWidget_object.item(row).text()))
                     self.Sales_Page()
-                    # print('1')
         self.Dialog.close()
         self.Show_All_one_client_analyst()
         self.Add_buttons_combo_spin_to_tableWidget()
@@ -599,14 +571,11 @@ class mainapp(QMainWindow, main_wind):
         self.add_today_client_to_list()
         self.Auto_complete_combo7()
         self.Show_All_The_Sales()
-        thread_0 = Thread(target=self.Add_Data_To_history, args=(3, 1,))
-        thread_0.start()
-        thread_1 = Thread(target=self.History)
-        thread_1.start()
+        self.Add_Data_To_history(3,1)
+        self.History()
         self.Add_all_analysts_items()
 
     def Show_search_Widget(self):
-        # print('yesf')
         self.searchWidget = searchDialog.Dialog()
         self.searchWidget.spinBox.setValue(self.spinBox.value())
         self.searchWidget.show()
@@ -617,7 +586,6 @@ class mainapp(QMainWindow, main_wind):
     def Show_search_Widget2(self):
         global search_info_by_date
         search_info_by_date = True
-        # print('yesf')
         self.searchWidget2 = searchDialog2.Dialog()
         self.searchWidget2.spinBox.setValue(self.spinBox_2.value())
         self.searchWidget2.show()
@@ -626,7 +594,6 @@ class mainapp(QMainWindow, main_wind):
         self.searchWidget2.pushButton_20.clicked.connect(self.Clients_Page)
 
     def Search_by_date(self):
-        # print('clicked')
         global select_by_date
         select_by_date = True
         self.Show_All_one_client_analyst()
@@ -1016,10 +983,8 @@ class mainapp(QMainWindow, main_wind):
             print(e, '95erlplorr')
             self.tableWidget_6.setRowCount(0)
             self.tableWidget_6.insertRow(0)
-        thread_0 = Thread(target=self.Add_Data_To_history, args=(6, 1,))
-        thread_0.start()
-        thread_1 = Thread(target=self.History)
-        thread_1.start()
+        self.Add_Data_To_history(6,1)
+        self.History()
         self.tableWidget_6.setSortingEnabled(True)
 
     def Print_Sale_Data(self, prev):
@@ -1033,8 +998,16 @@ class mainapp(QMainWindow, main_wind):
         real_name = self.comboBox_4.currentText()
         real_doctor = self.comboBox_15.currentText()
         categorys = []
+        prev_category=self.tableWidget_5.item(0, 4).text()
+        all_analyst.append(prev_category)
+        all_result.append('')
         for row in range(0, self.tableWidget_5.rowCount() - 1):
             categorys.append(self.tableWidget_5.item(row, 4).text())
+            if row!=0:
+                if self.tableWidget_5.item(row, 4).text()!= prev_category:
+                    all_analyst.append(self.tableWidget_5.item(row, 4).text())
+                    all_result.append('')
+                    prev_category = self.tableWidget_5.item(row, 4).text()
             try:
                 analyst = self.tableWidget_5.item(row, 0).text()
                 all_analyst.append(analyst)
@@ -1052,18 +1025,13 @@ class mainapp(QMainWindow, main_wind):
                         print(e, '95ek;okpororr')
             all_result.append(str(result))
         # try:
-        for index,it in enumerate(categorys):
-            for index2,it2 in enumerate(it):
-                try:
-                    test = int(it2)
-                    categorys[index]=str(categorys[index])[:-1]
-                except Exception as e:
-                    pass
         self.Bio_Word(real_name, real_doctor, all_analyst, all_result, year, month, day, prev, genuses, categorys)
         # except Exception as e:
         #     print(e, '12erorr')
         #     QMessageBox.information(self, 'خطأ',
         #                             f'هنالك خطأ يرجى مراجعة العملية او\n ارسال هذا النص {e} الى ameersaad810@gmail.com')
+        # print(all_analyst)
+        # print(all_result)
         if prev != 'T':
             self.Delete_Files()
         self.Update_addNewItem_Data()
@@ -1240,42 +1208,18 @@ class mainapp(QMainWindow, main_wind):
                 self.db.commit()
             except:
                 print('except')
-
-    # def show_sales_items(self):
-    #     self.cur.execute(
-    #         ''' SELECT client_name,analyst_name,analyst_result,doctor_name,total_price,sub_category FROM addnewitem WHERE client_name = %s AND DATE(date)=%s''',
-    #         (self.comboBox_4.currentText(), datetime.date.today(),))
-    #     analyst_data = self.cur.fetchall()
-    #     self.tableWidget_5.setRowCount(0)
-    #     self.tableWidget_5.insertRow(0)
-    #     for row, form in enumerate(analyst_data):
-    #         for col, item in enumerate(form):
-    #             if col == 1 or col == 0 or col == 3:
-    #                 self.tableWidget_5.setItem(row, col, QTableWidgetItem(str(item)))
-    #                 my_item = self.tableWidget_5.item(row, col)
-    #                 my_item.setFlags(Qt.ItemIsEditable)
-    #             else:
-    #                 self.tableWidget_5.setItem(row, col, QTableWidgetItem(str(item)))
-    #             col += 1
-    #         row_pos = self.tableWidget_5.rowCount()
-    #         self.tableWidget_5.insertRow(row_pos)
-    #     self.tableWidget_5.sortItems(6, Qt.AscendingOrder)
-    #     self.tableWidget_5.scrollToBottom()
-    #     self.Show_All_The_Sales()
     def Analyst_sub_category(self,analyst_name):
         self.cur.execute(''' select sub_category,price from addanalyst where name=%s''',(analyst_name,))
         data=self.cur.fetchone()
         return data
     def Sales_Page(self, for_loop2=None):
-        # print(for_loop2, 'jdijei')
         global clients_name_glo
 
         not_in_all_analysts_items = False
         for mjrow in range(0, self.tableWidget_5.rowCount() - 1):
             if self.comboBox_16.currentText() == str(self.tableWidget_5.item(mjrow, 0).text()):
                 not_in_all_analysts_items = True
-        # if self.comboBox_4.currentText()=='':
-        #     QMessageBox.information(self,'تحذير','يرجى ادخال اسم المراجع')
+
         if not not_in_all_analysts_items:
             self.comboBox_4.setEnabled(False)
             self.spinBox_7.setEnabled(False)
@@ -1346,15 +1290,12 @@ class mainapp(QMainWindow, main_wind):
                 self.tableWidget_5.scrollToBottom()
                 self.get_total_price()
                 self.my_def2()
-                thread_0 = Thread(target=self.Add_Data_To_history, args=(3, 1,))
-                thread_0.start()
-                thread_1 = Thread(target=self.History)
-                thread_1.start()
+                self.Add_Data_To_history(3,1)
+                self.History()
             else:
-                print('gnm2')
+                pass
         else:
             if for_loop2 == False:
-                # print('jj')
                 QMessageBox.information(self, 'تحذير', 'هذا العنصر موجود بالفعل')
                 self.Add_all_analysts_items()
             else:
@@ -1422,7 +1363,6 @@ class mainapp(QMainWindow, main_wind):
                             index = mycobmbo.findText(myrs[0][0], Qt.MatchFixedString)
                             mycobmbo.setCurrentIndex(index)
                         if object_type == 'عدد':
-                            # print('Tru')
                             if myrs[0][0] and myrs[0][0] != '':
                                 mycobmbo.setValue(float(myrs[0][0]))
                         if object_type == 'حقل كتابة':
@@ -1439,20 +1379,22 @@ class mainapp(QMainWindow, main_wind):
         global client_id_glob
         global chick_if_add_new
         global select_by_date
-
         client_name = self.comboBox_4.currentText()
-        self.cur.execute('''SELECT id FROM addclient WHERE client_name = %s''', (client_name,))
-        real_client_id =self.cur.fetchone()
-        if real_client_id:
-            if client_name!='' and client_name!=' ':
-                self.spinBox.setValue(real_client_id[0])
+        if from_add_multy:
+            self.cur.execute('''SELECT id FROM addclient WHERE client_name = %s''', (client_name,))
+            real_client_id =self.cur.fetchone()
+            if real_client_id:
+                if client_name!='' and client_name!=' ':
+                    self.spinBox.setValue(real_client_id[0])
         if self.spinBox.value() == 0 and chick_if_add_new == False:
             self.tableWidget_5.setRowCount(0)
             self.tableWidget_5.insertRow(0)
             self.lineEdit_21.setText('')
             self.spinBox_7.setValue(0)
             self.doubleSpinBox_7.setValue(0)
-            self.comboBox_14.setCurrentIndex(0)
+            if not from_add_multy:
+                self.comboBox_14.setCurrentIndex(0)
+                self.comboBox_15.setCurrentIndex(0)
             self.comboBox_17.setCurrentIndex(0)
             self.textEdit.setPlainText('')
             self.comboBox_4.setEnabled(True)
@@ -1501,9 +1443,6 @@ class mainapp(QMainWindow, main_wind):
                                 self.tableWidget_5.setItem(row, col, QTableWidgetItem(str(analyst_data[row][2])))
                             elif col==2:
                                 self.tableWidget_5.setItem(row, col, QTableWidgetItem(str(analyst_data[row][4])))
-                            # elif col==3:
-                            #     self.tableWidget_5.setItem(row, col, QTableWidgetItem(str(analyst_data[row][4])))
-
                         if col == 4:
                             self.tableWidget_5.setItem(row, col, QTableWidgetItem(str(analyst_data[row][5])))
                         col += 1
@@ -1554,7 +1493,6 @@ class mainapp(QMainWindow, main_wind):
                 if analyst_category[0] == 'خيارات مع تعديل':
                     self.lineEdit_21.hide()
                     self.doubleSpinBox_7.hide()
-                    # self.comboBox_17.clear()
                     self.comboBox_17.show()
                     self.comboBox_17.setEditable(True)
 
@@ -1567,28 +1505,17 @@ class mainapp(QMainWindow, main_wind):
                 except Exception as e:
                     print(e, '959erorr')
 
-                    # print('erorr here')
         except Exception as e:
             print(e, '2erorr')
             if analyst_name not in self.add_all_subCategory_toList():
                 if not addTrue:
                     QMessageBox.information(self, 'تحذير', "يرجى اختيار تحليل صحيح")
-            # print('error here2')
 
     def analyst_category_function(self, name):
-        # print('starthh')
-        # pationt_name = self.comboBox_4.currentText()
-        # doctor_name = self.comboBox_15.currentText()
-        # analyst_name = self.comboBox_16.currentText()
 
-        # print(mylist)
         if name in self.add_all_subCategory_toList():
-            # print('name in my list')
-            # self.loading=LoadingDialog()
-            # self.loading.show()
             self.cur.execute('''SELECT name FROM addanalyst WHERE sub_category=%s ''', (str(name),))
             my_DATA = self.cur.fetchall()
-            # print(my_DATA)
             for new in my_DATA:
                 self.comboBox_16.setCurrentText(str(new[0]))
                 self.Sales_Page()
@@ -1602,40 +1529,13 @@ class mainapp(QMainWindow, main_wind):
             self.Show_All_The_Sales()
             self.add_today_client_to_list()
             self.Auto_complete_combo7()
-            thread_0 = Thread(target=self.Add_Data_To_history, args=(3, 1,))
-            thread_0.start()
-            thread_1 = Thread(target=self.History)
-            thread_1.start()
+            self.Add_Data_To_history(3,1)
+            self.History()
             self.Add_all_analysts_items()
-            # self.loading.close()
-        # colors = ['yallow', 'brown', 'green', 'milk']
-        # RBCs_Pus_cells_GUE_GSE = ['1 - 2', '1 - 3', '2 - 3', '2 - 4', '0 - 1', '0 - 2', '3 - 5', '4 - 6', '5 - 6',
-        #                           '5 - 7', '6 - 8', '6 - 7', '+', '++', '+++', '++++', 'Full Field']
-        # Consistency = ['Solid', 'Liquid', 'Semi solid', 'Semi liquid', 'Mucoid']
-        # G_Lembilia_E_Histolytica = ['Cyst', 'Trophozoite']
-        # Epith_cells = ['Few', '+', '++', '+++', '++++']
-        # Ova = ['Nil']
-        # Appearance = ['Turbid', 'Clear']
-        # Reaction = ['Acidic', 'Alkaline']
-        # Sugar = ['Nil', '+', '++', '+++', 'Trace']
-        # Crystals = ['Am.Urate', 'Am.Phosphatase', 'Uric Acid', 'Ca.Oxalate']
-        # Casts = ['Granular cast +', 'Granular cast ++', 'Granular cast +++']
-        # Blood_Group = ['A (+ve)', 'B (+ve)', 'AB (+ve)', 'O (+ve)', 'O (-ve)', 'A (-ve)', 'B (-ve)', 'AB (-ve)']
-        # Pregnancy_test_in_urine_serum = ['Positive (+ve)', 'Negative (-ve)', 'Weak Positive']
-        # Pregnancy_test_in_urine_serum2 = ['Positive (+ve)', 'Negative (-ve)']
-        # Blood_Group = ['A(+ve)', 'B(+ve)', 'AB(+ve)', 'O(+ve)', 'O(-ve)', 'A(-ve)', 'B(-ve)', 'AB(-ve)']
-        # test = ['Toxoplasma IgG', 'Toxoplasma IgM', 'Cytomegalo Virus IgG', 'Cytomegalo Virus IgM', 'Rubella IgG',
-        #         'Rubella IgM', 'Anti - Phspholipin IgG', 'Anti - Phspholipin  IgM', 'Anti - Cardiolipin  IgG',
-        #         'Anti - Cardiolipin  IgM', 'Herps   IgG', 'Herpes  IgM']
-        # test_choices = ['0.5 Negative', '0.6 Negative', '0.7 Negative', '0.8 Negative', '1.1 Positive', '1.1 Positive',
-        #                 '1.2 Positive', '1.3 Positive', '1.4 Positive', '1.5 Positive']
-        # Hb = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
-        # motility = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85]
+
 
     def Chick_analyst_category(self, sd=None):
-        # print(item,'here')
 
-        # print(self.comboBox_16.currentText(), 'jjjjj')
         if self.comboBox_16.currentText() not in self.add_all_subCategory_toList() and self.comboBox_16.currentIndex() != 0:
             self.analyst_category_function(self.comboBox_16.currentText())
         if self.comboBox_16.currentText() in self.add_all_subCategory_toList():
@@ -1643,7 +1543,6 @@ class mainapp(QMainWindow, main_wind):
                 ritem = self.comboBox_16.model().itemFromIndex(sd)
                 if ritem.checkState() == Qt.Unchecked:
                     ritem.setCheckState(Qt.Checked)
-                    # print(ritem.text())
                     self.analyst_category_function(ritem.text())
                     ritem.setCheckState(Qt.Unchecked)
                 else:
@@ -1651,16 +1550,13 @@ class mainapp(QMainWindow, main_wind):
                 ritem.setCheckState(Qt.Unchecked)
             except Exception as e:
                 print(e, '3erorr')
-                # print('erorr 404')
 
     def get_client_id(self):
         global client_id_glob
         client_id_glob = self.spinBox.value()
         self.Show_All_one_client_analyst()
-        thread_0 = Thread(target=self.Add_Data_To_history, args=(6, 1,))
-        thread_0.start()
-        thread_1 = Thread(target=self.History)
-        thread_1.start()
+        self.Add_Data_To_history(6,1)
+        self.History()
 
     def Show_All_The_Sales(self):
         global show_all_sales_in_clients_page
@@ -1699,63 +1595,6 @@ class mainapp(QMainWindow, main_wind):
             row_pos = self.tableWidget_6.rowCount()
             self.tableWidget_6.insertRow(row_pos)
 
-    # def Show_All_The_Analysts(self):
-    #     print('dytuope04')
-    #     global from_start
-    #     search_type = self.comboBox_19.currentText()
-    #     search_words = self.lineEdit_26.text()
-    #
-    #     if self.comboBox_19.currentIndex() == 1:
-    #         self.cur.execute(
-    #             ''' SELECT name,category,defult,unit,price,sub_category FROM addanalyst WHERE name=%s ''',
-    #             (search_words,))
-    #     if self.comboBox_19.currentIndex() == 2:
-    #         self.cur.execute(
-    #             ''' SELECT name,category,defult,unit,price,sub_category FROM addanalyst WHERE price=%s ''',
-    #             (search_words,))
-    #     if self.comboBox_19.currentIndex() == 3:
-    #         self.cur.execute(
-    #             ''' SELECT name,category,defult,unit,price,sub_category FROM addanalyst WHERE sub_category=%s ''',
-    #             (search_words,))
-    #     if self.comboBox_19.currentIndex() == 0:
-    #         self.cur.execute(
-    #             ''' SELECT name,category,defult,unit,price,sub_category FROM addanalyst ORDER BY sub_category''')
-    #
-    #     analyst_data = self.cur.fetchall()
-    #     self.tableWidget_7.setSortingEnabled(False)
-    #     # self.tableWidget_7.isSortingEnabled()
-    #     self.tableWidget_7.setRowCount(0)
-    #     self.tableWidget_7.insertRow(0)
-    #     for row, form in enumerate(analyst_data):
-    #         for col, item in enumerate(form):
-    #             if col == 1:
-    #                 category = ''
-    #                 if analyst_data[row][1] == 'خيارات':
-    #                     category = 'خيارات'
-    #                 if analyst_data[row][1] == 'عدد':
-    #                     category = 'عدد'
-    #                 if analyst_data[row][1] == 'خيارات مع تعديل':
-    #                     category = 'خيارات مع تعديل'
-    #                 if analyst_data[row][1] == 'حقل كتابة':
-    #                     category = 'حقل كتابة'
-    #
-    #                 self.tableWidget_7.setItem(row, col, QTableWidgetItem(str(category)))
-    #             if col == 5:
-    #                 if analyst_data[row][5]==None:
-    #                     analyst_data[row][5]=''
-    #                 self.tableWidget_7.setItem(row, col, QTableWidgetItem(str(analyst_data[row][5])))
-    #             if item==None:
-    #                 item = ''
-    #             self.tableWidget_7.setItem(row, col, QTableWidgetItem(str(item)))
-    #             col += 1
-    #         row_pos = self.tableWidget_7.rowCount()
-    #         self.tableWidget_7.insertRow(row_pos)
-    #     if from_start:
-    #         pass
-    #     else:
-    #         self.Add_Data_To_history(6, 2)
-    #         self.History()
-    #     self.tableWidget_7.setSortingEnabled(True)
 
     def Show_All_The_Analysts(self):
         global from_start
@@ -1834,10 +1673,8 @@ class mainapp(QMainWindow, main_wind):
         if from_start:
             from_start =False
         else:
-            thread_0 = Thread(target=self.Add_Data_To_history,args=(6,2,))
-            thread_0.start()
-            thread_1 = Thread(target=self.History)
-            thread_1.start()
+            self.Add_Data_To_history(6,2)
+            self.History()
     def Handel_Save_Delete_analyst(self):
         index = self.sender().pos()
         index = self.tableWidget_7.indexAt(index)
@@ -1866,10 +1703,8 @@ class mainapp(QMainWindow, main_wind):
                     (name, price, category, sub_category, unit, default,analyst_index, r_id,))
                 self.db.commit()
                 QMessageBox.information(self, '', 'تم حفظ بيانات التحليل بنجاح')
-                thread_0 = Thread(target=self.Add_Data_To_history, args=(4, 2,))
-                thread_0.start()
-                thread_1 = Thread(target=self.History)
-                thread_1.start()
+                self.Add_Data_To_history(4,2)
+                self.History()
             else:
                 QMessageBox.information(self, '', 'يرجى اختيار اسم تحليل صحيح')
         else:
@@ -1882,10 +1717,8 @@ class mainapp(QMainWindow, main_wind):
                 self.cur.execute(''' delete from addbuys where to_analysts = %s''', (data[0],))
                 self.db.commit()
                 QMessageBox.information(self, '', 'تم حذف التحليل بنجاح')
-                thread_0 = Thread(target=self.Add_Data_To_history, args=(5, 2,))
-                thread_0.start()
-                thread_1 = Thread(target=self.History)
-                thread_1.start()
+                self.Add_Data_To_history(5,2)
+                self.History()
     def tslsol_wout_b(self,uio=None):
         print(uio,'jkej')
 
@@ -1893,7 +1726,6 @@ class mainapp(QMainWindow, main_wind):
             self.comboBox_30.clear()
             self.cur.execute(''' select name from addanalyst where sub_category=%s ''',(self.comboBox_26.currentText(),))
             data = self.cur.fetchall()
-            # print(data)
             for i in range(1, len(data) + 1):
                 self.comboBox_30.addItem(str(i))
         else:
@@ -1911,7 +1743,6 @@ class mainapp(QMainWindow, main_wind):
             else:
                 self.cur.execute(''' update addanalyst set analyst_index=%s where name=%s and sub_category=%s ''',(self.Analyst_Dialog2.tableWidget.cellWidget(i,1).currentText(),self.Analyst_Dialog2.tableWidget.item(i,0).text(),self.comboBox_26.currentText(),))
         self.db.commit()
-        # self.comboBox_29.setCurrentText(str(self.Analyst_Dialog2.tableWidget.cellWidget(0,1).currentText()))
         self.Analyst_Dialog2.close()
     def Show_all_taslsol(self):
         self.Analyst_Dialog2 = add_delete_analyst_choicesrupy2.Dialog()
@@ -1932,11 +1763,7 @@ class mainapp(QMainWindow, main_wind):
         mulist=[]
         for iq in range(0,len(data)):
             mulist.append(str(iq+1))
-        # combo = QComboBox()
-        # combo.addItems(mulist)
-        # combo.setCurrentIndex(0)
-        # self.Analyst_Dialog2.tableWidget.setItem(0, 0, QTableWidgetItem(str(self.lineEdit_28.text())))
-        # self.Analyst_Dialog2.tableWidget.setCellWidget(0, 1, combo)
+
         if data:
             count = 0
             for index,i in enumerate(data):
@@ -1967,12 +1794,10 @@ class mainapp(QMainWindow, main_wind):
             date = datetime.datetime.now()
             defult = self.lineEdit_40.text()
             unit = self.lineEdit_48.text()
-            analyst_index=int(self.comboBox_29.currentText())
-            self.cur.execute(
-                ''' INSERT INTO addanalyst (name,price,category,sub_category,date,defult,unit,results,analyst_index) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s) ''',
-                (
-                    str(analyst_name), analyst_price, analyst_result_category, sub_category,
-                    date, defult, unit, str(all_results)[1:-1]),analyst_index)
+            analyst_index=self.comboBox_29.currentText()
+            if analyst_index=='':
+                analyst_index=1
+            self.cur.execute(''' INSERT INTO addanalyst (name,price,category,sub_category,date,defult,unit,results,analyst_index) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s) ''',(str(analyst_name), analyst_price, analyst_result_category, sub_category,date, defult, unit, str(all_results)[1:-1],int(analyst_index)))
             self.db.commit()
             self.lineEdit_28.setText('')  # analyst_name =
             self.comboBox_22.setCurrentIndex(0)  # analyst_result_category =
@@ -1987,10 +1812,8 @@ class mainapp(QMainWindow, main_wind):
             self.Auto_complete_combo()
             self.Show_all_analysts_in_combo()
             self.Show_All_The_Analysts()
-            thread_0 = Thread(target=self.Add_Data_To_history, args=(3, 2,))
-            thread_0.start()
-            thread_1 = Thread(target=self.History)
-            thread_1.start()
+            self.Add_Data_To_history(3,2)
+            self.History()
         else:
             QMessageBox.information(self, '', 'هذا التحليل موجود بالفعل')
         Analyst_Choices_list.clear()
@@ -2063,13 +1886,7 @@ class mainapp(QMainWindow, main_wind):
         if self.sender().text() != 'حفظ':
             self.Analyst_Dialog.tableWidget.removeRow(index)
 
-    # def Before_End_Choices_Dialog(self):
-    #     global Analyst_Choices_list
-    #     Analyst_Choices_list.clear()
-    #     for i in range(0,self.Analyst_Dialog.tableWidget.rowCount()-1):
-    #         item = self.Analyst_Dialog.tableWidget.item(i,0).text()
-    #         Analyst_Choices_list.append(item)
-    #     print(Analyst_Choices_list)
+
 
     def Show_analyst_in_Edit_Or_Delete(self):
         self.comboBox_31.clear()
@@ -2161,14 +1978,11 @@ class mainapp(QMainWindow, main_wind):
             self.Auto_complete_combo()
             self.Show_all_analysts_in_combo()
             self.Show_All_The_Analysts()
-            thread_0 = Thread(target=self.Add_Data_To_history, args=(4, 2,))
-            thread_0.start()
-            thread_1 = Thread(target=self.History)
-            thread_1.start()
+            self.Add_Data_To_history(4,2)
+            self.History()
         else:
             QMessageBox.information(self, '', 'هذا التحليل غير موجود')
-        thread_0 = Thread(target=self.Update_addNewItemAnalysts)
-        thread_0.start()
+        self.Update_addNewItemAnalysts()
 
     def Delete_Analyst(self):
         warning = QMessageBox.warning(self, 'احذر', "هل انت متأكد من انك تريد مسح التحليل",
@@ -2180,10 +1994,8 @@ class mainapp(QMainWindow, main_wind):
             self.db.commit()
             QMessageBox.information(self, 'info', 'تم حذف التحليل بنجاح')
             self.Show_all_analysts_in_combo()
-            thread_0 = Thread(target=self.Add_Data_To_history, args=(5, 2,))
-            thread_0.start()
-            thread_1 = Thread(target=self.History)
-            thread_1.start()
+            self.Add_Data_To_history(5,2)
+            self.History()
 
     def Show_all_analysts_in_combo(self):
         global addTrue
@@ -2212,12 +2024,10 @@ class mainapp(QMainWindow, main_wind):
         for ii in range(0, self.comboBox_16.count()):
             self.comboBox_16.setCurrentIndex(ii)
             if self.comboBox_16.currentText() in self.add_all_subCategory_toList():
-                # self.comboBox_16.setItemChecked(self.comboBox_16.currentIndex(),False)
                 myitem = self.comboBox_16.model().item(self.comboBox_16.currentIndex(), self.comboBox_16.modelColumn())
                 myitem.setCheckState(Qt.Unchecked)
         self.comboBox_16.setCurrentIndex(0)
         addTrue = False
-        # self.handel_buttons()
 
     def Clients_Page(self):
         global search_info_by_date
@@ -2288,10 +2098,8 @@ class mainapp(QMainWindow, main_wind):
         if search_info_by_date:
             self.searchWidget2.close()
 
-        thread_0 = Thread(target=self.Add_Data_To_history, args=(6, 6,))
-        thread_0.start()
-        thread_1 = Thread(target=self.History)
-        thread_1.start()
+        self.Add_Data_To_history(6,6)
+        self.History()
         search_info_by_date = False
         self.tableWidget_4.setSortingEnabled(True)
         self.tableWidget_9.setSortingEnabled(True)
@@ -2376,10 +2184,8 @@ class mainapp(QMainWindow, main_wind):
         self.lineEdit_13.setText('')
         self.spinBox_3.setValue(0)
         self.spinBox_8.setValue(0)
-        thread_0 = Thread(target=self.Add_Data_To_history, args=(3, 4,))
-        thread_0.start()
-        thread_1 = Thread(target=self.History)
-        thread_1.start()
+        self.Add_Data_To_history(3,4)
+        self.History()
 
     def Show_all_buys(self):
         self.cur.execute(''' SELECT item_name,quantity,signal_item_price,total_price,date FROM addbuys ''')
@@ -2448,16 +2254,13 @@ class mainapp(QMainWindow, main_wind):
             else:
                 self.lineEdit_31.setText('0')
                 self.lineEdit_32.setText('0')
-            # self.cur.execute(
-            #     ''' select count(price) AS Price from addnewitem where DATE(date)>=%s and DATE(date)<=%s Group by DATE(date) Order by Price DESC  ''',(str(from_date), str(to_date)))
-            # data2 = self.cur.fetchone()
+
             self.cur.execute(''' select id from addnewitem where DATE(date)>=%s and DATE(date)<=%s ''',
                              (str(from_date), str(to_date)))
             data = self.cur.fetchall()
             sales_num = 0
             for iueh in data:
                 sales_num += 1
-            # print(data, ';k')
             self.lineEdit_36.setText(str(sales_num))
         else:
             if item not in all_categorys:
@@ -2549,10 +2352,8 @@ class mainapp(QMainWindow, main_wind):
                     self.lineEdit_36.setText(str(data[0][0]))
                 else:
                     self.lineEdit_36.setText('0')
-        thread_0 = Thread(target=self.Add_Data_To_history, args=(3, 8,))
-        thread_0.start()
-        thread_1 = Thread(target=self.History)
-        thread_1.start()
+        self.Add_Data_To_history(3,8)
+        self.History()
 
     def Show_default_statics(self):
         if self.tabWidget_4.currentIndex() == 4:
@@ -2560,7 +2361,6 @@ class mainapp(QMainWindow, main_wind):
                 self.cur.execute(
                     '''select analyst_name,count(price) AS Price from addnewitem Group by analyst_name Order by Price DESC limit 5''')
                 data = self.cur.fetchall()
-                # print(max(analysts_counts))
                 self.comboBox_7.clear()
                 for i in range(0, len(data)):
                     self.comboBox_7.addItem(data[i][0] + '     ' + str(data[i][1]))
@@ -2581,7 +2381,6 @@ class mainapp(QMainWindow, main_wind):
                 self.cur.execute(
                     ''' select sub_category,sum(price) AS Price from addnewitem Group by sub_category Order by Price DESC''')
                 data = self.cur.fetchall()
-                # print(data)
                 self.comboBox_6.clear()
                 for iqw2 in range(0, len(data)):
                     self.comboBox_6.addItem(data[iqw2][0] + '     ' + str(data[iqw2][1]))
@@ -2867,10 +2666,8 @@ class mainapp(QMainWindow, main_wind):
                 self.lineEdit.setText('')
                 self.lineEdit_2.setText('')
                 self.tabWidget.setCurrentIndex(3)
-                thread_0 = Thread(target=self.Add_Data_To_history, args=(1, 5,))
-                thread_0.start()
-                thread_1 = Thread(target=self.History)
-                thread_1.start()
+                self.Add_Data_To_history(1,5)
+                self.History()
 
             else:
                 warning = QMessageBox.warning(self, '',
@@ -2908,7 +2705,6 @@ class mainapp(QMainWindow, main_wind):
         self.checkBox_40.setCheckState(False)
         self.checkBox_13.setCheckState(False)
         self.checkBox_16.setCheckState(False)
-        # self.checkBox_3.setCheckState(False)
         self.checkBox_14.setCheckState(False)
         self.checkBox_7.setCheckState(False)
         self.checkBox_11.setCheckState(False)
@@ -2938,20 +2734,16 @@ class mainapp(QMainWindow, main_wind):
                              (employee_name, employee_password, employee_email, str(datetime.datetime.now())))
             self.db.commit()
             QMessageBox.information(self, '', "تم اضافة الموظف بنجاح")
-            thread_0 = Thread(target=self.Add_Data_To_history, args=(3,5,))
-            thread_0.start()
-            thread_1 = Thread(target=self.History)
-            thread_1.start()
+            self.Add_Data_To_history(3,5)
+            self.History()
         else:
             self.cur.execute(
                 ''' UPDATE adduser SET user_name=%s,user_password=%s,user_email=%s,date=%s WHERE user_name=%s''',
                 (employee_name, employee_password, employee_email, str(datetime.datetime.now()), employee_name))
             self.db.commit()
             QMessageBox.information(self, '', "تم تعديل الموظف بنجاح")
-            thread_0 = Thread(target=self.Add_Data_To_history, args=(4, 5,))
-            thread_0.start()
-            thread_1 = Thread(target=self.History)
-            thread_1.start()
+            self.Add_Data_To_history(4,5)
+            self.History()
         self.lineEdit_17.setText('')
         self.lineEdit_3.setText('')
         self.comboBox_3.setCurrentIndex(0)
@@ -2972,7 +2764,6 @@ class mainapp(QMainWindow, main_wind):
                 Edit_employee = True
                 self.pushButton_53.hide()
                 self.pushButton_25.show()
-                # self.comboBox_3.setCurrentText(data[0])
                 self.lineEdit_17.setText(data[1])
                 self.lineEdit_3.setText(data[2])
                 self.cur.execute(''' SELECT * FROM userper WHERE employee_name=%s ''', (self.comboBox_3.currentText(),))
@@ -3219,10 +3010,8 @@ class mainapp(QMainWindow, main_wind):
             self.lineEdit_3.setText('')
             self.comboBox_3.setCurrentIndex(0)
             self.comboBox_2.setCurrentIndex(0)
-            thread_0 = Thread(target=self.Add_Data_To_history, args=(5, 5,))
-            thread_0.start()
-            thread_1 = Thread(target=self.History)
-            thread_1.start()
+            self.Add_Data_To_history(5,5)
+            self.History()
         QMessageBox.information(self, 'info', 'تم حذف الموظف بنجاح')
 
     def Delete_All_History_Data(self):
@@ -3241,9 +3030,6 @@ class mainapp(QMainWindow, main_wind):
 
     def Open_Settings_Page(self):
         self.tabWidget.setCurrentIndex(6)
-
-    # def Open_Print_Page(self):
-    #     self.tabWidget.setCurrentIndex(7)
 
     def Open_History_Page(self):
         self.tabWidget.setCurrentIndex(5)
@@ -3287,60 +3073,18 @@ class mainapp(QMainWindow, main_wind):
         global word_files
         global save_word_files
         global word_data
-        please = []
-        categorys = []
-        for im in categorys3:
-            if im not in categorys:
-                categorys.append(im)
-        all_items = []
-        all_items_for_units_defults = []
-        all_items_index = []
-        # self.cur.execute(''' SELECT * FROM paths WHERE id=1 ''')
-        # mydata = self.cur.fetchone()
-        # word_files = mydata[1]
-        # save_word_files = mydata[2]
-        # self.cur.execute(''' SELECT * FROM  word WHERE id=1''')
-        # word_data = self.cur.fetchone()
         self.cur.execute(''' SELECT * FROM doctor WHERE name=%s ''', (doctor,))
         doctor_data = self.cur.fetchone()
         doctor_genus = doctor_data[2]
         files = 0
         units = []
         defults = []
-        # for my_index, ii in enumerate(analysts):
-        #     self.cur.execute(''' SELECT sub_category FROM addanalyst WHERE name=%s and id ''', (ii,))
-        #     data1 = self.cur.fetchall()
-        #     if data1:
-        #         analysts[my_index] = str(analysts[my_index] + data1[0][0])
-        #         if data1[0][0] not in categorys:
-        #             categorys.append(data1[0][0])
-        for ij in range(0,len(analysts)):
-            analysts[ij] = str(analysts[ij]+'#%$'+categorys3[ij])
-        su_category_count = 0
-        count = 1
-        for c in categorys:
-            all_items.append(str(c))
-            all_items_for_units_defults.append(str(c))
-            all_items_index.append(count)
-            for sub in analysts:
-                if c in sub:
-                    count += 1
-                    all_items.append(str('   ' + sub))
-                    # print(sub,' here is sub')
-                    all_items_for_units_defults.append(str(sub))
-                    all_items_index.append(count)
-            count += 1
-        for iplz in all_items_for_units_defults:
-            # for inm in categorys:
-            #     if inm in iplz:
-            if iplz in categorys:
-                # print(iplz,'1')
+        for iplz in analysts:
+            if iplz in categorys3:
                 units.append('')
                 defults.append('')
             else:
-                # iplz = iplz[:-len(inm)]
-                # print(iplz,'2')
-                self.cur.execute(''' SELECT unit,defult FROM addanalyst WHERE name=%s ''', (str(iplz[:iplz.index('#%$')]),))
+                self.cur.execute(''' SELECT unit,defult FROM addanalyst WHERE name=%s ''', (iplz,))
                 myplzdata = self.cur.fetchall()
                 if myplzdata:
                     if myplzdata[0][0]:
@@ -3355,637 +3099,230 @@ class mainapp(QMainWindow, main_wind):
                     units.append('')
                     defults.append('')
 
-        # for my_index2, rowgh in enumerate(analysts):
-        #     for item in categorys:
-        #         if item in analysts[my_index2]:
-        #             analysts[my_index2] = str(analysts[my_index2][:-len(item)])
-        #             print(str(analysts[my_index2][:-len(item)]))
-        for my_index3, rowgh2 in enumerate(all_items):
-            if all_items[my_index3] not in categorys:
-                all_items[my_index3] = str(all_items[my_index3][:all_items[my_index3].index('#%$')])
+        all_files=[]
         f = open(r'%s\test-mydocx.docx' % word_files, 'rb')
         f.read()
         document = Document(f)
+        all_files.append(document)
         document2 = None
-        if len(all_items) >= 20:
-            files = 2
-            f = open(r'%s\test-mydocx.docx' % word_files, 'rb')
-            f.read()
-            document = Document(f)
+        if len(analysts) > 20:
+            files=2
             f2 = open(r'%s\test-mydocx2.docx' % word_files, 'rb')
             f2.read()
             document2 = Document(f2)
-        if len(all_items) > 40:
-            files = 3
-            f = open(r'%s\test-mydocx.docx' % word_files, 'rb')
-            f.read()
-            document = Document(f)
+            all_files.append(document2)
+        if len(analysts) > 40:
+            files=3
+            all_files.clear()
             f2 = open(r'%s\test-mydocx2.docx' % word_files, 'rb')
             f2.read()
             document2 = Document(f2)
             f3 = open(r'%s\test-mydocx3.docx' % word_files, 'rb')
             f3.read()
             document3 = Document(f3)
-        category_count = 0
-        for table_index, i in enumerate(document.tables):
-            for row_index, k in enumerate(i.rows):
-                for cell_index, j in enumerate(k.cells):
-                    for n in j.paragraphs:
-                        if n.text == 'Date     /    /20':
-                            n.text = f'Date  {year}/{month}/{day}'
-                            run = n.runs
-                            font = run[0].font
-                            font.name = 'Tahoma'
-                            font.bold = True
-                            font.size = Pt(12)
-                        if n.text == 'employee1':
-                            n.text = str(word_data[4])
-                            run = n.runs
-                            font = run[0].font
-                            font.name = 'Times New Roman'
-                            font.bold = True
-                            font.size = Pt(16)
-                        if n.text == 'employee2':
-                            n.text = str(word_data[5])
-                            run = n.runs
-                            font = run[0].font
-                            font.name = 'Times New Roman'
-                            font.bold = True
-                            font.size = Pt(16)
-                        if n.text == 'employeeshahada1':
-                            n.text = str(word_data[6])
-                            run = n.runs
-                            font = run[0].font
-                            font.name = 'Times New Roman'
-                            font.bold = True
-                            font.size = Pt(12)
-                        if n.text == 'employeeshahada2':
-                            n.text = str(word_data[7])
-                            run = n.runs
-                            font = run[0].font
-                            font.name = 'Times New Roman'
-                            font.bold = True
-                            font.size = Pt(12)
-                        if n.text == 'shopname':
-                            n.text = str(word_data[1])
-                            run = n.runs
-                            font = run[0].font
-                            font.name = 'Times New Roman'
-                            font.bold = True
-                            font.size = Pt(26)
-                        if n.text == 'phone1':
-                            n.text = str(word_data[2])
-                            run = n.runs
-                            font = run[0].font
-                            font.name = 'Times New Roman'
-                            font.bold = True
-                            font.size = Pt(14)
-                        if n.text == 'phone2':
-                            n.text = str(word_data[3])
-                            run = n.runs
-                            font = run[0].font
-                            font.name = 'Times New Roman'
-                            font.bold = True
-                            font.size = Pt(14)
-                        if n.text == 'gps':
-                            n.text = str(word_data[8])
-                            run = n.runs
-                            font = run[0].font
-                            font.name = 'Times New Roman'
-                            font.bold = True
-                            font.size = Pt(13)
-                        if n.text == 'client_name':
-                            if genus == 1:
-                                n.text = f'{word_data[9]}'
-                            else:
-                                n.text = f'{word_data[13]}'
-                            run = n.runs
-                            font = run[0].font
-                            font.name = 'Times New Roman'
-                            font.bold = True
-                            font.size = Pt(12)
-                        if n.text == 'rname':
-                            n.text = str(name)
-                            run = n.runs
-                            font = run[0].font
-                            font.name = 'Times New Roman'
-                            font.bold = True
-                            font.size = Pt(12)
-                        if n.text == 'doctor':
-                            if doctor_genus == 'female':
-                                n.text = f'{word_data[15]}'
-                            else:
-                                n.text = f'{word_data[11]}'
-                            run = n.runs
-                            font = run[0].font
-                            font.name = 'Times New Roman'
-                            font.bold = True
-                            font.size = Pt(12)
-                        if n.text == 'rdoctor':
-                            n.text = str(doctor)
-                            run = n.runs
-                            font = run[0].font
-                            font.name = 'Times New Roman'
-                            font.bold = True
-                            font.size = Pt(12)
-                        if n.text == 'lqb1':
-                            if genus == 1:
-                                n.text = str(word_data[10])
-                            else:
-                                n.text = str(word_data[14])
-                            run = n.runs
-                            font = run[0].font
-                            font.name = 'Times New Roman'
-                            font.bold = True
-                            font.size = Pt(12)
-                        if n.text == 'lqb2':
-                            if doctor_genus == 'female':
-                                n.text = str(word_data[16])
-                            else:
-                                n.text = str(word_data[12])
-                            run = n.runs
-                            font = run[0].font
-                            font.name = 'Times New Roman'
-                            font.bold = True
-                            font.size = Pt(12)
-                        for row in range(0, len(all_items)):
-                            if n.text == str(all_items_index[row]) + 'r':
-                                n.text = str(all_items[row]) + 'k'
-                                # print(n.text,len(n.text))
-                                if str(n.text)[:-1] not in categorys:
+            all_files.append(document)
+            all_files.append(document2)
+            all_files.append(document3)
+        from_count = 0
+        from_count2 = 0
+        for big_item in all_files:
+            for table_index, i in enumerate(big_item.tables):
+                for row_index, k in enumerate(i.rows):
+                    for cell_index, j in enumerate(k.cells):
+                        for n in j.paragraphs:
+                            if n.text == 'Date     /    /20':
+                                n.text = f'Date  {year}/{month}/{day}'
+                                run = n.runs
+                                font = run[0].font
+                                font.name = 'Tahoma'
+                                font.bold = True
+                                font.size = Pt(12)
+                            if n.text == 'employee1':
+                                n.text = str(word_data[4])
+                                run = n.runs
+                                font = run[0].font
+                                font.name = 'Times New Roman'
+                                font.bold = True
+                                font.size = Pt(16)
+                            if n.text == 'employee2':
+                                n.text = str(word_data[5])
+                                run = n.runs
+                                font = run[0].font
+                                font.name = 'Times New Roman'
+                                font.bold = True
+                                font.size = Pt(16)
+                            if n.text == 'employeeshahada1':
+                                n.text = str(word_data[6])
+                                run = n.runs
+                                font = run[0].font
+                                font.name = 'Times New Roman'
+                                font.bold = True
+                                font.size = Pt(12)
+                            if n.text == 'employeeshahada2':
+                                n.text = str(word_data[7])
+                                run = n.runs
+                                font = run[0].font
+                                font.name = 'Times New Roman'
+                                font.bold = True
+                                font.size = Pt(12)
+                            if n.text == 'shopname':
+                                n.text = str(word_data[1])
+                                run = n.runs
+                                font = run[0].font
+                                font.name = 'Times New Roman'
+                                font.bold = True
+                                font.size = Pt(26)
+                            if n.text == 'phone1':
+                                n.text = str(word_data[2])
+                                run = n.runs
+                                font = run[0].font
+                                font.name = 'Times New Roman'
+                                font.bold = True
+                                font.size = Pt(14)
+                            if n.text == 'phone2':
+                                n.text = str(word_data[3])
+                                run = n.runs
+                                font = run[0].font
+                                font.name = 'Times New Roman'
+                                font.bold = True
+                                font.size = Pt(14)
+                            if n.text == 'gps':
+                                n.text = str(word_data[8])
+                                run = n.runs
+                                font = run[0].font
+                                font.name = 'Times New Roman'
+                                font.bold = True
+                                font.size = Pt(13)
+                            if n.text == 'client_name':
+                                if genus == 1:
+                                    n.text = f'{word_data[9]}'
+                                else:
+                                    n.text = f'{word_data[13]}'
+                                run = n.runs
+                                font = run[0].font
+                                font.name = 'Times New Roman'
+                                font.bold = True
+                                font.size = Pt(12)
+                            if n.text == 'rname':
+                                n.text = str(name)
+                                run = n.runs
+                                font = run[0].font
+                                font.name = 'Times New Roman'
+                                font.bold = True
+                                font.size = Pt(12)
+                            if n.text == 'doctor':
+                                if doctor_genus == 'female':
+                                    n.text = f'{word_data[15]}'
+                                else:
+                                    n.text = f'{word_data[11]}'
+                                run = n.runs
+                                font = run[0].font
+                                font.name = 'Times New Roman'
+                                font.bold = True
+                                font.size = Pt(12)
+                            if n.text == 'rdoctor':
+                                n.text = str(doctor)
+                                run = n.runs
+                                font = run[0].font
+                                font.name = 'Times New Roman'
+                                font.bold = True
+                                font.size = Pt(12)
+                            if n.text == 'lqb1':
+                                if genus == 1:
+                                    n.text = str(word_data[10])
+                                else:
+                                    n.text = str(word_data[14])
+                                run = n.runs
+                                font = run[0].font
+                                font.name = 'Times New Roman'
+                                font.bold = True
+                                font.size = Pt(12)
+                            if n.text == 'lqb2':
+                                if doctor_genus == 'female':
+                                    n.text = str(word_data[16])
+                                else:
+                                    n.text = str(word_data[12])
+                                run = n.runs
+                                font = run[0].font
+                                font.name = 'Times New Roman'
+                                font.bold = True
+                                font.size = Pt(12)
+                            for row in range(from_count, len(analysts)):
+                                if n.text == str((row+1)-from_count2) :
+                                    n.text = str(analysts[row])
+                                    if str(n.text) in categorys3:
+                                        for igq in range(0, 5):
+                                            i.rows[row_index].cells[igq]._tc.get_or_add_tcPr().append(
+                                                parse_xml(r'<w:shd {} w:fill="d9d9d9"/>'.format(nsdecls('w'))))
                                     run = n.runs
                                     font = run[0].font
                                     font.bold = True
-                                    font.size = Pt(11)
+                                    if str(n.text) in categorys3:
+                                        font.size = Pt(13)
+                                    else:
+                                        font.size = Pt(11)
                                     font.name = 'Tahoma'
-                                else:
-                                    n.text = ''
-                                if str(all_items[row]) in categorys:
-                                    category_count += 1
-                                if n.text == str(all_items[row]) + 'k':
-
-                                    n.text = ' '+str(results[row - category_count])
+                                if n.text == str((row+1)-from_count2)+'r':
+                                    n.text = ' '+str(results[row])
                                     run = n.runs
                                     font = run[0].font
                                     font.bold = False
                                     font.size = Pt(11)
                                     font.name = 'Tahoma'
-                            if n.text == str(all_items_index[row]):
-                                if str(all_items[row]) not in please:
-                                    n.text = str(all_items[row])
-                                    run = n.runs
-                                    font = run[0].font
-                                    font.bold = True
-                                    font.size = Pt(13)
-                                    font.name = 'Tahoma'
-                                    if str(n.text) in categorys:
-                                        for igq in range(0, 5):
-                                            i.rows[row_index].cells[igq]._tc.get_or_add_tcPr().append(
-                                                parse_xml(r'<w:shd {} w:fill="d9d9d9"/>'.format(nsdecls('w'))))
-                                    else:
-                                        run = n.runs
-                                        font = run[0].font
-                                        font.bold = True
-                                        font.size = Pt(11)
-                                        font.name = 'Tahoma'
-                                    please.append(str(all_items[row]))
-
-                            if n.text == str(all_items_index[row]) + 'unit':
-                                n.text = str(units[row])
-                                run1 = n
-                                font1 = run1.runs[0].font
-                                font1.bold = True
-                                font1.size = Pt(12)
-                                font1.name = 'Times New Roman'
-                            if n.text == str(all_items_index[row]) + 'defult':
-                                n.text = str(defults[row])
-                                run1 = n
-                                font1 = run1.runs[0].font
-                                font1.bold = True
-                                font1.size = Pt(12)
-                                font1.name = 'Times New Roman'
-        for iq1 in document.tables:
-            for kq1 in iq1.rows:
-                for jq1 in kq1.cells:
-                    for nq1 in jq1.paragraphs:
-                        for myq in range(0, 21):
-                            if nq1.text == str(myq):
-                                if nq1.runs[0].font.underline:
-                                    nq1.text = ''
-                            if nq1.text == str(myq) + 'unit':
-                                if nq1.runs[0].font.underline:
-                                    nq1.text = ''
-                            if nq1.text == str(myq) + 'defult':
-                                if nq1.runs[0].font.underline:
-                                    nq1.text = ''
-                            if nq1.text == str(myq) + 'r':
-                                if nq1.runs[0].font.underline:
-                                    nq1.text = ''
-        if len(all_items) >= 20:
-            # print(results)
-            please2 = []
-            for i2 in document2.tables:
-                for row_index2, k2 in enumerate(i2.rows):
-                    for cell_index2, j2 in enumerate(k2.cells):
-                        for n2 in j2.paragraphs:
-                            if n2.text == 'Date     /    /20':
-                                n2.text = f'Date  {year}/{month}/{day}'
-                                run = n2.runs
-                                font = run[0].font
-                                font.name = 'Tahoma'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n2.text == 'employee1':
-                                n2.text = str(word_data[4])
-                                run = n2.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(16)
-                            if n2.text == 'employee2':
-                                n2.text = str(word_data[5])
-                                run = n2.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(16)
-                            if n2.text == 'employeeshahada1':
-                                n2.text = str(word_data[6])
-                                run = n2.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n2.text == 'employeeshahada2':
-                                n2.text = str(word_data[7])
-                                run = n2.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n2.text == 'shopname':
-                                n2.text = str(word_data[1])
-                                run = n2.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(26)
-                            if n2.text == 'phone1':
-                                n2.text = str(word_data[2])
-                                run = n2.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(14)
-                            if n2.text == 'phone2':
-                                n2.text = str(word_data[3])
-                                run = n2.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(14)
-                            if n2.text == 'gps':
-                                n2.text = str(word_data[8])
-                                run = n2.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(13)
-                            if n2.text == 'client_name':
-                                if genus == 1:
-                                    n2.text = f'{word_data[9]}'
-                                else:
-                                    n2.text = f'{word_data[13]}'
-                                run = n2.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n2.text == 'rname':
-                                n2.text = str(name)
-                                run = n2.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n2.text == 'doctor':
-                                if doctor_genus == 'female':
-                                    n2.text = f'{word_data[15]}'
-                                else:
-                                    n2.text = f'{word_data[11]}'
-                                run = n2.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n2.text == 'rdoctor':
-                                n2.text = str(doctor)
-                                run = n2.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n2.text == 'lqb1':
-                                if genus == 1:
-                                    n2.text = str(word_data[10])
-                                else:
-                                    n2.text = str(word_data[14])
-                                run = n2.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n2.text == 'lqb2':
-                                if doctor_genus == 'female':
-                                    n2.text = str(word_data[16])
-                                else:
-                                    n2.text = str(word_data[12])
-                                run = n2.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            for row3 in range(20, len(all_items)):
-                                if n2.text == str(all_items_index[row3 - 20]) + 'r':
-                                    n2.text = str(all_items[row3]) + 'k'
-                                    if str(n2.text)[:-1] not in categorys:
-                                        run = n2.runs
-                                        font = run[0].font
-                                        font.bold = True
-                                        font.size = Pt(11)
-                                        font.name = 'Tahoma'
-                                    else:
-                                        n2.text = ''
-                                    if str(all_items[row3]) in categorys:
-                                        category_count += 1
-                                    if n2.text == str(all_items[row3]) + 'k':
-                                        if str(n2.text)[2:-1] in categorys:
-                                            n2.text = ''
-                                        else:
-
-                                            n2.text = ' '+str(results[row3 - category_count])
-                                            run = n2.runs
-                                            font = run[0].font
-                                            font.bold = False
-                                            font.size = Pt(11)
-                                            font.name = 'Tahoma'
-                                if n2.text == str(all_items_index[row3 - 20]):
-                                    if str(all_items[row3]) not in please2:
-                                        n2.text = str(all_items[row3])
-                                        run = n2.runs
-                                        font = run[0].font
-                                        font.bold = True
-                                        font.size = Pt(13)
-                                        font.name = 'Tahoma'
-                                        if n2.text in categorys:
-                                            for igq2 in range(0, 5):
-                                                i2.rows[row_index2].cells[igq2]._tc.get_or_add_tcPr().append(
-                                                    parse_xml(r'<w:shd {} w:fill="d9d9d9"/>'.format(nsdecls('w'))))
-                                        else:
-                                            font.size = Pt(11)
-                                        please2.append(n2.text)
-                                    else:
-                                        run = n2.runs
-                                        font = run[0].font
-                                        font.bold = True
-                                        font.size = Pt(11)
-                                        font.name = 'Tahoma'
-
-                                if n2.text == str(all_items_index[row3 - 20]) + 'unit':
-                                    n2.text = str(units[row3])
-                                    run1 = n2
+                                if n.text == str((row+1)-from_count2) + 'unit':
+                                    n.text = str(units[row])
+                                    run1 = n
                                     font1 = run1.runs[0].font
                                     font1.bold = True
                                     font1.size = Pt(12)
                                     font1.name = 'Times New Roman'
-                                if n2.text == str(all_items_index[row3 - 20]) + 'defult':
-                                    n2.text = str(defults[row3])
-                                    run1 = n2
+                                if n.text == str((row+1)-from_count2) + 'defult':
+                                    n.text = str(defults[row])
+                                    run1 = n
                                     font1 = run1.runs[0].font
                                     font1.bold = True
                                     font1.size = Pt(12)
                                     font1.name = 'Times New Roman'
-            for iq2 in document2.tables:
-                for kq2 in iq2.rows:
-                    for jq2 in kq2.cells:
-                        for nq2 in jq2.paragraphs:
-                            for myq2 in range(0, 26):
-                                if nq2.text == str(myq2):
-                                    if nq2.runs[0].font.underline:
-                                        nq2.text = ''
-                                if nq2.text == str(myq2) + 'unit':
-                                    if nq2.runs[0].font.underline:
-                                        nq2.text = ''
-                                if nq2.text == str(myq2) + 'defult':
-                                    if nq2.runs[0].font.underline:
-                                        nq2.text = ''
-                                if nq2.text == str(myq2) + 'r':
-                                    if nq2.runs[0].font.underline:
-                                        nq2.text = ''
-
-        if len(all_items) >= 40:
-            please3 = []
-            for i3 in document3.tables:
-                for row_index3, k3 in enumerate(i3.rows):
-                    for cell_index3, j3 in enumerate(k3.cells):
-                        for n3 in j3.paragraphs:
-                            if n3.text == 'Date     /    /20':
-                                n3.text = f'Date  {year}/{month}/{day}'
-                                run = n3.runs
-                                font = run[0].font
-                                font.name = 'Tahoma'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n3.text == 'employee1':
-                                n3.text = str(word_data[4])
-                                run = n3.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(16)
-                            if n3.text == 'employee2':
-                                n3.text = str(word_data[5])
-                                run = n3.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(16)
-                            if n3.text == 'employeeshahada1':
-                                n3.text = str(word_data[6])
-                                run = n3.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n3.text == 'employeeshahada2':
-                                n3.text = str(word_data[7])
-                                run = n3.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n3.text == 'shopname':
-                                n3.text = str(word_data[1])
-                                run = n3.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(26)
-                            if n3.text == 'phone1':
-                                n3.text = str(word_data[2])
-                                run = n3.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(14)
-                            if n3.text == 'phone2':
-                                n3.text = str(word_data[3])
-                                run = n3.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(14)
-                            if n3.text == 'gps':
-                                n3.text = str(word_data[8])
-                                run = n3.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(13)
-                            if n3.text == 'client_name':
-                                if genus == 1:
-                                    n3.text = f'{word_data[9]}'
-                                else:
-                                    n3.text = f'{word_data[13]}'
-                                run = n3.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n3.text == 'rname':
-                                n3.text = str(name)
-                                run = n3.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n3.text == 'doctor':
-                                if doctor_genus == 'female':
-                                    n3.text = f'{word_data[15]}'
-                                else:
-                                    n3.text = f'{word_data[11]}'
-                                run = n3.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n3.text == 'rdoctor':
-                                n3.text = str(doctor)
-                                run = n3.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n3.text == 'lqb1':
-                                if genus == 1:
-                                    n3.text = str(word_data[10])
-                                else:
-                                    n3.text = str(word_data[14])
-                                run = n3.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            if n3.text == 'lqb2':
-                                if doctor_genus == 'female':
-                                    n3.text = str(word_data[16])
-                                else:
-                                    n3.text = str(word_data[12])
-                                run = n3.runs
-                                font = run[0].font
-                                font.name = 'Times New Roman'
-                                font.bold = True
-                                font.size = Pt(12)
-                            for row4 in range(40, len(all_items)):
-                                if n3.text == str(all_items_index[row4 - 40]) + 'r':
-                                    n3.text = str(all_items[row4]) + 'k'
-                                    if str(n3.text)[:-1] not in categorys:
-                                        run = n3.runs
-                                        font = run[0].font
-                                        font.bold = True
-                                        font.size = Pt(11)
-                                        font.name = 'Tahoma'
-                                    else:
-                                        n3.text = ''
-                                    if str(all_items[row4]) in categorys:
-                                        category_count += 1
-                                    if n3.text == str(all_items[row4]) + 'k':
-                                        if str(n3.text)[2:-1] in categorys:
-                                            n3.text = ''
-                                        else:
-                                            n3.text = ' '+str(results[row4 - category_count])
-                                            run = n3.runs
-                                            font = run[0].font
-                                            font.bold = False
-                                            font.size = Pt(11)
-                                            font.name = 'Tahoma'
-                                if n3.text == str(all_items_index[row4 - 40]):
-                                    if str(all_items[row4]) not in please3:
-                                        n3.text = str(all_items[row4])
-                                        run = n3.runs
-                                        font = run[0].font
-                                        font.bold = True
-                                        font.size = Pt(13)
-                                        font.name = 'Tahoma'
-                                        if n3.text in categorys:
-                                            for igq3 in range(0, 5):
-                                                i3.rows[row_index3].cells[igq3]._tc.get_or_add_tcPr().append(
-                                                    parse_xml(r'<w:shd {} w:fill="d9d9d9"/>'.format(nsdecls('w'))))
-                                        else:
-                                            font.size = Pt(11)
-                                        please3.append(n3.text)
-                                    else:
-                                        run = n3.runs
-                                        font = run[0].font
-                                        font.bold = True
-                                        font.size = Pt(11)
-                                        font.name = 'Tahoma'
-                                if n3.text == str(all_items_index[row4 - 40]) + 'unit':
-                                    n3.text = str(units[row4])
-                                    run1 = n3
-                                    font1 = run1.runs[0].font
-                                    font1.bold = True
-                                    font1.size = Pt(12)
-                                    font1.name = 'Times New Roman'
-                                if n3.text == str(all_items_index[row4 - 40]) + 'defult':
-                                    n3.text = str(defults[row4])
-                                    run1 = n3
-                                    font1 = run1.runs[0].font
-                                    font1.bold = True
-                                    font1.size = Pt(12)
-                                    font1.name = 'Times New Roman'
-            for iq3 in document3.tables:
-                for kq3 in iq3.rows:
-                    for jq3 in kq3.cells:
-                        for nq3 in jq3.paragraphs:
-                            for myq3 in range(0, 26):
-                                if nq3.text == str(myq3):
-                                    if nq3.runs[0].font.underline:
-                                        nq3.text = ''
-                                if nq3.text == str(myq3) + 'unit':
-                                    if nq3.runs[0].font.underline:
-                                        nq3.text = ''
-                                if nq3.text == str(myq3) + 'defult':
-                                    if nq3.runs[0].font.underline:
-                                        nq3.text = ''
-                                if nq3.text == str(myq3) + 'r':
-                                    if nq3.runs[0].font.underline:
-                                        nq3.text = ''
+            is_break = False
+            for iq1 in big_item.tables:
+                if is_break:
+                    break
+                for kq1 in iq1.rows:
+                    if is_break:
+                        print('you will dont show')
+                    for jq1 in kq1.cells:
+                        for nq1 in jq1.paragraphs:
+                            if str(nq1.text) == '20defult':
+                                nq1.text = ''
+                            if str(nq1.text) == '20unit':
+                                nq1.text = ''
+                            if str(nq1.text) == '20r':
+                                nq1.text = ''
+                            if str(nq1.text) =='20':
+                                nq1.text = ''
+                                break
+                                is_break=True
+                            for myq in range(0, 21):
+                                if nq1.text == str(myq):
+                                    if nq1.runs[0].font.underline:
+                                        nq1.text = ''
+                                if nq1.text == str(myq) + 'unit':
+                                    if nq1.runs[0].font.underline:
+                                        nq1.text = ''
+                                if nq1.text == str(myq) + 'defult':
+                                    if nq1.runs[0].font.underline:
+                                        nq1.text = ''
+                                if nq1.text == str(myq) + 'r':
+                                    if nq1.runs[0].font.underline:
+                                        nq1.text = ''
+            from_count+=19
+            from_count2+=20
         document.save(r'%s\result.docx' % save_word_files)
         f.close()
         if files == 2:
             print('2 files')
-            document2.save(r'%s\result2.docx' % save_word_files)
+            if document2:
+                document2.save(r'%s\result2.docx' % save_word_files)
             f2.close()
         if files == 3:
             print('2 files')
@@ -4003,10 +3340,8 @@ class mainapp(QMainWindow, main_wind):
                     word.Documents.Open(r'%s\result2.docx' % save_word_files)
                 if os.path.exists(r'%s\result3.docx' % save_word_files):
                     word.Documents.Open(r'%s\result3.docx' % save_word_files)
-                thread_0 = Thread(target=self.Add_Data_To_history, args=(8, 7,))
-                thread_0.start()
-                thread_1 = Thread(target=self.History)
-                thread_1.start()
+                self.Add_Data_To_history(8,7)
+                self.History()
             else:
                 os.system("TASKKILL /F /IM WINWORD.exe")
                 word = client.Dispatch("Word.Application")
@@ -4020,11 +3355,9 @@ class mainapp(QMainWindow, main_wind):
                     word.Documents.Open(r'%s\result3.docx' % save_word_files)
                     word.ActiveDocument.PrintOut(Background=False)
                 self.Delete_Files()
-                thread_0 = Thread(target=self.Add_Data_To_history, args=(7, 7,))
-                thread_0.start()
-                thread_1 = Thread(target=self.History)
-                thread_1.start()
-                
+                self.Add_Data_To_history(7,7)
+                self.History()
+
         except Exception as e:
             print(e, '6erorr')
 
@@ -4039,4 +3372,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
