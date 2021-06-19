@@ -1,11 +1,11 @@
-import datetime
+﻿import datetime
 import os
 import sys
 import MySQLdb
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.uic import loadUiType
+# from PyQt5.uic import loadUiType
 from docx import *
 from docx.shared import Pt
 import smtplib
@@ -22,10 +22,10 @@ import add_delete_category_dialogpy
 import add_delete_analyst_choices
 import add_delete_analyst_choicesrupy2
 import mandobuipy
-# from mymain import Ui_MainWindow as main_wind
+from mymain import Ui_MainWindow as main_wind
 import ast
 show_clients_check = False
-main_wind, _ = loadUiType("design.ui")
+# main_wind, _ = loadUiType("design.ui")
 user_id = ''
 analyst_name_for_update_before = ''
 analyst_name_for_update = ''
