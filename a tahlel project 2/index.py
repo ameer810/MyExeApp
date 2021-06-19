@@ -1,4 +1,4 @@
-﻿import datetime
+import datetime
 import os
 import sys
 import MySQLdb
@@ -518,7 +518,8 @@ class mainapp(QMainWindow, main_wind):
                     self.comboBox_16.setCurrentText(str(listWidget_object.item(row).text()))
                     self.Sales_Page()
         self.Dialog.close()
-        self.Show_All_one_client_analyst()
+        self.add_client_to_list()
+        self.Show_All_one_client_analyst('not')
         self.Add_buttons_combo_spin_to_tableWidget()
         self.tableWidget_5.scrollToBottom()
         self.get_total_price()
@@ -1224,10 +1225,12 @@ class mainapp(QMainWindow, main_wind):
             if for_loop2 == False:
                 QMessageBox.information(self, 'تحذير', 'هذا العنصر موجود بالفعل')
                 self.Add_all_analysts_items()
+
             else:
                 pass
+        if for_loop2 == False:
+            self.add_client_to_list()
         not_in_all_analysts_items = False
-        self.add_client_to_list()
         if for_loop2==False:
             self.add_today_client_to_list()
             self.Auto_complete_combo7()
@@ -1384,10 +1387,12 @@ class mainapp(QMainWindow, main_wind):
                 global clients_name_glo
                 if client_name in clients_name_glo:
                     if not from_add_multy:
+                        print('not from add')
+                        print(from_add_multy)
                         QMessageBox.information(self, 'Error','الرقم الذي ادخلته غير موجود في مبيعات اليوم يرجى مراجعة صفحة "مبيعات اليوم" للتأكد من الرقم')
-                else:
-                    if not from_add_multy:
-                        QMessageBox.information(self, 'Error','الرقم الذي ادخلته غير صحيح يرجى مراجعة صفحة "مبيعات اليوم" للتأكد من الرقم')
+                # else:
+                #     if not from_add_multy:
+                #         QMessageBox.information(self, 'Error','الرقم الذي ادخلته غير صحيح يرجى مراجعة صفحة "مبيعات اليوم" للتأكد من الرقم')
             # except Exception as e:
             #     print(e,'1erorr')
             self.get_total_price()
@@ -1439,6 +1444,7 @@ class mainapp(QMainWindow, main_wind):
             for new in my_DATA:
                 self.comboBox_16.setCurrentText(str(new[0]))
                 self.Sales_Page()
+            self.add_client_to_list()
             self.Show_All_one_client_analyst()
             self.Update_addNewItem_Data()
             self.Add_buttons_combo_spin_to_tableWidget()
@@ -3178,13 +3184,13 @@ class mainapp(QMainWindow, main_wind):
                         print('you will dont show')
                     for jq1 in kq1.cells:
                         for nq1 in jq1.paragraphs:
-                            if str(nq1.text) == '20defult':
+                            if str(nq1.text) == '23defult':
                                 nq1.text = ''
-                            if str(nq1.text) == '20unit':
+                            if str(nq1.text) == '23unit':
                                 nq1.text = ''
-                            if str(nq1.text) == '20r':
+                            if str(nq1.text) == '23r':
                                 nq1.text = ''
-                            if str(nq1.text) =='20':
+                            if str(nq1.text) =='23':
                                 nq1.text = ''
                                 break
                                 is_break=True
@@ -3201,8 +3207,8 @@ class mainapp(QMainWindow, main_wind):
                                 if nq1.text == str(myq) + 'r':
                                     if nq1.runs[0].font.underline:
                                         nq1.text = ''
-            from_count+=19
-            from_count2+=20
+            from_count+=22
+            from_count2+=23
         document.save(r'%s\result.docx' % save_word_files)
         f.close()
         if files == 2:
