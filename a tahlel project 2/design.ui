@@ -7131,6 +7131,11 @@ font: 14pt &quot;Segoe UI&quot;;
            <pointsize>11</pointsize>
           </font>
          </property>
+         <item>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </item>
         </widget>
         <widget class="QLabel" name="label_90">
          <property name="geometry">
@@ -9429,13 +9434,19 @@ QPushButton:hover {
         <property name="geometry">
          <rect>
           <x>-1</x>
-          <y>150</y>
-          <width>1041</width>
-          <height>431</height>
+          <y>170</y>
+          <width>1031</width>
+          <height>461</height>
          </rect>
         </property>
         <property name="layoutDirection">
          <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="showGrid">
+         <bool>true</bool>
+        </property>
+        <property name="gridStyle">
+         <enum>Qt::SolidLine</enum>
         </property>
         <property name="sortingEnabled">
          <bool>true</bool>
@@ -9447,12 +9458,32 @@ QPushButton:hover {
         </row>
         <column>
          <property name="text">
+          <string>id</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
           <string>الاسم</string>
          </property>
         </column>
         <column>
          <property name="text">
+          <string>التحليل</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>الحالة</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
           <string>الكمية</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>كمية المنتج</string>
          </property>
         </column>
         <column>
@@ -9467,7 +9498,27 @@ QPushButton:hover {
         </column>
         <column>
          <property name="text">
+          <string>المجهز</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>المبلغ المدفوع</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>المبلغ المتبقي</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
           <string>تاريخ الشراء</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>حفظ</string>
          </property>
         </column>
         <column>
@@ -9476,147 +9527,23 @@ QPushButton:hover {
          </property>
         </column>
        </widget>
-       <widget class="QPushButton" name="pushButton_16">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
+       <widget class="QComboBox" name="comboBox_13">
         <property name="geometry">
          <rect>
-          <x>0</x>
-          <y>77</y>
-          <width>311</width>
-          <height>61</height>
+          <x>678</x>
+          <y>80</y>
+          <width>251</width>
+          <height>46</height>
          </rect>
         </property>
-        <property name="font">
-         <font>
-          <family>Segoe UI</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
         </property>
         <property name="styleSheet">
          <string notr="true">border-radius:20px;</string>
         </property>
-        <property name="text">
-         <string>اضافة</string>
-        </property>
-       </widget>
-       <widget class="QDateEdit" name="dateEdit">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>490</x>
-          <y>88</y>
-          <width>221</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border-radius:20px;</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_7">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>213</x>
-          <y>7</y>
-          <width>111</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Segoe UI</family>
-          <pointsize>12</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>سعر القطعة</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_8">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>730</x>
-          <y>85</y>
-          <width>91</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Segoe UI</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>تاريخ الشراء</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="lineEdit_13">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>650</x>
-          <y>20</y>
-          <width>231</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border-radius:20px;</string>
-        </property>
-        <property name="placeholderText">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_12">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>890</x>
-          <y>14</y>
-          <width>101</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Segoe UI</family>
-          <pointsize>12</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>أسم المنتج</string>
+        <property name="editable">
+         <bool>false</bool>
         </property>
        </widget>
        <widget class="QLabel" name="label_14">
@@ -9625,8 +9552,8 @@ QPushButton:hover {
         </property>
         <property name="geometry">
          <rect>
-          <x>550</x>
-          <y>10</y>
+          <x>561</x>
+          <y>2</y>
           <width>61</width>
           <height>51</height>
          </rect>
@@ -9643,14 +9570,93 @@ QPushButton:hover {
          <string>الكمية</string>
         </property>
        </widget>
+       <widget class="QLabel" name="label_7">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>9</y>
+          <width>111</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>سعر القطعة</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_92">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>564</x>
+          <y>77</y>
+          <width>61</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>الحالة</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_16">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>-2</x>
+          <y>73</y>
+          <width>321</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-radius:20px;</string>
+        </property>
+        <property name="text">
+         <string>...اضافة</string>
+        </property>
+       </widget>
        <widget class="QSpinBox" name="spinBox_3">
         <property name="enabled">
          <bool>true</bool>
         </property>
         <property name="geometry">
          <rect>
-          <x>355</x>
-          <y>19</y>
+          <x>366</x>
+          <y>11</y>
           <width>191</width>
           <height>41</height>
          </rect>
@@ -9665,14 +9671,96 @@ QPushButton:hover {
          <string notr="true">border-radius:20px;</string>
         </property>
        </widget>
+       <widget class="QLabel" name="label_12">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>901</x>
+          <y>6</y>
+          <width>101</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>أسم المنتج</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="comboBox_12">
+        <property name="geometry">
+         <rect>
+          <x>368</x>
+          <y>80</y>
+          <width>191</width>
+          <height>46</height>
+         </rect>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-radius:20px;</string>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>تم الشراء</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>تم الشراء , لم يدفع</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>تم الشراء , دُفع مبلغ</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_13">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>661</x>
+          <y>12</y>
+          <width>231</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-radius:20px;</string>
+        </property>
+        <property name="placeholderText">
+         <string/>
+        </property>
+       </widget>
        <widget class="QSpinBox" name="spinBox_8">
         <property name="enabled">
          <bool>true</bool>
         </property>
         <property name="geometry">
          <rect>
-          <x>20</x>
-          <y>18</y>
+          <x>0</x>
+          <y>10</y>
           <width>191</width>
           <height>41</height>
          </rect>

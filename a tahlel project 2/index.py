@@ -1,4 +1,4 @@
-import datetime
+﻿import datetime
 import os
 import sys
 import MySQLdb
@@ -22,10 +22,10 @@ import add_delete_category_dialogpy
 import add_delete_analyst_choices
 import add_delete_analyst_choicesrupy2
 import mandobuipy
-from mymain import Ui_MainWindow as main_wind
+# from mymain import Ui_MainWindow as main_wind
 import ast
 show_clients_check = False
-# main_wind, _ = loadUiType("design.ui")
+main_wind, _ = loadUiType("design.ui")
 user_id = ''
 analyst_name_for_update_before = ''
 analyst_name_for_update = ''
@@ -37,14 +37,8 @@ clients_name_glo = []
 clients_name_glo2 = []
 clients_name_glo_clients_page = []
 from_start = False
-first_text = ''
-first_text2 = ''
-first_text3 = ''
 addTrue = True
-first_text_category1 = ''
-first_text_category2 = ''
 select_by_date = False
-sd = None
 echo_mode_num = 0
 echo_mode_num2 = 0
 Add_all_analysts_items_list = []
@@ -57,8 +51,6 @@ Delete_Doctor = True
 current_group_box = ''
 word_files = None
 save_word_files = None
-Analyst_Choices_list=[]
-myu_row_count =0
 class mainapp(QMainWindow, main_wind):
     def __init__(self, parent=None):
         global from_start
@@ -94,7 +86,7 @@ class mainapp(QMainWindow, main_wind):
         self.Add_Doctor_Data()
         self.dateEdit_6.setDate(datetime.date.today())
         self.dateEdit_5.setDate(datetime.date.today())
-        self.dateEdit.setDate(datetime.date.today())
+        # self.dateEdit.setDate(datetime.date.today())
         os.system("TASKKILL /F /IM WINWORD.exe")
         os.system('start WINWORD.exe')
         self.tableWidget_5.setColumnHidden(4, True)
@@ -109,7 +101,6 @@ class mainapp(QMainWindow, main_wind):
         self.db = MySQLdb.connect(host='localhost', user='root', password='12345', db='tahlel2', charset="utf8",
                                   use_unicode=True, port=3306)
         self.cur = self.db.cursor()
-
     def Show_Word_Doc_Data(self):
         self.cur.execute(''' SELECT * FROM word ''')
         data = self.cur.fetchone()
@@ -129,7 +120,6 @@ class mainapp(QMainWindow, main_wind):
         self.lineEdit_44.setText(data[14])
         self.lineEdit_46.setText(data[15])
         self.lineEdit_47.setText(data[16])
-
     def Update_Word_Doc_Data(self):
         var1 = self.lineEdit_16.text()
         var2 = self.lineEdit_18.text()
@@ -155,7 +145,6 @@ class mainapp(QMainWindow, main_wind):
         self.Show_Word_Doc_Data()
         self.Add_Data_To_history(4, 7)
         self.History()
-
         self.Update_Word_Info()
     def Update_Word_Info(self):
         global word_files
@@ -205,7 +194,6 @@ class mainapp(QMainWindow, main_wind):
             self.checkBox_41.setCheckState(True)
         else:
             self.False_checkState()
-
     def handel_buttons(self):
         global addTrue
         global edit_employee_check
@@ -237,7 +225,7 @@ class mainapp(QMainWindow, main_wind):
         self.comboBox_28.currentTextChanged.connect(self.Show_Doctor_Data)
         self.comboBox_3.currentTextChanged.connect(self.Show_employee_data)
         self.pushButton_29.clicked.connect(self.Clients_Page)
-        self.pushButton_16.clicked.connect(self.Add_Buys)
+        self.pushButton_16.clicked.connect(self.Show_Add_Buys_Complete_Dialog)
         self.pushButton_20.clicked.connect(self.Show_All_The_Analysts)
         self.pushButton_27.clicked.connect(self.Edit_Analyst)
         self.pushButton_7.clicked.connect(self.Log_In_Chieck)
@@ -253,7 +241,6 @@ class mainapp(QMainWindow, main_wind):
         self.pushButton_34.clicked.connect(self.Preview)
         self.pushButton_24.clicked.connect(self.Add_Path)
         self.pushButton_54.clicked.connect(self.Show_All_Clients)
-
         self.pushButton_43.clicked.connect(self.Show_search_Widget)
         self.pushButton_44.clicked.connect(self.Show_multy_Dialog)
         self.comboBox_16.view().pressed.connect(self.Set_Chick_State2)
@@ -283,20 +270,6 @@ class mainapp(QMainWindow, main_wind):
         self.tabWidget_3.currentChanged.connect(self.ShowIsInCategory)
         self.pushButton_39.clicked.connect(self.Show_analyst_chioces_dialog)
         self.pushButton_40.clicked.connect(self.Show_analyst_chioces_dialog)
-
-    def handleItemPressed(self, index):
-        item = self.Add_Buys_Dialog.comboBox.model().itemFromIndex(index)
-        if item.checkState() == Qt.Checked:
-            item.setCheckState(Qt.Unchecked)
-        else:
-            item.setCheckState(Qt.Checked)
-
-    def handleItemPressed2(self, index):
-        item = self.Add_Buys_Dialog.comboBox_2.model().itemFromIndex(index)
-        if item.checkState() == Qt.Checked:
-            item.setCheckState(Qt.Unchecked)
-        else:
-            item.setCheckState(Qt.Checked)
     def add_doctors_to_list(self):
         global all_doctors
         self.cur.execute(''' SELECT name FROM doctor ''')
@@ -305,7 +278,6 @@ class mainapp(QMainWindow, main_wind):
         for i in data:
             if i[0] not in all_doctors:
                 all_doctors.append(i[0])
-
     def Add_Doctor(self):
         try:
             genus = self.comboBox_18.currentIndex()
@@ -324,7 +296,6 @@ class mainapp(QMainWindow, main_wind):
         except Exception as e:
             print(e, '95kerorr')
             QMessageBox.information(self, '', 'هذا الطبيب موجود بالفعل')
-
     def Update_doctor(self):
         global all_doctors
         if self.comboBox_28.currentText() in all_doctors:
@@ -347,7 +318,6 @@ class mainapp(QMainWindow, main_wind):
                 QMessageBox.information(self, '', 'لا يمكن تكرار اسم الطبيب , يرجى تغيير اسم الطبيب')
         else:
             QMessageBox.information(self, '', 'هذا الطبيب غير موجود')
-
     def Delete_doctor(self):
         if self.comboBox_28.currentText() in all_doctors:
             genus = self.comboBox_27.currentIndex()
@@ -368,7 +338,6 @@ class mainapp(QMainWindow, main_wind):
                 self.History()
         else:
             QMessageBox.information(self, '', 'هذا الطبيب غير موجود')
-
     def Show_Doctor_Data(self):
         global Delete_Doctor
         global Edit_Doctor
@@ -394,10 +363,8 @@ class mainapp(QMainWindow, main_wind):
             self.pushButton_49.setEnabled(False)
             self.comboBox_27.setCurrentIndex(0)
             self.lineEdit_6.setText('')
-
     def mr(self):
         print('finaly')
-
     def Show_client_data_by_current_index(self):
         self.cur.execute(
             '''SELECT client_name,doctor_name,client_age,genus,notes,client_id FROM addnewitem WHERE client_name = %s''',
@@ -439,7 +406,6 @@ class mainapp(QMainWindow, main_wind):
             self.pushButton_44.setEnabled(False)
             self.pushButton_17.setEnabled(False)
             self.comboBox_16.setEnabled(False)
-
     def echo_mode(self):
         global echo_mode_num
         if echo_mode_num % 2 == 0:
@@ -447,7 +413,6 @@ class mainapp(QMainWindow, main_wind):
         else:
             self.lineEdit_17.setEchoMode(QLineEdit.Password)
         echo_mode_num += 1
-
     def echo_mode2(self):
         global echo_mode_num2
         if echo_mode_num2 % 2 == 0:
@@ -455,7 +420,6 @@ class mainapp(QMainWindow, main_wind):
         else:
             self.lineEdit_2.setEchoMode(QLineEdit.Password)
         echo_mode_num2 += 1
-
     def add_all_subCategory_toList(self):
         mylist =[]
         mylist.clear()
@@ -465,26 +429,20 @@ class mainapp(QMainWindow, main_wind):
             if i[0] not in mylist:
                 mylist.append(i[0])
         return mylist
-
     def Set_Chick_State2(self, item):
         nitem = self.comboBox_16.model().itemFromIndex(item)
         ritem = self.comboBox_16.model().itemFromIndex(item)
         self.comboBox_16.setCurrentText(ritem.text())
         self.Chick_analyst_category(item)
-
-
     def Set_Chick_State(self, item=None):
         try:
             if item.checkState() == Qt.Checked:
                 item.setCheckState(Qt.Unchecked)
             else:
                 item.setCheckState(Qt.Checked)
-
         except Exception as e:
             print(e, '95poerorr')
-
     def setCheckSateForAllItems(self, table=None, ListWidget=None):
-
         if table.text() == 'الكل':
             if table.checkState() == Qt.Checked:
                 for row in range(0, ListWidget.count()):
@@ -494,13 +452,11 @@ class mainapp(QMainWindow, main_wind):
                 for row in range(0, ListWidget.count()):
                     row_item = ListWidget.item(row)
                     row_item.setCheckState(Qt.Unchecked)
-
     def Add_all_analysts_items(self):
         global Add_all_analysts_items_list
         Add_all_analysts_items_list.clear()
         for row in range(0, self.tableWidget_5.rowCount() - 1):
             Add_all_analysts_items_list.append(str(self.tableWidget_5.item(row, 0).text()))
-
     def Show_multy_Dialog(self):
         self.Show_All_one_client_analyst(from_add_multy='Not None')
         self.Add_all_analysts_items()
@@ -554,7 +510,6 @@ class mainapp(QMainWindow, main_wind):
                 break
         self.Dialog.pushButton.clicked.connect(self.Handel_multy_Dialog)
         self.Dialog.exec_()
-
     def Handel_multy_Dialog(self):
         for i in range(0, self.Dialog.tabWidget.count()):
             listWidget_object = self.Dialog.findChild(QListWidget, f"listWidget_+{i + 1}")
@@ -574,7 +529,6 @@ class mainapp(QMainWindow, main_wind):
         self.Add_Data_To_history(3,1)
         self.History()
         self.Add_all_analysts_items()
-
     def Show_search_Widget(self):
         self.searchWidget = searchDialog.Dialog()
         self.searchWidget.spinBox.setValue(self.spinBox.value())
@@ -582,7 +536,6 @@ class mainapp(QMainWindow, main_wind):
         self.searchWidget.dateEdit_6.setDate(datetime.date.today())
         self.searchWidget.dateEdit_5.setDate(datetime.date.today())
         self.searchWidget.pushButton_20.clicked.connect(self.Search_by_date)
-
     def Show_search_Widget2(self):
         global search_info_by_date
         search_info_by_date = True
@@ -592,13 +545,11 @@ class mainapp(QMainWindow, main_wind):
         self.searchWidget2.dateEdit_6.setDate(datetime.date.today())
         self.searchWidget2.dateEdit_5.setDate(datetime.date.today())
         self.searchWidget2.pushButton_20.clicked.connect(self.Clients_Page)
-
     def Search_by_date(self):
         global select_by_date
         select_by_date = True
         self.Show_All_one_client_analyst()
         self.searchWidget.close()
-
     def add_clients_to_combo(self):
         clients = []
         self.cur.execute(''' SELECT client_name FROM addclient''')
@@ -609,8 +560,6 @@ class mainapp(QMainWindow, main_wind):
         self.comboBox_4.clear()
         self.comboBox_4.addItem('')
         self.comboBox_4.addItems(clients)
-
-
     def my_def2(self):
         self.cur.execute(''' SELECT * FROM addclient group by client_name,date(date) ''')
         data = self.cur.fetchall()
@@ -645,12 +594,8 @@ class mainapp(QMainWindow, main_wind):
         for i in data:
             if i[0] not in analysts_name_glo:
                 analysts_name_glo.append(i[0])
-
     def Auto_Complete(self, model):
         model.setStringList(analysts_name_glo)
-
-
-
     def Auto_complete_combo(self):
         combo = self.comboBox_16, self.comboBox_21
         completer = QCompleter()
@@ -660,7 +605,6 @@ class mainapp(QMainWindow, main_wind):
             completer.setModel(model)
             completer.setCaseSensitivity(Qt.CaseInsensitive)
             self.Auto_Complete(model)
-
     def add_client_to_list(self):
         global clients_name_glo
         clients_name_glo.clear()
@@ -669,14 +613,11 @@ class mainapp(QMainWindow, main_wind):
         for i in data:
             if i[0] not in clients_name_glo:
                 clients_name_glo.append(i[0])
-
     def Auto_Complete2(self, model):
         model.setStringList(clients_name_glo)
-
     def Auto_complete_combo2(self):
         combo = self.lineEdit_27
         completer = QCompleter()
-
         combo.setCompleter(completer)
         model = QStringListModel()
         completer.setModel(model)
@@ -692,7 +633,6 @@ class mainapp(QMainWindow, main_wind):
                 clients_name_glo2.append(i[0])
     def Auto_Complete7(self, model):
         model.setStringList(clients_name_glo2)
-
     def Auto_complete_combo7(self):
         combo = self.lineEdit_25
         completer = QCompleter()
@@ -707,10 +647,8 @@ class mainapp(QMainWindow, main_wind):
         for i in data:
             if i[0] not in clients_name_glo_clients_page:
                 clients_name_glo_clients_page.append(i[0])
-
     def Auto_Complete4(self, model):
         model.setStringList(clients_name_glo_clients_page)
-
     def Auto_complete_combo4(self):
         combo = self.lineEdit_27
         completer = QCompleter()
@@ -719,7 +657,6 @@ class mainapp(QMainWindow, main_wind):
         completer.setModel(model)
         completer.setCaseSensitivity(Qt.CaseInsensitive)
         self.Auto_Complete4(model)
-
     def Delete_Files(self):
         self.cur.execute(''' SELECT * FROM paths WHERE id=1 ''')
         mydata = self.cur.fetchone()
@@ -737,7 +674,6 @@ class mainapp(QMainWindow, main_wind):
             word.ActiveDocument.Close()
             self.Delete_Files()
             print(e, '7erorr')
-
     def Show_paths(self):
         self.cur.execute(''' SELECT * FROM paths WHERE id=1 ''')
         mydata = self.cur.fetchone()
@@ -745,7 +681,6 @@ class mainapp(QMainWindow, main_wind):
         save_word_files = mydata[2]
         self.lineEdit_14.setText(word_files)
         self.lineEdit_15.setText(save_word_files)
-
     def Add_Path(self):
         global word_files
         global save_word_files
@@ -760,7 +695,6 @@ class mainapp(QMainWindow, main_wind):
         QMessageBox.information(self, '', 'تم تطبيق المعلومات بنجاح')
         self.Show_paths()
         self.Update_Word_Info()
-
     def Preview(self):
         global if_print
         self.Print_Sale_Data('T')
@@ -788,7 +722,6 @@ class mainapp(QMainWindow, main_wind):
                 except:
                     QMessageBox.information(self, '', 'يرجى اغلاق برنامج MS Word')
             self.Delete_Files()
-
     def Reset_password(self):
         try:
             user_name = self.lineEdit_7.text()
@@ -826,7 +759,6 @@ class mainapp(QMainWindow, main_wind):
         except Exception as e:
             print(e, '97erorr')
             QMessageBox.information(self, 'خطأ', f'هنالك خطأ يرجى\n ارسال هذا النص {e} الى ameersaad810@gmail.com')
-
     def clear_data_in_sales(self):
         self.Update_addNewItem_Data()
         self.comboBox_17.clear()
@@ -848,7 +780,6 @@ class mainapp(QMainWindow, main_wind):
         self.textEdit.setEnabled(True)
         self.spinBox.setValue(0)
         self.add_clients_to_combo()
-
     def Show_All_Clients(self):
         global show_clients_check
         if show_clients_check:
@@ -890,6 +821,7 @@ class mainapp(QMainWindow, main_wind):
             self.tableWidget_2.setRowCount(0)
             self.tableWidget_2.insertRow(0)
     def Search_In_History(self):
+        self.tableWidget_8.setSortingEnabled(False)
         actionsd = self.comboBox_24.currentIndex()
         tabley = self.comboBox_20.currentIndex()
         if actionsd != 0 and tabley == 0:
@@ -906,7 +838,6 @@ class mainapp(QMainWindow, main_wind):
             try:
                 self.cur.execute(
                     f' SELECT uid,action,tabled,dates FROM his WHERE action={actionsd} AND tabled={tabley} ORDER BY -dates')
-
             except Exception as e:
                 print(e, '10erorr')
         else:
@@ -926,7 +857,7 @@ class mainapp(QMainWindow, main_wind):
                     action = ''
                     if data[row][1] == 1:
                         action = 'تسجيل الدخول'
-                    if data[row][1] == 2:
+                    if data[0][1] == 2:
                         action = 'تسجيل الخروج'
                     if data[row][1] == 3:
                         action = 'اضافة'
@@ -938,6 +869,8 @@ class mainapp(QMainWindow, main_wind):
                         action = 'بحث'
                     if data[row][1] == 7:
                         action = 'طباعة'
+                    if data[row][1] == 8:
+                        action = 'معاينة'
                     self.tableWidget_8.setItem(row, col, QTableWidgetItem(str(action)))
                 if col == 2:
                     tables = ''
@@ -951,13 +884,19 @@ class mainapp(QMainWindow, main_wind):
                         tables = 'مراجعين'
                     if data[row][2] == 5:
                         tables = 'مستخدم'
+                    if data[row][2] == 6:
+                        tables = 'طبيب'
+                    if data[row][2] == 7:
+                        tables = 'تقرير'
+                    if data[row][2] == 8:
+                        tables = 'احصائيات'
                     self.tableWidget_8.setItem(row, col, QTableWidgetItem(str(tables)))
                 if col == 3:
                     self.tableWidget_8.setItem(row, col, QTableWidgetItem(str(data[row][3])))
                 col += 1
             row_pos = self.tableWidget_8.rowCount()
             self.tableWidget_8.insertRow(row_pos)
-
+        self.tableWidget_8.setSortingEnabled(True)
     def Search_In_All_Sales(self):
         client_name = self.lineEdit_25.text()
         if client_name != '0':
@@ -986,7 +925,6 @@ class mainapp(QMainWindow, main_wind):
         self.Add_Data_To_history(6,1)
         self.History()
         self.tableWidget_6.setSortingEnabled(True)
-
     def Print_Sale_Data(self, prev):
         genuses = self.comboBox_14.currentIndex()
         all_analyst = []
@@ -1035,11 +973,9 @@ class mainapp(QMainWindow, main_wind):
         if prev != 'T':
             self.Delete_Files()
         self.Update_addNewItem_Data()
-
     def Delete_Row(self, item):
         try:
             if self.tableWidget_5.rowCount() > 2:
-
                 analyst_name = self.tableWidget_5.item(item, 0).text()
                 client_name = self.comboBox_4.currentText()
                 warning = QMessageBox.warning(self, 'احذر', f"سوف يتم مسح العنصر{analyst_name} هل انت متأكد؟",
@@ -1062,10 +998,8 @@ class mainapp(QMainWindow, main_wind):
                                         f'لا يمكن حذف كل العناصر اضف عنصر جديد لكي تستطيع حذف{analyst_name}')
         except Exception as e:
             print(e, '13erorr')
-
     def Show_Category_Dialog(self):
         self.Category_Dailog = add_delete_category_dialogpy.Dialog()
-
         self.Category_Dailog.comboBox_11.currentTextChanged.connect(self.C_OR_U_Category)
         self.Category_Dailog.comboBox_11.setEditable(True)
         self.Category_Dailog.comboBox_11.addItems(self.add_all_subCategory_toList())
@@ -1102,7 +1036,6 @@ class mainapp(QMainWindow, main_wind):
         self.Category_Dailog.close()
         self.comboBox_23.clear()
         self.comboBox_23.addItems(self.add_all_subCategory_toList())
-
     def Delete_Category(self):
         b_name = self.Category_Dailog.comboBox_11.currentText()
         warning = QMessageBox.warning(self, 'احذر', f"سوف يتم مسح الصنف {b_name} وجميع التحاليل الخاصة به, هل انت متأكد؟",
@@ -1146,19 +1079,16 @@ class mainapp(QMainWindow, main_wind):
         for i in range(0, len(data)):
             self.comboBox_28.addItem(str(data[i][1]))
             self.comboBox_15.addItem(str(data[i][1]))
-
     def buttonClicked(self):
         button = self.sender()
         index = self.tableWidget_5.indexAt(button.pos())
         self.Delete_Row(index.row())
-
     def buttonClicked2(self):
         button = self.sender()
         self.tableWidget_3.setSortingEnabled(False)
         index = self.tableWidget_3.indexAt(button.pos())
         self.Delete_Row2(index.row())
         self.tableWidget_3.setSortingEnabled(True)
-
     def get_total_price(self):
         total_price = 0
         for row in range(0, self.tableWidget_5.rowCount() - 1):
@@ -1166,7 +1096,6 @@ class mainapp(QMainWindow, main_wind):
                 analyst_name = self.tableWidget_5.item(row, 0).text()
             except:
                 analyst_name = ''
-
             try:
                 a = self.tableWidget_5.item(row, 2).text()
             except:
@@ -1176,7 +1105,6 @@ class mainapp(QMainWindow, main_wind):
             except ValueError:
                 a = 0
         self.lineEdit_24.setText(str(total_price))
-
     def Update_addNewItem_Data(self):
         r2_client_name = self.comboBox_4.currentText()
         r2_doctor = self.comboBox_15.currentText()
@@ -1214,12 +1142,10 @@ class mainapp(QMainWindow, main_wind):
         return data
     def Sales_Page(self, for_loop2=None):
         global clients_name_glo
-
         not_in_all_analysts_items = False
         for mjrow in range(0, self.tableWidget_5.rowCount() - 1):
             if self.comboBox_16.currentText() == str(self.tableWidget_5.item(mjrow, 0).text()):
                 not_in_all_analysts_items = True
-
         if not not_in_all_analysts_items:
             self.comboBox_4.setEnabled(False)
             self.spinBox_7.setEnabled(False)
@@ -1374,7 +1300,6 @@ class mainapp(QMainWindow, main_wind):
                             mycobmbo.setCurrentIndex(0)
                 except Exception as e:
                     print(e, '91erorr')
-
     def Show_All_one_client_analyst(self,from_add_multy=None):
         global client_id_glob
         global chick_if_add_new
@@ -1469,7 +1394,6 @@ class mainapp(QMainWindow, main_wind):
             select_by_date = False
         print(from_add_multy, ';;;;;;;')
         self.Add_all_analysts_items()
-
     def Show_Type_of_result_category(self):
         global addTrue
         analyst_name = self.comboBox_16.currentText()
@@ -1495,7 +1419,6 @@ class mainapp(QMainWindow, main_wind):
                     self.doubleSpinBox_7.hide()
                     self.comboBox_17.show()
                     self.comboBox_17.setEditable(True)
-
                 try:
                     self.comboBox_17.clear()
                     x = '[' + str(analyst_category[1]) + ']'
@@ -1504,22 +1427,18 @@ class mainapp(QMainWindow, main_wind):
                         self.comboBox_17.addItem(str(rr))
                 except Exception as e:
                     print(e, '959erorr')
-
         except Exception as e:
             print(e, '2erorr')
             if analyst_name not in self.add_all_subCategory_toList():
                 if not addTrue:
                     QMessageBox.information(self, 'تحذير', "يرجى اختيار تحليل صحيح")
-
     def analyst_category_function(self, name):
-
         if name in self.add_all_subCategory_toList():
             self.cur.execute('''SELECT name FROM addanalyst WHERE sub_category=%s ''', (str(name),))
             my_DATA = self.cur.fetchall()
             for new in my_DATA:
                 self.comboBox_16.setCurrentText(str(new[0]))
                 self.Sales_Page()
-
             self.Show_All_one_client_analyst()
             self.Update_addNewItem_Data()
             self.Add_buttons_combo_spin_to_tableWidget()
@@ -1532,10 +1451,7 @@ class mainapp(QMainWindow, main_wind):
             self.Add_Data_To_history(3,1)
             self.History()
             self.Add_all_analysts_items()
-
-
     def Chick_analyst_category(self, sd=None):
-
         if self.comboBox_16.currentText() not in self.add_all_subCategory_toList() and self.comboBox_16.currentIndex() != 0:
             self.analyst_category_function(self.comboBox_16.currentText())
         if self.comboBox_16.currentText() in self.add_all_subCategory_toList():
@@ -1550,14 +1466,12 @@ class mainapp(QMainWindow, main_wind):
                 ritem.setCheckState(Qt.Unchecked)
             except Exception as e:
                 print(e, '3erorr')
-
     def get_client_id(self):
         global client_id_glob
         client_id_glob = self.spinBox.value()
         self.Show_All_one_client_analyst()
         self.Add_Data_To_history(6,1)
         self.History()
-
     def Show_All_The_Sales(self):
         global show_all_sales_in_clients_page
         self.cur.execute(''' SELECT client_name FROM addclient WHERE DATE(date)=%s ORDER BY -date ''',
@@ -1580,7 +1494,6 @@ class mainapp(QMainWindow, main_wind):
             all_data.append(data)
         self.tableWidget_6.setRowCount(0)
         self.tableWidget_6.insertRow(0)
-
         l_data = ()
         for ih in all_data:
             hs_data = ih[0]['value']
@@ -1594,8 +1507,6 @@ class mainapp(QMainWindow, main_wind):
                 col += 1
             row_pos = self.tableWidget_6.rowCount()
             self.tableWidget_6.insertRow(row_pos)
-
-
     def Show_All_The_Analysts(self):
         global from_start
         self.tableWidget_7.setSortingEnabled(False)
@@ -1721,12 +1632,11 @@ class mainapp(QMainWindow, main_wind):
                 self.History()
     def tslsol_wout_b(self,uio=None):
         print(uio,'jkej')
-
         if uio=='in edit':
             self.comboBox_30.clear()
             self.cur.execute(''' select name from addanalyst where sub_category=%s ''',(self.comboBox_26.currentText(),))
             data = self.cur.fetchall()
-            for i in range(1, len(data) + 1):
+            for i in range(1, len(data) + 2):
                 self.comboBox_30.addItem(str(i))
         else:
             self.comboBox_29.clear()
@@ -1734,7 +1644,7 @@ class mainapp(QMainWindow, main_wind):
             self.cur.execute(''' select name from addanalyst where sub_category=%s ''',(self.comboBox_23.currentText(),))
             data = self.cur.fetchall()
             print(data)
-            for i2 in range(1, len(data) + 1):
+            for i2 in range(1, len(data) + 2):
                 self.comboBox_29.addItem(str(i2))
     def Close_tslsol(self,typet=None):
         for i in range(0,self.Analyst_Dialog2.tableWidget.rowCount()-1):
@@ -1763,7 +1673,6 @@ class mainapp(QMainWindow, main_wind):
         mulist=[]
         for iq in range(0,len(data)):
             mulist.append(str(iq+1))
-
         if data:
             count = 0
             for index,i in enumerate(data):
@@ -1777,7 +1686,6 @@ class mainapp(QMainWindow, main_wind):
                 count += 1
     def Add_Analyst(self):
         global analysts_name_glo
-        global Analyst_Choices_list
         analyst_name = self.lineEdit_28.text()
         if analyst_name not in analysts_name_glo:
             analyst_result_category = self.comboBox_22.currentText()
@@ -1816,7 +1724,6 @@ class mainapp(QMainWindow, main_wind):
             self.History()
         else:
             QMessageBox.information(self, '', 'هذا التحليل موجود بالفعل')
-        Analyst_Choices_list.clear()
     def CLOSE_Dialog(self,in_edit):
         if in_edit=='Yes':
             self.comboBox_31.clear()
@@ -1833,7 +1740,6 @@ class mainapp(QMainWindow, main_wind):
         self.Analyst_Dialog =add_delete_analyst_choices.Dialog()
         self.Analyst_Dialog.setWindowFlags(Qt.Window | Qt.FramelessWindowHint)
         self.Analyst_Dialog.tableWidget.insertRow(0)
-
         if self.sender().text()!='.':
             self.Analyst_Dialog.pushButton_27.clicked.connect(lambda : self.CLOSE_Dialog('No'))
             self.Analyst_Dialog.pushButton_26.clicked.connect(self.ADD_CHOICE)
@@ -1862,7 +1768,6 @@ class mainapp(QMainWindow, main_wind):
                     self.Analyst_Dialog.tableWidget.insertRow(count+1)
                     count+=1
         self.Analyst_Dialog.show()
-
     def ADD_CHOICE(self):
         text=self.Analyst_Dialog.lineEdit.text()
         row=self.Analyst_Dialog.tableWidget.rowCount()
@@ -1885,9 +1790,6 @@ class mainapp(QMainWindow, main_wind):
         r_id = self.Analyst_Dialog.tableWidget.item(index, 0).text()
         if self.sender().text() != 'حفظ':
             self.Analyst_Dialog.tableWidget.removeRow(index)
-
-
-
     def Show_analyst_in_Edit_Or_Delete(self):
         self.comboBox_31.clear()
         analyst_current_name = self.comboBox_21.currentText()
@@ -1931,7 +1833,6 @@ class mainapp(QMainWindow, main_wind):
                 self.lineEdit_39.setText('')  # defult =
                 self.lineEdit_38.setText('')  # unit =
                 self.spinBox_6.setValue(0)  # analyst_price =
-
     def Update_addNewItemAnalysts(self):
         global analyst_name_for_update
         global analyst_name_for_update_before
@@ -1983,7 +1884,6 @@ class mainapp(QMainWindow, main_wind):
         else:
             QMessageBox.information(self, '', 'هذا التحليل غير موجود')
         self.Update_addNewItemAnalysts()
-
     def Delete_Analyst(self):
         warning = QMessageBox.warning(self, 'احذر', "هل انت متأكد من انك تريد مسح التحليل",
                                       QMessageBox.Yes | QMessageBox.No)
@@ -1996,7 +1896,6 @@ class mainapp(QMainWindow, main_wind):
             self.Show_all_analysts_in_combo()
             self.Add_Data_To_history(5,2)
             self.History()
-
     def Show_all_analysts_in_combo(self):
         global addTrue
         addTrue = True
@@ -2012,7 +1911,6 @@ class mainapp(QMainWindow, main_wind):
         self.comboBox_21.addItem('----------------')
         self.comboBox_16.addItem('----------------')
         self.comboBox_5.addItem('الكل')
-
         self.comboBox_16.addItems(self.add_all_subCategory_toList())
         self.comboBox_5.addItems(self.add_all_subCategory_toList())
         self.comboBox_26.addItems(self.add_all_subCategory_toList())
@@ -2028,7 +1926,6 @@ class mainapp(QMainWindow, main_wind):
                 myitem.setCheckState(Qt.Unchecked)
         self.comboBox_16.setCurrentIndex(0)
         addTrue = False
-
     def Clients_Page(self):
         global search_info_by_date
         self.tableWidget_4.setSortingEnabled(False)
@@ -2076,7 +1973,6 @@ class mainapp(QMainWindow, main_wind):
                 self.tableWidget_4.setItem(row, 6, QTableWidgetItem(str(total)))
                 self.tableWidget_4.setItem(row, col, QTableWidgetItem(str(item)))
                 col += 1
-
             row_pos = self.tableWidget_4.rowCount()
             self.tableWidget_4.insertRow(row_pos)
         self.tableWidget_9.setRowCount(0)
@@ -2092,18 +1988,24 @@ class mainapp(QMainWindow, main_wind):
                 if col == 3:
                     self.tableWidget_9.setItem(row, col, QTableWidgetItem(str(client_analyst_data[row][4])))
                 col += 1
-
             row_pos = self.tableWidget_9.rowCount()
             self.tableWidget_9.insertRow(row_pos)
         if search_info_by_date:
             self.searchWidget2.close()
-
         self.Add_Data_To_history(6,6)
         self.History()
         search_info_by_date = False
         self.tableWidget_4.setSortingEnabled(True)
         self.tableWidget_9.setSortingEnabled(True)
-
+    def RETURN_ALL_ANALYST(self):
+        self.cur.execute(''' select name from addanalyst ''')
+        data =self.cur.fetchall()
+        analysts = []
+        if data:
+            for i in data:
+                if i[0]:
+                    analysts.append(i[0])
+        return analysts
     def Show_Add_Buys_Complete_Dialog(self):
         global current_group_box
         self.Add_Buys_Dialog = add_buys_completepy.Dialog()
@@ -2111,7 +2013,7 @@ class mainapp(QMainWindow, main_wind):
             current_group_box = 'groupBox_2'
             self.Add_Buys_Dialog.groupBox_2.show()
             self.Add_Buys_Dialog.groupBox.hide()
-            self.Add_Buys_Dialog.comboBox_2.addItems(self.add_all_subCategory_toList())
+            self.Add_Buys_Dialog.comboBox_2.addItems(self.RETURN_ALL_ANALYST())
             for row2 in range(1, self.Add_Buys_Dialog.comboBox_2.count()):
                 item = self.Add_Buys_Dialog.comboBox_2.model().item(row2)
                 item.setCheckState(Qt.Unchecked)
@@ -2119,15 +2021,9 @@ class mainapp(QMainWindow, main_wind):
             current_group_box = 'groupBox'
             self.Add_Buys_Dialog.groupBox_2.hide()
             self.Add_Buys_Dialog.groupBox.show()
-            self.Add_Buys_Dialog.comboBox.addItems(self.add_all_subCategory_toList())
-            for row in range(1, self.Add_Buys_Dialog.comboBox.count()):
-                item = self.Add_Buys_Dialog.comboBox.model().item(row)
-                item.setCheckState(Qt.Unchecked)
+            self.Add_Buys_Dialog.comboBox.addItems(self.RETURN_ALL_ANALYST())
         self.Add_Buys_Dialog.pushButton_16.clicked.connect(self.Add_Buys)
-        self.Add_Buys_Dialog.comboBox.view().pressed.connect(self.handleItemPressed)
-        self.Add_Buys_Dialog.comboBox_2.view().pressed.connect(self.handleItemPressed2)
         self.Add_Buys_Dialog.show()
-
     # def Add_Buys(self):
     #     global current_group_box
     #     item_name = self.lineEdit_13.text()
@@ -2170,25 +2066,62 @@ class mainapp(QMainWindow, main_wind):
     #     self.spinBox_8.setValue(0)
     #     self.Add_Data_To_history(3, 4)
     #     self.History()
+    def handleItemPressed(self, index):
+        item = self.Add_Buys_Dialog.comboBox.model().itemFromIndex(index)
+        if item.checkState() == Qt.Checked:
+            item.setCheckState(Qt.Unchecked)
+        else:
+            item.setCheckState(Qt.Checked)
+
+    def handleItemPressed2(self, index):
+        item = self.Add_Buys_Dialog.comboBox_2.model().itemFromIndex(index)
+        if item.checkState() == Qt.Checked:
+            item.setCheckState(Qt.Unchecked)
+        else:
+            item.setCheckState(Qt.Checked)
     def Add_Buys(self):
+        global current_group_box
         item_name = self.lineEdit_13.text()
         quantity = self.spinBox_3.value()
         signal_item_price = self.spinBox_8.value()
+        to_analyst = None
+        still_price = None
+        notification_date = None
+        pushed_price = None
+        if current_group_box == 'groupBox_2':
+            signal_item_quantity = self.Add_Buys_Dialog.spinBox_9.value()
+            date_create_before = str(self.Add_Buys_Dialog.dateEdit_4.date().toPyDate())
+            to_analyst = self.Add_Buys_Dialog.comboBox_2.currentText()
+
+        else:
+            signal_item_quantity = self.Add_Buys_Dialog.spinBox_8.value()
+            date_create_before = str(self.Add_Buys_Dialog.dateEdit.date().toPyDate())
+            notification_date = str(self.Add_Buys_Dialog.dateEdit_2.date().toPyDate())
+            pushed_price = self.Add_Buys_Dialog.spinBox_3.value()
+            to_analyst = self.Add_Buys_Dialog.comboBox.currentText()
+        item_type = self.comboBox_12.currentText()
+        mandob = self.comboBox_11.currentText()
+        category = self.comboBox_13.currentText()
         total_item_price = signal_item_price * quantity
-        date_create_before = str(self.dateEdit.date().toPyDate())
+        if current_group_box != 'groupBox_2':
+            still_price = int(total_item_price) - int(pushed_price)
         self.cur.execute(
-            ''' INSERT INTO addbuys (item_name,signal_item_price,total_price,quantity,date) VALUES (%s,%s,%s,%s,%s)'''
-            , (item_name, signal_item_price, total_item_price, quantity, date_create_before))
+            ''' INSERT INTO addbuys (item_name,signal_item_price,total_price,buys_type,quantity,item_quantity,to_analysts,still_price,pushed_price,notification_date,mandob,category,date) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'''
+            , (
+                item_name, signal_item_price, total_item_price, item_type, quantity, signal_item_quantity,
+                to_analyst,
+                still_price, pushed_price, notification_date, mandob, category, date_create_before))
         self.db.commit()
+        self.Add_Buys_Dialog.close()
+        QMessageBox.information(self, '', 'تمت الاضافة الى المشتريات')
         self.Show_all_buys()
         self.lineEdit_13.setText('')
         self.spinBox_3.setValue(0)
         self.spinBox_8.setValue(0)
         self.Add_Data_To_history(3,4)
         self.History()
-
     def Show_all_buys(self):
-        self.cur.execute(''' SELECT item_name,quantity,signal_item_price,total_price,date FROM addbuys ''')
+        self.cur.execute(''' SELECT id,item_name,to_analysts,buys_type,quantity,item_quantity,signal_item_price,total_price,mandob,pushed_price,still_price,date FROM addbuys ''')
         data = self.cur.fetchall()
         self.tableWidget_3.setSortingEnabled(False)
         self.tableWidget_3.setRowCount(0)
@@ -2225,18 +2158,19 @@ class mainapp(QMainWindow, main_wind):
             self.cur.execute(''' SELECT sum(total_price) FROM addbuys WHERE DATE(date)>=%s AND DATE(date)<=%s''',
                              (str(from_date), str(to_date),))
             data = self.cur.fetchone()
+            total_buys_price = 0
             if data:
-                total_buys_price = data[0]
+                if data[0]:
+                    total_buys_price = data[0]
             self.cur.execute(
                 ''' select sum(price) AS Price from addnewitem where DATE(date)>=%s and DATE(date)<=%s Group by DATE(date) Order by Price DESC  ''',
                 (str(from_date), str(to_date)))
             data2 = self.cur.fetchall()
-
             total_sales_price = 0
-            total_sales_items = 0
             if data2:
                 for i in range(0, len(data2)):
-                    total_sales_price += data2[i][0]
+                    if data2[i][0]:
+                        total_sales_price += data2[i][0]
                 self.lineEdit_33.setText(str(total_sales_price))
             else:
                 self.lineEdit_33.setText('0')
@@ -2247,14 +2181,16 @@ class mainapp(QMainWindow, main_wind):
                     self.lineEdit_30.setText('0')
             else:
                 self.lineEdit_30.setText('0')
-            if data2 and data and total_sales_price and total_buys_price:
-
+            try:
                 self.lineEdit_31.setText(str(total_sales_price - total_buys_price))
-                self.lineEdit_32.setText(str((total_sales_price / total_buys_price) * 100)[0] + '%')
-            else:
-                self.lineEdit_31.setText('0')
-                self.lineEdit_32.setText('0')
-
+                if total_buys_price:
+                    self.lineEdit_32.setText(str((total_sales_price / total_buys_price) * 100)[0] + '%')
+                else:
+                    self.lineEdit_32.setText("0%")
+            except Exception as e:
+                print(e)
+                self.lineEdit_31.setText("0")
+                self.lineEdit_32.setText("0%")
             self.cur.execute(''' select id from addnewitem where DATE(date)>=%s and DATE(date)<=%s ''',
                              (str(from_date), str(to_date)))
             data = self.cur.fetchall()
@@ -2267,8 +2203,10 @@ class mainapp(QMainWindow, main_wind):
                 self.cur.execute(''' SELECT sum(total_price) FROM addbuys WHERE DATE(date)>=%s AND DATE(date)<=%s''',
                                  (str(from_date), str(to_date),))
                 data = self.cur.fetchone()
+                total_buys_price=0
                 if data:
-                    total_buys_price = data[0]
+                    if data[0]:
+                        total_buys_price = data[0]
                 self.cur.execute(
                     ''' select sum(price) AS Price from addnewitem where DATE(date)>=%s and DATE(date)<=%s AND analyst_name=%s Group by DATE(date) Order by Price DESC  ''',
                     (str(from_date), str(to_date), item))
@@ -2284,18 +2222,16 @@ class mainapp(QMainWindow, main_wind):
                     self.lineEdit_30.setText(str(total_buys_price))
                 else:
                     self.lineEdit_30.setText('0')
-                if data:
-                    if data2:
-                        if total_buys_price and total_sales_price:
-                            self.lineEdit_31.setText(str(total_sales_price - total_buys_price))
-                            self.lineEdit_32.setText(str((total_sales_price / total_buys_price) * 100)[0] + '%')
+                try:
+                    self.lineEdit_31.setText(str(total_sales_price - total_buys_price))
+                    if total_buys_price:
+                        self.lineEdit_32.setText(str((total_sales_price / total_buys_price) * 100)[0] + '%')
                     else:
-                        self.lineEdit_31.setText('0')
-                        self.lineEdit_32.setText('0%')
-
-                else:
-                    self.lineEdit_31.setText(str(total_sales_price))
-                    self.lineEdit_32.setText(str('100%'))
+                        self.lineEdit_32.setText("0%")
+                except Exception as e:
+                    print(e)
+                    self.lineEdit_31.setText("0")
+                    self.lineEdit_32.setText("0%")
                 self.cur.execute(
                     ''' select count(analyst_name) from addnewitem where DATE(date)>=%s and DATE(date)<=%s AND analyst_name=%s ''',
                     (str(from_date), str(to_date), item))
@@ -2310,7 +2246,8 @@ class mainapp(QMainWindow, main_wind):
                 data = self.cur.fetchone()
                 total_buys_price = 0
                 if data:
-                    total_buys_price = data[0]
+                    if data[0]:
+                        total_buys_price = data[0]
                 self.cur.execute(
                     ''' select sum(price) AS Price from addnewitem where DATE(date)>=%s and DATE(date)<=%s AND sub_category=%s Group by DATE(date) Order by Price DESC  ''',
                     (str(from_date), str(to_date), item))
@@ -2318,7 +2255,8 @@ class mainapp(QMainWindow, main_wind):
                 total_sales_price = 0
                 if data2:
                     for i in range(0, len(data2)):
-                        total_sales_price += data2[i][0]
+                        if data2[i][0]:
+                            total_sales_price += data2[i][0]
                         if total_buys_price:
                             self.lineEdit_30.setText(str(total_buys_price))
                         else:
@@ -2327,23 +2265,16 @@ class mainapp(QMainWindow, main_wind):
                     self.lineEdit_33.setText(str(total_sales_price))
                 else:
                     self.lineEdit_33.setText('0')
-                if data:
-                    if data[0]!=None and data[0]!='None':
-                        if data2:
-                            if total_sales_price and total_buys_price:
-                                self.lineEdit_31.setText(str(total_sales_price - total_buys_price))
-                                self.lineEdit_32.setText(str((total_sales_price / total_buys_price) * 100)[0] + '%')
-                        else:
-                            self.lineEdit_31.setText('0')
-                            self.lineEdit_32.setText('0%')
+                try:
+                    self.lineEdit_31.setText(str(total_sales_price - total_buys_price))
+                    if total_buys_price:
+                        self.lineEdit_32.setText(str((total_sales_price / total_buys_price) * 100)[0] + '%')
                     else:
-                        self.lineEdit_30.setText('0')
-                        self.lineEdit_31.setText(str(total_sales_price))
-                        self.lineEdit_32.setText('100%')
-                else:
-                    self.lineEdit_30.setText('0')
-                    self.lineEdit_31.setText(str(total_sales_price))
-                    self.lineEdit_32.setText('100%')
+                        self.lineEdit_32.setText("0%")
+                except Exception as e:
+                    print(e)
+                    self.lineEdit_31.setText("0")
+                    self.lineEdit_32.setText("0%")
                 self.cur.execute(
                     ''' select count(sub_category) from addnewitem where DATE(date)>=%s and DATE(date)<=%s AND sub_category=%s ''',
                     (str(from_date), str(to_date), item))
@@ -2352,9 +2283,8 @@ class mainapp(QMainWindow, main_wind):
                     self.lineEdit_36.setText(str(data[0][0]))
                 else:
                     self.lineEdit_36.setText('0')
-        self.Add_Data_To_history(3,8)
+        self.Add_Data_To_history(6,8)
         self.History()
-
     def Show_default_statics(self):
         if self.tabWidget_4.currentIndex() == 4:
             try:
@@ -2367,7 +2297,6 @@ class mainapp(QMainWindow, main_wind):
                 self.cur.execute(
                     '''select sub_category,count(sub_category) AS Price from addnewitem Group by sub_category Order by Price DESC''')
                 data = self.cur.fetchall()
-
                 self.comboBox_8.clear()
                 if data:
                     for i7 in range(0, len(data)):
@@ -2398,15 +2327,14 @@ class mainapp(QMainWindow, main_wind):
                     self.comboBox_10.addItem(str(data[iqw4][0]) + '     ' + str(data[iqw4][1]))
             except Exception as e:
                 print(e, '98erorr')
-
     def Add_Data_To_history(self, action, table):
         global user_id
         self.cur.execute(
             ''' INSERT INTO his VALUES (DEFAULT,%s,%s,%s,%s,%s)''',
             (user_id, action, table, datetime.datetime.now(), 1))
         self.db.commit()
-
     def History(self):
+        self.tableWidget_8.setSortingEnabled(False)
         self.cur.execute('''SELECT uid,action,tabled,dates FROM his ORDER BY -dates''')
         analyst_data = self.cur.fetchall()
         self.tableWidget_8.setRowCount(0)
@@ -2455,12 +2383,10 @@ class mainapp(QMainWindow, main_wind):
                     self.tableWidget_8.setItem(row, col, QTableWidgetItem(str(tables)))
                 if col == 3:
                     self.tableWidget_8.setItem(row, col, QTableWidgetItem(str(analyst_data[row][3])))
-
                 col += 1
             row_pos = self.tableWidget_8.rowCount()
             self.tableWidget_8.insertRow(row_pos)
-
-
+        self.tableWidget_8.setSortingEnabled(True)
     def Log_In_Chieck(self):
         global user_id
         global Edit_Doctor
@@ -2470,7 +2396,6 @@ class mainapp(QMainWindow, main_wind):
         user_name = self.lineEdit.text()
         user_password = self.lineEdit_2.text()
         self.cur.execute(''' SELECT id,user_password,user_name FROM adduser WHERE user_name=%s ''', (user_name,))
-
         data = self.cur.fetchone()
         if data != None:
             if data[2] == user_name and data[1] == user_password:
@@ -2529,7 +2454,6 @@ class mainapp(QMainWindow, main_wind):
                             self.pushButton_5.setEnabled(False)
                         else:
                             self.pushButton_5.setEnabled(True)
-
                         if not PerData[7]:
                             self.pushButton_3.setEnabled(False)
                         else:
@@ -2538,17 +2462,14 @@ class mainapp(QMainWindow, main_wind):
                             self.pushButton_4.setEnabled(False)
                         else:
                             self.pushButton_4.setEnabled(True)
-
                         if not PerData[9]:
                             self.groupBox_4.setEnabled(False)
                         else:
                             self.groupBox_4.setEnabled(True)
-
                         if not PerData[10]:
                             self.pushButton_27.setEnabled(False)
                         else:
                             self.pushButton_27.setEnabled(True)
-
                         if not PerData[11]:
                             self.pushButton_28.setEnabled(False)
                         else:
@@ -2573,7 +2494,6 @@ class mainapp(QMainWindow, main_wind):
                             self.pushButton_16.setEnabled(False)
                         else:
                             self.pushButton_16.setEnabled(True)
-
                         if not PerData[14]:
                             self.pushButton_31.setEnabled(False)
                             self.groupBox_14.setEnabled(False)
@@ -2584,17 +2504,14 @@ class mainapp(QMainWindow, main_wind):
                             self.pushButton_24.setEnabled(False)
                         else:
                             self.pushButton_24.setEnabled(True)
-
                         if not PerData[16]:
                             self.pushButton_22.setEnabled(False)
                         else:
                             self.pushButton_22.setEnabled(True)
-
                         if not PerData[17]:
                             self.pushButton_53.setEnabled(False)
                         else:
                             self.pushButton_53.setEnabled(True)
-
                         if not PerData[18]:
                             self.pushButton_25.setEnabled(False)
                         else:
@@ -2623,7 +2540,6 @@ class mainapp(QMainWindow, main_wind):
                             self.pushButton_37.setEnabled(False)
                         else:
                             self.pushButton_37.setEnabled(True)
-
                         if not PerData[20]:
                             self.pushButton_43.setEnabled(False)
                         else:
@@ -2632,31 +2548,26 @@ class mainapp(QMainWindow, main_wind):
                             show_clients_check = False
                             self.tableWidget_2.setRowCount(0)
                             self.tableWidget_2.insertRow(0)
-
                         else:
                             show_clients_check = True
                         if not PerData[22]:
                             self.pushButton_36.setEnabled(False)
                         else:
                             self.pushButton_36.setEnabled(True)
-
                         if not PerData[23]:
                             self.pushButton_29.setEnabled(False)
                             self.pushButton_42.setEnabled(False)
                         else:
                             self.pushButton_29.setEnabled(True)
                             self.pushButton_42.setEnabled(True)
-
                         if not PerData[24]:
                             self.pushButton_34.setEnabled(False)
                         else:
                             self.pushButton_34.setEnabled(True)
-
                         if not PerData[25]:
                             self.pushButton_18.setEnabled(False)
                         else:
                             self.pushButton_18.setEnabled(True)
-
                         if not PerData[26]:
                             self.pushButton_36.setEnabled(False)
                         else:
@@ -2668,7 +2579,6 @@ class mainapp(QMainWindow, main_wind):
                 self.tabWidget.setCurrentIndex(3)
                 self.Add_Data_To_history(1,5)
                 self.History()
-
             else:
                 warning = QMessageBox.warning(self, '',
                                               "كلمة المرور او اسم المستخدم غير صحيحة هل تريد استعادة كلمة المرور؟",
@@ -2684,7 +2594,6 @@ class mainapp(QMainWindow, main_wind):
                                           QMessageBox.Yes | QMessageBox.No)
             if warning == QMessageBox.Yes:
                 self.Open_ResetPassword_Page()
-
     def Add_all_employee_to_comboBox(self):
         self.comboBox_3.clear()
         self.cur.execute(''' SELECT user_name FROM adduser ''')
@@ -2692,7 +2601,6 @@ class mainapp(QMainWindow, main_wind):
         self.comboBox_3.addItem('-----------------')
         for i in data:
             self.comboBox_3.addItem(i[0])
-
     def False_checkState(self):
         self.checkBox_58.setCheckState(False)
         self.checkBox_57.setCheckState(False)
@@ -2723,7 +2631,6 @@ class mainapp(QMainWindow, main_wind):
         self.checkBox_42.setCheckState(False)
         self.checkBox_43.setCheckState(False)
         self.checkBox_41.setCheckState(False)
-
     def Add_employee(self):
         global Edit_employee
         employee_name = self.comboBox_3.currentText()
@@ -2754,7 +2661,6 @@ class mainapp(QMainWindow, main_wind):
     def Show_employee_data(self):
         global Edit_employee
         if self.comboBox_3.currentIndex() != 0:
-
             self.False_checkState()
             # try:
             self.cur.execute(''' SELECT user_name,user_password,user_email FROM adduser WHERE user_name=%s ''',
@@ -2769,7 +2675,6 @@ class mainapp(QMainWindow, main_wind):
                 self.cur.execute(''' SELECT * FROM userper WHERE employee_name=%s ''', (self.comboBox_3.currentText(),))
                 perData = self.cur.fetchone()
                 if perData:
-
                     if perData[27]:
                         self.checkBox_58.setCheckState(True)
                     if perData[28]:
@@ -2820,7 +2725,6 @@ class mainapp(QMainWindow, main_wind):
                         self.checkBox_44.setCheckState(True)
                     if perData[16]:
                         self.checkBox_45.setCheckState(True)
-
                     if perData[9]:
                         self.checkBox_42.setCheckState(True)
                     if perData[10]:
@@ -2839,7 +2743,6 @@ class mainapp(QMainWindow, main_wind):
             self.False_checkState()
             self.lineEdit_17.setText('')
             self.lineEdit_3.setText('')
-
     def Show_permissions(self):
         if self.comboBox_2.currentIndex() != 0:
             if self.comboBox_2.currentIndex() == 1:
@@ -2879,7 +2782,6 @@ class mainapp(QMainWindow, main_wind):
                 self.groupBox_19.hide()
         else:
             self.frame.show()
-
     def Add_permissions(self):
         employee_name = self.comboBox_3.currentText()
         sales_page = 0
@@ -2997,7 +2899,6 @@ class mainapp(QMainWindow, main_wind):
                     self.comboBox_3.currentText()))
             self.db.commit()
             QMessageBox.information(self, 'info', 'تم تعديل بيانات الموظف بنجاح')
-
     def Delete_employee(self):
         warning = QMessageBox.warning(self, 'احذر', f"هل انت متأكد من انك تريد مسح الموظف {self.comboBox_4.text()}",
                                       QMessageBox.Yes | QMessageBox.No)
@@ -3013,7 +2914,6 @@ class mainapp(QMainWindow, main_wind):
             self.Add_Data_To_history(5,5)
             self.History()
         QMessageBox.information(self, 'info', 'تم حذف الموظف بنجاح')
-
     def Delete_All_History_Data(self):
         sql = '''DELETE FROM his'''
         self.cur.execute(sql)
@@ -3021,53 +2921,40 @@ class mainapp(QMainWindow, main_wind):
         QMessageBox.information(self, 'info', 'تم حذف محتويات السجل بنجاح')
         self.tableWidget_8.setRowCount(0)
         self.tableWidget_8.insertRow(0)
-
     def Open_Sales_Page(self):
         self.tabWidget.setCurrentIndex(3)
-
     def Open_Login_Page(self):
         self.tabWidget.setCurrentIndex(0)
-
     def Open_Settings_Page(self):
         self.tabWidget.setCurrentIndex(6)
-
     def Open_History_Page(self):
         self.tabWidget.setCurrentIndex(5)
-
     def Open_clients_Page(self):
         self.tabWidget.setCurrentIndex(2)
-
     def Open_Analyse_Page(self):
         self.tabWidget.setCurrentIndex(4)
-
     def Open_ResetPassword_Page(self):
         self.tabWidget.setCurrentIndex(1)
-
     def Light_Blue_Theme(self):
         style = open('thems/light_blue.css', 'r')
         style = style.read()
         self.setStyleSheet(style)
-
     def Dark_Blue_Theme(self):
         style = open('thems/darkblue.css', 'r')
         style = style.read()
         self.setStyleSheet(style)
-
     def Dark_Gray_Theme(self):
         style = open('thems/darkgray.css', 'r')
         style = style.read()
         self.setStyleSheet(style)
-
     def Dark_Orange_Theme(self):
         style = open('thems/darkorange.css', 'r')
         style = style.read()
         self.setStyleSheet(style)
-
     def Dark_Theme(self):
         style = open('thems/qdark.css', 'r')
         style = style.read()
         self.setStyleSheet(style)
-
     def Bio_Word(self, name, doctor, analysts, results, year, month, day, prev, genus,categorys3):
         global if_print
         global word_files
@@ -3098,7 +2985,6 @@ class mainapp(QMainWindow, main_wind):
                 else:
                     units.append('')
                     defults.append('')
-
         all_files=[]
         f = open(r'%s\test-mydocx.docx' % word_files, 'rb')
         f.read()
@@ -3357,18 +3243,13 @@ class mainapp(QMainWindow, main_wind):
                 self.Delete_Files()
                 self.Add_Data_To_history(7,7)
                 self.History()
-
         except Exception as e:
             print(e, '6erorr')
-
-
 def main():
     app = QApplication(sys.argv)
     app.processEvents()
     window = mainapp()
     window.show()
     app.exec_()
-
-
 if __name__ == '__main__':
     main()
