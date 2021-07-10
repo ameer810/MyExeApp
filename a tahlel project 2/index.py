@@ -1,12 +1,13 @@
-﻿import datetime
+import datetime
 import os
 import sys
 import MySQLdb
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-# from PyQt5.uic import loadUiType
+from PyQt5.uic import loadUiType
 from docx import *
+from docx.enum.text import WD_COLOR_INDEX
 from docx.shared import Pt
 import smtplib
 from email.mime.text import MIMEText
@@ -14,6 +15,7 @@ from email.mime.multipart import MIMEMultipart
 from win32com import client
 import searchDialog
 import searchDialog2
+import time
 import multyclass
 from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
@@ -22,10 +24,10 @@ import add_delete_category_dialogpy
 import add_delete_analyst_choices
 import add_delete_analyst_choicesrupy2
 import mandobuipy
-from mymain import Ui_MainWindow as main_wind
+# from mymain import Ui_MainWindow as main_wind
 import ast
 show_clients_check = False
-# main_wind, _ = loadUiType("design.ui")
+main_wind, _ = loadUiType("design.ui")
 user_id = ''
 analyst_name_for_update_before = ''
 analyst_name_for_update = ''
@@ -87,10 +89,9 @@ class mainapp(QMainWindow, main_wind):
         self.dateEdit_6.setDate(datetime.date.today())
         self.dateEdit_5.setDate(datetime.date.today())
         # self.dateEdit.setDate(datetime.date.today())
-        os.system("TASKKILL /F /IM WINWORD.exe")
-        os.system('start WINWORD.exe')
         self.tableWidget_5.setColumnHidden(4, True)
         self.tableWidget_7.setColumnHidden(0, True)
+        self.tableWidget_3.setColumnHidden(0, True)
         self.cur.execute(''' SELECT * FROM paths WHERE id=1 ''')
         mydata = self.cur.fetchone()
         word_files = mydata[1]
@@ -558,6 +559,7 @@ class mainapp(QMainWindow, main_wind):
         for row in data:
             if row[0] not in clients:
                 clients.append(row[0])
+        clients.reverse()
         self.comboBox_4.clear()
         self.comboBox_4.addItem('')
         self.comboBox_4.addItems(clients)
@@ -941,6 +943,7 @@ class mainapp(QMainWindow, main_wind):
         all_analyst.append(prev_category)
         all_result.append('')
         for row in range(0, self.tableWidget_5.rowCount() - 1):
+            result = ''
             categorys.append(self.tableWidget_5.item(row, 4).text())
             if row!=0:
                 if self.tableWidget_5.item(row, 4).text()!= prev_category:
@@ -957,12 +960,15 @@ class mainapp(QMainWindow, main_wind):
             except:
                 try:
                     result = self.tableWidget_5.cellWidget(row, 1).currentText()
+                    result = result.replace("$","\n")
+                    
                 except:
                     try:
                         result = self.tableWidget_5.cellWidget(row, 1).text()
+                        result = result.replace("$","\n")
                     except Exception as e:
                         print(e, '95ek;okpororr')
-            all_result.append(str(result))
+            all_result.append(result)
         # try:
         self.Bio_Word(real_name, real_doctor, all_analyst, all_result, year, month, day, prev, genuses, categorys)
         # except Exception as e:
@@ -1057,7 +1063,7 @@ class mainapp(QMainWindow, main_wind):
         self.tableWidget_3.setSortingEnabled(False)
         try:
             if self.tableWidget_3.rowCount() > 1:
-                item_name = self.tableWidget_3.item(item, 0).text()
+                item_name = self.tableWidget_3.item(item, 1).text()
                 item_quantity = self.tableWidget_3.item(item, 1).text()
                 item_price = self.tableWidget_3.item(item, 2).text()
                 warning = QMessageBox.warning(self, 'احذر', f"سوف يتم مسح العنصر{item_name} هل انت متأكد؟",
@@ -1084,12 +1090,6 @@ class mainapp(QMainWindow, main_wind):
         button = self.sender()
         index = self.tableWidget_5.indexAt(button.pos())
         self.Delete_Row(index.row())
-    def buttonClicked2(self):
-        button = self.sender()
-        self.tableWidget_3.setSortingEnabled(False)
-        index = self.tableWidget_3.indexAt(button.pos())
-        self.Delete_Row2(index.row())
-        self.tableWidget_3.setSortingEnabled(True)
     def get_total_price(self):
         total_price = 0
         for row in range(0, self.tableWidget_5.rowCount() - 1):
@@ -1206,7 +1206,7 @@ class mainapp(QMainWindow, main_wind):
                 self.db.commit()
                 clients_name_glo.append(str(client_name))
                 if for_loop2 == False:
-                    self.Show_All_one_client_analyst()
+                    self.Show_All_one_client_analyst('lets see')
                     self.Update_addNewItem_Data()
             else:
                 if for_loop2 == False:
@@ -1240,7 +1240,7 @@ class mainapp(QMainWindow, main_wind):
         for rowd in range(0, self.tableWidget_5.rowCount() - 1):
             mypush_button = QPushButton(self)
             mypush_button.setText('حذف')
-            mypush_button.setStyleSheet('border-radius:12px;')
+            mypush_button.setStyleSheet('''QPushButton:pressed{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.687, y2:0.704545, stop:0.0646766 rgba(255, 155, 155, 255), stop:0.751244 rgba(235, 54, 30, 255));}QPushButton{border-radius:12px;background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512438 rgba(235, 54, 30, 255), stop:0.875622 rgba(255, 155, 155, 255));}''')
             mypush_button.clicked.connect(self.buttonClicked)
             try:
                 row_analyst_name = self.tableWidget_5.item(rowd, 0).text()
@@ -1262,8 +1262,8 @@ class mainapp(QMainWindow, main_wind):
             if results_data:
                 if results_data[0][1] == 'خيارات':
                     mycobmbo = QComboBox(self)
-                    list_data = str(results_data[0][0]).replace("'", "")
-                    list_data = list_data.split(',')
+                    x = '[' + str(results_data[0][0]) + ']'
+                    list_data = ast.literal_eval(str(x))
                     mycobmbo.addItems(list_data)
                     object_type = 'خيارات'
                 if results_data[0][1] == 'عدد':
@@ -1274,8 +1274,8 @@ class mainapp(QMainWindow, main_wind):
                 if results_data[0][1] == 'خيارات مع تعديل':
                     mycobmbo = QComboBox(self)
                     mycobmbo.setEditable(True)
-                    list_data = str(results_data[0][0]).replace("'", "")
-                    list_data = list_data.split(',')
+                    x = '[' + str(results_data[0][0]) + ']'
+                    list_data = ast.literal_eval(str(x))
                     mycobmbo.addItems(list_data)
                     object_type = 'خيارات مع تعديل'
                 if results_data[0][1] == 'حقل كتابة':
@@ -1290,7 +1290,16 @@ class mainapp(QMainWindow, main_wind):
                     if myrs != None:
                         if object_type == 'خيارات' or object_type == 'خيارات مع تعديل':
                             index = mycobmbo.findText(myrs[0][0], Qt.MatchFixedString)
-                            mycobmbo.setCurrentIndex(index)
+                            print('here index',index)
+                            if index !=-1:
+                                mycobmbo.setCurrentIndex(index)
+                            else:
+                                print('countinu')
+                                if myrs[0][0] != mycobmbo.currentText():
+                                    print('couy3')
+                                    mycobmbo.addItem(str(myrs[0][0]))
+                                    index = mycobmbo.findText(myrs[0][0], Qt.MatchFixedString)
+                                    mycobmbo.setCurrentIndex(index)
                         if object_type == 'عدد':
                             if myrs[0][0] and myrs[0][0] != '':
                                 mycobmbo.setValue(float(myrs[0][0]))
@@ -1385,11 +1394,11 @@ class mainapp(QMainWindow, main_wind):
                 self.Add_buttons_combo_spin_to_tableWidget()
             else:
                 global clients_name_glo
-                if client_name in clients_name_glo:
-                    if not from_add_multy:
-                        print('not from add')
-                        print(from_add_multy)
-                        QMessageBox.information(self, 'Error','الرقم الذي ادخلته غير موجود في مبيعات اليوم يرجى مراجعة صفحة "مبيعات اليوم" للتأكد من الرقم')
+                # if client_name in clients_name_glo:
+                if not from_add_multy:
+                    print('not from add')
+                    print(from_add_multy)
+                    QMessageBox.information(self, 'Error','الرقم الذي ادخلته غير موجود في مبيعات اليوم يرجى مراجعة صفحة "مبيعات اليوم" للتأكد من الرقم')
                 # else:
                 #     if not from_add_multy:
                 #         QMessageBox.information(self, 'Error','الرقم الذي ادخلته غير صحيح يرجى مراجعة صفحة "مبيعات اليوم" للتأكد من الرقم')
@@ -1397,6 +1406,7 @@ class mainapp(QMainWindow, main_wind):
             #     print(e,'1erorr')
             self.get_total_price()
             select_by_date = False
+        self.tableWidget_5.resizeColumnsToContents()
         print(from_add_multy, ';;;;;;;')
         self.Add_all_analysts_items()
     def Show_Type_of_result_category(self):
@@ -2127,23 +2137,94 @@ class mainapp(QMainWindow, main_wind):
         self.Add_Data_To_history(3,4)
         self.History()
     def Show_all_buys(self):
-        self.cur.execute(''' SELECT id,item_name,to_analysts,buys_type,quantity,item_quantity,signal_item_price,total_price,mandob,pushed_price,still_price,date FROM addbuys ''')
+        self.cur.execute(''' SELECT id,item_name,to_analysts,buys_type,quantity,signal_item_price,item_quantity,total_price,mandob,pushed_price,still_price,date FROM addbuys ''')
         data = self.cur.fetchall()
         self.tableWidget_3.setSortingEnabled(False)
         self.tableWidget_3.setRowCount(0)
         self.tableWidget_3.insertRow(0)
         for row, form in enumerate(data):
             for col, item in enumerate(form):
-                self.tableWidget_3.setItem(row, col, QTableWidgetItem(str(item)))
+                # if item==None:
+                #     item ="لا يوجد"
+                if col ==2:
+                    my_combo2 = QComboBox()
+                    my_combo2.addItems(self.RETURN_ALL_ANALYST())
+                    index = my_combo2.findText(str(item), Qt.MatchFixedString)
+                    my_combo2.setCurrentIndex(index)
+                    self.tableWidget_3.setCellWidget(row, col, my_combo2)
+                elif col == 3:
+                    my_combo2 = QComboBox()
+                    my_combo2.addItems(["تم الشراء","تم الشراء,لم يدفع","تم الشراء,دُفع مبلغ"])
+                    index = my_combo2.findText(str(item), Qt.MatchFixedString)
+                    my_combo2.setCurrentIndex(index)
+                    self.tableWidget_3.setCellWidget(row, col, my_combo2)
+                elif col == 4:
+                    my_spin = QSpinBox()
+                    if item:
+                        my_spin.setValue(int(item))
+                    self.tableWidget_3.setCellWidget(row, col, my_spin)
+                elif col == 5:
+                    my_spin = QSpinBox()
+                    if item:
+                        my_spin.setValue(int(item))
+                    self.tableWidget_3.setCellWidget(row, col, my_spin)
+                elif col == 6:
+                    my_spin = QSpinBox()
+                    if item:
+                        my_spin.setValue(int(item))
+                    self.tableWidget_3.setCellWidget(row, col, my_spin)
+                elif col == 9:
+                    my_spin = QSpinBox()
+                    if item:
+                        my_spin.setValue(int(item))
+                    self.tableWidget_3.setCellWidget(row, col, my_spin)
+                elif col == 10:
+                    my_spin = QSpinBox()
+                    if item:
+                        my_spin.setValue(int(item))
+                    self.tableWidget_3.setCellWidget(row, col, my_spin)
+                # elif col == 11:
+                #     my_date = QDateEdit()
+                #     my_date.setDate(str(item))
+                #     self.tableWidget_3.setCellWidget(row, col, my_date)
+                #elif col == :
+                else:
+                    self.tableWidget_3.setItem(row, col, QTableWidgetItem(str(item)))
                 col += 1
             row_pos = self.tableWidget_3.rowCount()
             self.tableWidget_3.insertRow(row_pos)
         for rowd in range(0, self.tableWidget_3.rowCount() - 1):
             mypush_button = QPushButton(self)
-            mypush_button.setText('حذف')
+            mypush_button.setText('حفظ')
             mypush_button.setStyleSheet('border-radius:12px;')
+            mypush_button.clicked.connect(self.buttonClicked2Save)
+            self.tableWidget_3.setCellWidget(rowd, 12, mypush_button)
+            mypush_button = QPushButton(self)
+            mypush_button.setText('حذف')
+            mypush_button.setStyleSheet('''QPushButton:pressed{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.687, y2:0.704545, stop:0.0646766 rgba(255, 155, 155, 255), stop:0.751244 rgba(235, 54, 30, 255));}QPushButton{border-radius:12px;background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512438 rgba(235, 54, 30, 255), stop:0.875622 rgba(255, 155, 155, 255));}''')
             mypush_button.clicked.connect(self.buttonClicked2)
-            self.tableWidget_3.setCellWidget(rowd, 5, mypush_button)
+            self.tableWidget_3.setCellWidget(rowd, 13, mypush_button)
+        self.tableWidget_3.setSortingEnabled(True)
+
+    def buttonClicked2(self):
+        button = self.sender()
+        self.tableWidget_3.setSortingEnabled(False)
+        index = self.tableWidget_3.indexAt(button.pos())
+        self.Delete_Row2(index.row())
+        self.tableWidget_3.setSortingEnabled(True)
+
+    def buttonClicked2Save(self):
+        button = self.sender()
+        self.tableWidget_3.setSortingEnabled(False)
+        index = self.tableWidget_3.indexAt(button.pos())
+        the_id= self.tableWidget_3.item(index,0).text()
+        item_name = self.tableWidget_3.item(index,1).text()
+        to_analyst = self.tableWidget_3.cellWidget(index,2).currentText()
+        buys_type = self.tableWidget_3.cellWidget(index,3).currentText()
+        quantity = self.tableWidget_3.cellWidget(index,4).value()
+        signal_item_price = self.tableWidget_3.cellWidget(index,5).value()
+        item_quantity = self.tableWidget_3.cellWidget(index,6).value()
+        self.cur.execute(''' UPDATE addbuys SET item_name=%s,to_analysts=%s,buys_type=%s,quantity=%s,signal_item_price=%s,item_quantity=%s,total_price=%s,mandob=%s,pushed_price=%s,still_price=%s WHERE id=%s ''',())
         self.tableWidget_3.setSortingEnabled(True)
     def Show_statics(self):
         self.lineEdit_30.setText('')
@@ -2190,7 +2271,7 @@ class mainapp(QMainWindow, main_wind):
             try:
                 self.lineEdit_31.setText(str(total_sales_price - total_buys_price))
                 if total_buys_price:
-                    self.lineEdit_32.setText(str((total_sales_price / total_buys_price) * 100)[0] + '%')
+                    self.lineEdit_32.setText(str(((total_sales_price - total_buys_price) / total_buys_price) * 100)[0] + '%')
                 else:
                     self.lineEdit_32.setText("0%")
             except Exception as e:
@@ -2231,7 +2312,7 @@ class mainapp(QMainWindow, main_wind):
                 try:
                     self.lineEdit_31.setText(str(total_sales_price - total_buys_price))
                     if total_buys_price:
-                        self.lineEdit_32.setText(str((total_sales_price / total_buys_price) * 100)[0] + '%')
+                        self.lineEdit_32.setText(str(((total_sales_price - total_buys_price) / total_buys_price) * 100)[0] + '%')
                     else:
                         self.lineEdit_32.setText("0%")
                 except Exception as e:
@@ -2274,7 +2355,7 @@ class mainapp(QMainWindow, main_wind):
                 try:
                     self.lineEdit_31.setText(str(total_sales_price - total_buys_price))
                     if total_buys_price:
-                        self.lineEdit_32.setText(str((total_sales_price / total_buys_price) * 100)[0] + '%')
+                        self.lineEdit_32.setText(str(((total_sales_price - total_buys_price) / total_buys_price) * 100)[0] + '%')
                     else:
                         self.lineEdit_32.setText("0%")
                 except Exception as e:
@@ -3142,13 +3223,15 @@ class mainapp(QMainWindow, main_wind):
                             for row in range(from_count, len(analysts)):
                                 if n.text == str((row+1)-from_count2) :
                                     n.text = str(analysts[row])
-                                    if str(n.text) in categorys3:
-                                        for igq in range(0, 5):
-                                            i.rows[row_index].cells[igq]._tc.get_or_add_tcPr().append(
-                                                parse_xml(r'<w:shd {} w:fill="d9d9d9"/>'.format(nsdecls('w'))))
                                     run = n.runs
                                     font = run[0].font
                                     font.bold = True
+                                    if str(n.text) in categorys3:
+                                        # font.highlight_color = WD_COLOR_INDEX.YELLOW
+                                        for igq in range(0, 5):#here is highlighting
+                                            i.rows[row_index].cells[igq]._tc.get_or_add_tcPr().append(
+                                                parse_xml(r'<w:shd {} w:fill="d9d9d9"/>'.format(nsdecls('w'))))
+
                                     if str(n.text) in categorys3:
                                         font.size = Pt(13)
                                     else:
@@ -3194,7 +3277,7 @@ class mainapp(QMainWindow, main_wind):
                                 nq1.text = ''
                                 break
                                 is_break=True
-                            for myq in range(0, 21):
+                            for myq in range(0, 23):
                                 if nq1.text == str(myq):
                                     if nq1.runs[0].font.underline:
                                         nq1.text = ''
@@ -3225,6 +3308,8 @@ class mainapp(QMainWindow, main_wind):
             f3.close()
         try:
             if prev == 'T':
+                os.system("TASKKILL /F /IM WINWORD.exe")
+                os.system('start WINWORD.exe')
                 word = client.Dispatch("Word.Application")
                 if os.path.exists(r'%s\result.docx' % save_word_files):
                     word.Documents.Open(r'%s\result.docx' % save_word_files)
@@ -3237,18 +3322,21 @@ class mainapp(QMainWindow, main_wind):
             else:
                 os.system("TASKKILL /F /IM WINWORD.exe")
                 word = client.Dispatch("Word.Application")
-                if os.path.exists(r'%s\result.docx' % save_word_files):
-                    word.Documents.Open(r'%s\result.docx' % save_word_files)
-                    word.ActiveDocument.PrintOut(Background=False)
-                if os.path.exists(r'%s\result2.docx' % save_word_files):
-                    word.Documents.Open(r'%s\result2.docx' % save_word_files)
-                    word.ActiveDocument.PrintOut(Background=False)
-                if os.path.exists(r'%s\result3.docx' % save_word_files):
-                    word.Documents.Open(r'%s\result3.docx' % save_word_files)
-                    word.ActiveDocument.PrintOut(Background=False)
-                self.Delete_Files()
-                self.Add_Data_To_history(7,7)
-                self.History()
+                warning = QMessageBox.warning(self, '', f"سوف تتم الطباعة هل انت متأكد؟",
+                                              QMessageBox.Yes | QMessageBox.No)
+                if warning == QMessageBox.Yes:
+                    if os.path.exists(r'%s\result.docx' % save_word_files):
+                        word.Documents.Open(r'%s\result.docx' % save_word_files)
+                        word.ActiveDocument.PrintOut(Background=False)
+                    if os.path.exists(r'%s\result2.docx' % save_word_files):
+                        word.Documents.Open(r'%s\result2.docx' % save_word_files)
+                        word.ActiveDocument.PrintOut(Background=False)
+                    if os.path.exists(r'%s\result3.docx' % save_word_files):
+                        word.Documents.Open(r'%s\result3.docx' % save_word_files)
+                        word.ActiveDocument.PrintOut(Background=False)
+                    self.Delete_Files()
+                    self.Add_Data_To_history(7,7)
+                    self.History()
         except Exception as e:
             print(e, '6erorr')
 def main():
