@@ -787,7 +787,7 @@ class mainapp(QMainWindow, main_wind):
 			# self.Add_all_analysts_items()
 			for rowCX in all_analysts:
 					if rowCX in self.all_analyst_in_buys():
-						self.cur.execute(''' update addbuys set item_quantity=item_quantity -1 where to_analysts=%s and item_quantity!=0''',(rowCX,))
+						# self.cur.execute(''' update addbuys set item_quantity=item_quantity -1 where to_analysts=%s and item_quantity!=0''',(rowCX,))
 						self.cur.execute(''' update addanalyst set quantity = quantity - 1 where name = %s and quantity!=0''',(rowCX,))
 			self.db.commit()
 		print("--- %s seconds ---" % (time.time() - start_time))
@@ -1544,7 +1544,7 @@ class mainapp(QMainWindow, main_wind):
 					# self.my_def2()
 					self.Add_Data_To_history(3, 1)
 					# self.History()
-					self.cur.execute(''' update addbuys set item_quantity=item_quantity -1 where to_analysts=%s and item_quantity!=0''',(analyst_name,))
+					# self.cur.execute(''' update addbuys set item_quantity=item_quantity -1 where to_analysts=%s and item_quantity!=0''',(analyst_name,))
 					self.cur.execute(''' update addanalyst set quantity = quantity - 1 where name = %s and quantity!=0''',(analyst_name,))
 					self.db.commit()
 				else:
@@ -1591,7 +1591,12 @@ class mainapp(QMainWindow, main_wind):
 					mycobmbo = QComboBox(self)
 					x = '[' + str(results_data[0][0]) + ']'
 					list_data = literal_eval(str(x))
-					mycobmbo.addItems(list_data)
+					# mycobmbo.addItems(list_data)
+					model = mycobmbo.model()
+					for rowx in list_data:
+						item = QStandardItem(str(rowx)+'gg')
+						item.setForeground(QColor('red'))
+						model.appendRow(item)
 					object_type = 'خيارات'
 				if results_data[0][1] == 'عدد':
 					mycobmbo = QDoubleSpinBox(self)
@@ -1713,26 +1718,54 @@ class mainapp(QMainWindow, main_wind):
 								mycobmbo = None
 								object_type = ''
 								if results_data:
+									
 									if results_data[0][1] == 'خيارات':
+										genus_type = self.comboBox_14.currentIndex()
+										if genus_type == 0:
+											genus_type = "Female"
+										elif genus_type == 1:
+											genus_type = "Male"
+										else:
+											genus_type = "Infants"
+										self.cur.execute(''' select normal_value1,normal_value2 from analystnormal where analyst_name=%s and genus_type=%s''',(analyst_data[row][1],genus_type,))
+										NormalData = self.cur.fetchone()
 										mycobmbo = QComboBox()
 										x = '[' + str(results_data[0][0]) + ']'
 										list_data = literal_eval(str(x))
 										mycobmbo.addItems(list_data)
+										x3 = '[' + str(NormalData[1]) + ']'
+										list_data3 = literal_eval(str(x3))
 										object_type = 'خيارات'
+										for cindex,tt in enumerate(list_data3):
+											if tt =='غير طبيعي':
+												mycobmbo.setItemData(cindex,QColor(Qt.red),Qt.ForegroundRole)
 									if results_data[0][1] == 'عدد':
 										mycobmbo = QDoubleSpinBox()
 										mycobmbo.setMaximum(2147483647)
 										mycobmbo.setMinimum(-2147483647)
 										object_type = 'عدد'
+										mycobmbo.valueChanged.connect(self.IsNormalForAddNewItem)
 									if results_data[0][1] == 'خيارات مع تعديل':
+										genus_type = self.comboBox_14.currentIndex()
+										if genus_type == 0:
+											genus_type = "Female"
+										elif genus_type == 1:
+											genus_type = "Male"
+										else:
+											genus_type = "Infants"
+										self.cur.execute(''' select normal_value1,normal_value2 from analystnormal where analyst_name=%s and genus_type=%s''',(analyst_data[row][1],genus_type,))
+										NormalData = self.cur.fetchone()
 										mycobmbo = QComboBox()
 										mycobmbo.setEditable(True)
 										x = '[' + str(results_data[0][0]) + ']'
 										list_data = literal_eval(str(x))
-										print(list_data, type(list))
-										for rr in list_data:
-											mycobmbo.addItem(str(rr))
 										object_type = 'خيارات مع تعديل'
+										x3 = '[' + str(NormalData[1]) + ']'
+										list_data3 = literal_eval(str(x3))
+										object_type = 'خيارات'
+										for cindex,tt in enumerate(list_data3):
+											if tt =='غير طبيعي':
+												mycobmbo.setItemData(cindex,QColor(Qt.red),Qt.ForegroundRole)
 									if results_data[0][1] == 'حقل كتابة':
 										mycobmbo = QLineEdit()
 										object_type = 'حقل كتابة'
@@ -1784,7 +1817,28 @@ class mainapp(QMainWindow, main_wind):
 		# self.Add_all_analysts_items()
 		self.Add_Data_To_history(6, 1)
 		# # self.History()
-
+	def IsNormalForAddNewItem(self):
+		try:
+			index = self.sender().pos()
+			index = self.tableWidget_5.indexAt(index)
+			index = index.row()
+			spin = self.tableWidget_5.cellWidget(index,1)
+			name = self.tableWidget_5.item(index,0).text()
+			genus_type = self.comboBox_14.currentIndex()
+			if genus_type == 0:
+				genus_type = "Female"
+			elif genus_type == 1:
+				genus_type = "Male"
+			else:
+				genus_type = "Infants"
+			self.cur.execute(''' select normal_value1,normal_value2 from analystnormal where analyst_name=%s and genus_type=%s ''',(name,genus_type,))
+			data =self.cur.fetchone()
+			if spin.value() < float(data[0]) or spin.value() > float(data[1]):
+				spin.setStyleSheet(';font: 10pt "Segoe UI"; color:#cf2525')
+			else:
+				spin.setStyleSheet('font: 10pt "Segoe UI";')
+		except:
+			pass
 	def Show_Type_of_result_category(self):
 		global addTrue
 		analyst_name = self.comboBox_16.currentText()
@@ -2050,11 +2104,9 @@ class mainapp(QMainWindow, main_wind):
 				self.comboBox_30.addItem(str(i))
 		else:
 			self.comboBox_29.clear()
-			print('4440')
 			self.cur.execute(''' select name from addanalyst where sub_category=%s ''',
 							 (self.comboBox_23.currentText(),))
 			data = self.cur.fetchall()
-			print(data)
 			for i2 in range(1, len(data) + 2):
 				self.comboBox_29.addItem(str(i2))
 
@@ -2090,7 +2142,6 @@ class mainapp(QMainWindow, main_wind):
 				''' select name,analyst_index from addanalyst where sub_category=%s order by analyst_index ASC ''',
 				(self.comboBox_23.currentText(),))
 		data = self.cur.fetchall()
-		print(len(data))
 		mulist = []
 		for iq in range(0, len(data)):
 			mulist.append(str(iq + 1))
@@ -2563,6 +2614,11 @@ class mainapp(QMainWindow, main_wind):
 				item_name, signal_item_price, total_item_price, item_type, quantity, signal_item_quantity,
 				to_analyst,
 				still_price, pushed_price, notification_date, mandob, category, date_create_before))
+		# self.cur.execute(''' update addanalyst set quantity=%s where name=%s''',(signal_item_price,to_analyst,))
+		self.db.commit()
+		self.cur.execute(''' select sum(item_quantity) from addbuys where to_analysts=%s ''',(to_analyst,))
+		ccxdata = self.cur.fetchone()
+		self.cur.execute(''' update addanalyst set quantity=%s where name=%s ''',(ccxdata[0],to_analyst,))
 		self.db.commit()
 		self.Add_Buys_Dialog.close()
 		QMessageBox.information(self, '', 'تمت الاضافة الى المشتريات')
@@ -2587,9 +2643,9 @@ class mainapp(QMainWindow, main_wind):
 		senderz =self.sender()
 		index = self.tableWidget_3.indexAt(senderz.pos()).row()
 		try:
-			combo = self.tableWidget_3.cellWidget(index,4).value()
+			combo = self.tableWidget_3.item(index,4).text()
 			combo2 = self.tableWidget_3.cellWidget(index,5).value()
-			self.tableWidget_3.item(index,7).setText(str(combo*combo2))
+			self.tableWidget_3.item(index,7).setText(str(int(combo)*int(combo2)))
 		except Exception as e:
 			print(e)
 		try:
@@ -2604,7 +2660,7 @@ class mainapp(QMainWindow, main_wind):
 			print(e)
 	def Show_all_buys(self):
 		self.cur.execute(
-			''' SELECT id,item_name,to_analysts,buys_type,quantity,signal_item_price,item_quantity,total_price,mandob,pushed_price,still_price,date FROM addbuys ''')
+			''' SELECT id,item_name,to_analysts,buys_type,quantity,signal_item_price,item_quantity,total_price,mandob,pushed_price,still_price,date,still_price,still_price FROM addbuys ''')
 		data = self.cur.fetchall()
 		self.tableWidget_3.setSortingEnabled(False)
 		self.tableWidget_3.setRowCount(0)
@@ -2626,13 +2682,19 @@ class mainapp(QMainWindow, main_wind):
 					my_combo2.setCurrentIndex(index)
 					self.tableWidget_3.setCellWidget(row, col, my_combo2)
 				elif col == 4:
-					my_spin = QSpinBox()
-					my_spin.setMaximum(2147483647)
-					my_spin.setMinimum(0)
-					if item:
-						my_spin.setValue(int(item))
-					my_spin.valueChanged.connect(self.Change_Buy_Total_Price)
-					self.tableWidget_3.setCellWidget(row, col, my_spin)
+					# my_spin = QSpinBox()
+					# my_spin.setMaximum(2147483647)
+					# my_spin.setMinimum(0)
+					# if item:
+					# 	my_spin.setValue(int(item))
+					# my_spin.valueChanged.connect(self.Change_Buy_Total_Price)
+					# my_spin.setValue(378)
+					# my_spin.setValue(int(item))
+					# self.tableWidget_3.setCellWidget(row, col, my_spin)
+					self.tableWidget_3.setItem(row, col, QTableWidgetItem(str(item)))
+					my_item =self.tableWidget_3.item(row, col)
+					my_item.setFlags(Qt.ItemIsEditable)
+					my_item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
 
 				elif col == 5:
 					my_spin = QSpinBox()
@@ -2641,14 +2703,19 @@ class mainapp(QMainWindow, main_wind):
 					if item:
 						my_spin.setValue(int(item))
 					my_spin.valueChanged.connect(self.Change_Buy_Total_Price)
+					my_spin.setValue(378)
+					my_spin.setValue(int(item))
 					self.tableWidget_3.setCellWidget(row, col, my_spin)
 				elif col == 6:
-					my_spin = QSpinBox()
-					my_spin.setMaximum(2147483647)
-					my_spin.setMinimum(0)
-					if item:
-						my_spin.setValue(int(item))
-					self.tableWidget_3.setCellWidget(row, col, my_spin)
+					# my_spin = QSpinBox()
+					# my_spin.setMaximum(2147483647)
+					# my_spin.setMinimum(0)
+					# if item:
+					# 	my_spin.setValue(int(item))
+					self.tableWidget_3.setItem(row, col, QTableWidgetItem(str(item)))
+					my_item =self.tableWidget_3.item(row, col)
+					my_item.setFlags(Qt.ItemIsEditable)
+					my_item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
 				elif col == 9:
 					my_spin = QSpinBox()
 					my_spin.setMaximum(int(data[row][7]))
@@ -2656,6 +2723,12 @@ class mainapp(QMainWindow, main_wind):
 					if item:
 						my_spin.setValue(int(item))
 					my_spin.valueChanged.connect(self.Change_Buy_Total_Price)
+					
+					if item:
+						my_spin.setValue(378)
+						my_spin.setValue(int(item))
+					else:
+						my_spin.setValue(0)
 					self.tableWidget_3.setCellWidget(row, col, my_spin)
 				elif col == 10:
 					my_spin = QSpinBox()
@@ -2681,9 +2754,29 @@ class mainapp(QMainWindow, main_wind):
 					self.tableWidget_3.setCellWidget(row, col, my_combo2)
 				elif col == 11:
 				    my_date = QDateEdit()
-					# my_date.setCalendarPopup(True)
 				    my_date.setDate(item)
+					# my_date.setCalendarPopup(True)
 				    self.tableWidget_3.setCellWidget(row, col, my_date)
+				elif col == 12:
+					self.cur.execute(''' select sum(item_quantity) from addbuys where to_analysts=%s ''',(data[row][2],))
+					dataXCd = self.cur.fetchone()
+					cb = ''
+					if dataXCd:
+						cb = dataXCd[0]
+					self.tableWidget_3.setItem(row, col, QTableWidgetItem(str(cb)))
+					my_item = self.tableWidget_3.item(row, col)
+					my_item.setFlags(Qt.ItemIsEditable)
+					my_item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
+				elif col == 13:
+					self.cur.execute(''' select quantity from addanalyst where name=%s ''',(data[row][2],))
+					dataXCd = self.cur.fetchone()
+					cb = ''
+					if dataXCd:
+						cb = dataXCd[0]
+					self.tableWidget_3.setItem(row, col, QTableWidgetItem(str(cb)))
+					my_item = self.tableWidget_3.item(row, col)
+					my_item.setFlags(Qt.ItemIsEditable)
+					my_item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
 				else:
 					self.tableWidget_3.setItem(row, col, QTableWidgetItem(str(item)))
 				col += 1
@@ -2694,13 +2787,13 @@ class mainapp(QMainWindow, main_wind):
 			mypush_button.setText('حفظ')
 			mypush_button.setStyleSheet('border-radius:12px;')
 			mypush_button.clicked.connect(self.buttonClicked2Save)
-			self.tableWidget_3.setCellWidget(rowd, 12, mypush_button)
+			self.tableWidget_3.setCellWidget(rowd, 14, mypush_button)
 			mypush_button = QPushButton(self)
 			mypush_button.setText('حذف')
 			mypush_button.setStyleSheet(
 				'''QPushButton:pressed{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.687, y2:0.704545, stop:0.0646766 rgba(255, 155, 155, 255), stop:0.751244 rgba(235, 54, 30, 255));}QPushButton{border-radius:12px;background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.512438 rgba(235, 54, 30, 255), stop:0.875622 rgba(255, 155, 155, 255));}''')
 			mypush_button.clicked.connect(self.buttonClicked2)
-			self.tableWidget_3.setCellWidget(rowd, 13, mypush_button)
+			self.tableWidget_3.setCellWidget(rowd, 15, mypush_button)
 		self.tableWidget_3.setSortingEnabled(True)
 		try:
 			for cud in range(0, self.tableWidget_3.rowCount() - 1):
@@ -2719,6 +2812,15 @@ class mainapp(QMainWindow, main_wind):
 		self.tableWidget_3.setSortingEnabled(False)
 		index = self.tableWidget_3.indexAt(button.pos()).row()
 		the_id = self.tableWidget_3.item(index, 0).text()
+		to_analysts = self.tableWidget_3.cellWidget(index, 2).currentText()
+		self.cur.execute(''' select to_analysts from addbuys where id=%s ''',(the_id,))
+		datan = self.cur.fetchone()
+		if datan:
+			self.cur.execute(''' update addanalyst set quantity=%s where name=%s ''',(None,datan[0],))
+		self.cur.execute(''' select sum(item_quantity) from addbuys where to_analysts=%s ''',(to_analysts,))
+		ccxdata = self.cur.fetchone()
+		if ccxdata:
+			self.cur.execute(''' update addanalyst set quantity=%s where name=%s ''',(ccxdata[0],to_analysts,))
 		self.cur.execute(""" delete from addbuys where id=%s """, (the_id,))
 		self.db.commit()
 		self.tableWidget_3.setSortingEnabled(True)
@@ -2733,28 +2835,41 @@ class mainapp(QMainWindow, main_wind):
 		item_name = self.tableWidget_3.item(index, 1).text()
 		to_analysts = self.tableWidget_3.cellWidget(index, 2).currentText()
 		buys_type = self.tableWidget_3.cellWidget(index, 3).currentText()
-		quantity = self.tableWidget_3.cellWidget(index, 4).value()
+		quantity = self.tableWidget_3.item(index, 4).text()
 		signal_item_price = self.tableWidget_3.cellWidget(index, 5).value()
-		item_quantity = self.tableWidget_3.cellWidget(index, 6).value() * quantity
+		# item_quantity = self.tableWidget_3.cellWidget(index, 6).value()# * quantity
 		total_price = int(quantity) * int(signal_item_price)
 		mandob = self.tableWidget_3.cellWidget(index, 8).currentText()
 		pushed_price = self.tableWidget_3.cellWidget(index, 9).value()
 		still_price = self.tableWidget_3.cellWidget(index, 10).value()
 		date_buy = str(self.tableWidget_3.cellWidget(index, 11).date().toPyDate())
 		category = ''
+		self.cur.execute(''' select to_analysts from addbuys where id=%s ''',(the_id,))
+		datan = self.cur.fetchone()
+		if datan:
+			self.cur.execute(''' update addanalyst set quantity=%s where name=%s ''',(None,datan[0],))
+		self.cur.execute(''' select sum(item_quantity) from addbuys where to_analysts=%s ''',(to_analysts,))
+		ccxdata = self.cur.fetchone()
+		if ccxdata:
+			self.cur.execute(''' update addanalyst set quantity=%s where name=%s ''',(ccxdata[0],to_analysts,))
 		self.cur.execute(""" select sub_category from addanalyst where name=%s limit 1""",(to_analysts,))
 		datax=self.cur.fetchone()
 		if datax:
 			category = str(datax[0])
 		self.cur.execute(
-			''' UPDATE addbuys SET item_name=%s,to_analysts=%s,buys_type=%s,quantity=%s,signal_item_price=%s,item_quantity=%s,total_price=%s,mandob=%s,category=%s,pushed_price=%s,still_price=%s,date=%s WHERE id=%s ''',
-			(item_name, to_analysts, buys_type, quantity, signal_item_price, item_quantity, total_price, mandob,category,
+			''' UPDATE addbuys SET item_name=%s,to_analysts=%s,buys_type=%s,signal_item_price=%s,total_price=%s,mandob=%s,category=%s,pushed_price=%s,still_price=%s,date=%s WHERE id=%s ''',
+			(item_name, to_analysts, buys_type, signal_item_price, total_price, mandob,category,
 			 pushed_price, still_price, date_buy, the_id,))
-		self.cur.execute(''' update addanalyst set quantity=%s where name=%s ''',(item_quantity,to_analysts,))
+		self.db.commit()
+		self.cur.execute(''' select sum(item_quantity) from addbuys where to_analysts=%s ''',(to_analysts,))
+		ccxdata = self.cur.fetchone()
+		if ccxdata:
+			self.cur.execute(''' update addanalyst set quantity=%s where name=%s ''',(ccxdata[0],to_analysts,))
+		else:
+			self.cur.execute(''' update addanalyst set quantity=%s where name=%s ''',(None,to_analysts,))
 		self.db.commit()
 		self.tableWidget_3.setSortingEnabled(True)
 		QMessageBox.information(self, 'info', 'تم حفظ هذا العنصر بنجاح')
-
 	def Show_statics(self):
 		self.lineEdit_30.setText('')
 		self.lineEdit_33.setText('')
