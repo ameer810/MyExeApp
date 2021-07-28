@@ -2,6 +2,7 @@ from datetime import date, datetime
 from os import path, system, remove
 from sys import argv
 import re
+import random
 from MySQLdb import connect
 # from PyQt5.QtCore import Qt,QStringListModel
 # from PyQt5.QtGui import *
@@ -53,6 +54,7 @@ echo_mode_num2 = 0
 global_from_save = None
 edit_employee_check = True
 Edit_employee = False
+CJ = None
 search_info_by_date = False
 all_doctors = []
 Edit_Doctor = True
@@ -110,6 +112,7 @@ class mainapp(QMainWindow, main_wind):
 		self.clear_data_in_sales()
 		self.tableWidget_7.resizeColumnsToContents()
 		self.tableWidget_2.resizeColumnsToContents()
+		self.Show_all_human_type_in_combos()
 		# data = [(5,'Random  blood sugar',2,'حقل كتابة','Biochemistry','2021-05-11 18:39:48','mg / dl','( 80 - 140 )','',None,1),(6,'Blood Urea',3,'حقل كتابة','Biochemistry','2021-02-22 23:11:50',' mg / dl','( 20 - 45 )',None,None,2),(7,'S. Creatinin',3,'حقل كتابة','Biochemistry','2021-02-22 23:13:53','mg / dl','( 0.7 - 1.4 )',None,None,3),(8,'S. Uric acid',3,'حقل كتابة','Biochemistry','2021-06-06 00:07:15','mg/dl','( 3-7 )','',None,4),(9,'S. Cholesterol',3,'حقل كتابة','Biochemistry','2021-02-22 23:15:47','mg / dl','( 150 - 250 )',None,None,5),(10,'S. Triglycerid',3,'حقل كتابة','Biochemistry','2021-02-22 23:16:20','mg / dl','( 65 - 180 )',None,None,6),(11,'Total serum Bilirubin',3,'حقل كتابة','Biochemistry','2021-02-22 23:17:26','mg / dl','( 0.3 - 1.0 )',None,6,7),(12,'S.Calcium',3,'حقل كتابة','Biochemistry','2021-02-22 23:18:14','mg / dl','( 8.8 - 10.2 )',None,None,8),(13,'Vitamin D',15,'حقل كتابة','Biochemistry','2021-02-22 23:18:58','ng / dl','( 30 - 70 )',None,None,9),(14,'Color ',3,'خيارات','General Stool Examination','2021-06-12 10:59:48',' ',' ','\'milky\', \'yallow\', \'brown\', \'green\', \'\'',None,1),(15,'Consistency',0,'خيارات','General Stool Examination','2021-06-08 22:19:45','','','\'Solid\', \'Liquid\', \'Semi solid\', \'Semi liquid\', \'Mucoid\', \'  \'',None,2),(16,'R.B.Cs',0,'خيارات','General Stool Examination','2021-06-10 17:25:44','/ H.P.F','','\'Nil\', \'0-1\', \'0-2\', \'1-2\', \'1-3\', \'2-4\', \'3-5\', \'4-6\', \'6-8\', \'Few\', \'+\', \'++\', \'+++\', \'++++\', \'\'',None,3),(18,'E.Histolytica',0,'خيارات','General Stool Examination','2021-06-10 22:38:57','','','\'Nil\', \'Cyst\', \'Trophozoite\', \'\'',None,5),(19,'G.Lamblia',0,'خيارات','General Stool Examination','2021-06-10 22:40:16','','','\'Nil\', \'Cyst\', \'Trophozoite\', \'\'',None,6),(22,'Appearance',3,'خيارات','General Urine Examination','2021-02-22 23:26:16','','','\'Turbid\', \'Clear\', \' \'',None,1),(23,'Reaction.',0,'خيارات','General Urine Examination','2021-06-12 17:05:55','','','\'Acidic\', \' Alkaline\', \'\'',None,2),(24,'Albumin',0,'خيارات','General Urine Examination','2021-02-22 23:26:57','','','\'Nil\', \'+\', \'++\', \'+++\', \'Trace\', \' \'',None,3),(25,'Pus cells..',0,'خيارات','General Urine Examination','2021-06-10 17:52:18','/ H.P.F','','\'Nil\', \'0-1\', \'0-2\', \'1-2\', \'2-3\', \'3-5\', \'4-6\', \'6-8\', \'+\', \'++\', \'+++\', \'++++\', \'\', \'\'',None,7),(26,'RBCs',0,'خيارات','General Urine Examination','2021-06-10 17:27:28','/ H.P.F','','\'Nil\', \'0-1\', \'0-2\', \'1-2\', \'1-3\', \'2-3\', \'2-4\', \'3-5\', \'4-6\', \'6-8\', \'Few\', \'+\', \'++\', \'+++\', \'++++\', \'\'',None,6),(27,'Pus cells,',0,'خيارات','General Stool Examination','2021-06-10 17:23:42','/ H.P.F','','\'Nil\', \'0-1\', \'0-2\', \'1-2\', \'2-3\', \'3-5\', \'4-6\', \'5-7\', \'6-8\', \'+\', \'++\', \'+++\', \'++++\', \'\'',None,4),(28,'Epith .cells',0,'خيارات','General Urine Examination','2021-06-10 17:17:20','/ H.P.F','','\'Nil\', \'Few\', \'+\', \'++\', \'+++\', \'++++\', \'\'',None,8),(29,'Crystals',0,'خيارات','General Urine Examination','2021-06-12 16:47:15','','','\'Nil\', \'Am.Urate few\', \'Am.Urate +\', \'Am.Urate ++\', \'Am.Urate +++\', \'Am.Urate ++++\', \' Ca.Oxalate few\', \' Ca.Oxalate +\', \' Ca.Oxalate ++\', \' Ca.Oxalate +++\', \' Ca.Oxalate ++++\', \' Uric Acid few\', \' Uric Acid +\', \' Uric Acid ++\', \' Uric Acid +++\', \' Uric Acid ++++\', \' Am.Phosphatase +\', \' Am.Phosphatase ++\', \' Am.Phosphatase +++\', \' Am.Phosphatase ++++\', \' Am.Phosphatase few\', \'\'',None,9),(30,'Casts',0,'خيارات','General Urine Examination','2021-06-10 17:15:26','','','\'Nil\', \'Granular cast +\', \'Granular cast ++\', \'Granular cast +++\', \'\'',None,10),(32,'Hb',3,'حقل كتابة',' Hematology and Serology','2021-02-22 23:31:12','gm/dl','','4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, \' \'',None,7),(33,'PCV',0,'حقل كتابة',' Hematology and Serology','2021-07-04 18:43:20','%','','',None,8),(34,'WBCs',3,'حقل كتابة',' Hematology and Serology','2021-07-04 18:51:14','cells/cumm','','',None,8),(35,'E.S.R',3,'حقل كتابة',' Hematology and Serology','2021-02-22 23:32:33','mm/1 hr','','',None,10),(36,'Blood Group',3,'خيارات',' Hematology and Serology','2021-06-12 10:13:41',' ',' ','\'\', \'A (+ve)\', \'B (+ve)\', \'AB (+ve)\', \'O (+ve)\', \'O (-ve)\', \'A (-ve)\', \'B (-ve)\', \'AB (-ve)\', \'\'',None,1),(37,'Rh',0,'خيارات',' Hematology and Serology','2021-06-08 22:59:07','','','\' \', \'Positive (+ve)\', \'Negative (-ve)\', \'\'',None,2),(38,'Pregnancy test  in urine',3,'خيارات',' Hematology and Serology','2021-06-11 21:02:36','','','\'\', \'Positive (+ve)\', \'Negative (-ve)\', \'Weak Positive\', \'\'',None,11),(39,'Pregnancy test  in serum',3,'خيارات',' Hematology and Serology','2021-07-05 17:32:51','','','\'\', \'Positive (+ve)\', \'Negative (-ve)\', \'Weak Positive\', \'\'',None,1),(40,'R.B.Sugar',2,'حقل كتابة',' Hematology and Serology','2021-02-22 23:35:07','mg/dl','',None,None,3),(41,'Bl. Urea',3,'حقل كتابة',' Hematology and Serology','2021-02-22 23:35:28','mg/dl','',None,None,22),(42,'Salmonella typhi  IgG',4,'خيارات',' Hematology and Serology','2021-06-12 10:15:04','','','\'\', \'Positive (+ve)\', \'Negative (-ve)\', \'\'',None,13),(43,'Salmonella typhi  IgM',0,'خيارات',' Hematology and Serology','2021-06-12 10:15:38','','','\'\', \'Positive (+ve)\', \'Negative (-ve)\', \'\'',None,14),(44,'Rose-Bengal test',3,'خيارات',' Hematology and Serology','2021-06-12 10:16:21','','','\'\', \'Positive (+ve)\', \'Negative (-ve)\', \'\'',None,15),(45,'T3',7,'حقل كتابة','Hormones and Viruses','2021-02-23 23:10:14','ng / ml','( 0.6 - 1.85 )',None,None,13),(46,'T4',7,'حقل كتابة','Hormones and Viruses','2021-02-23 23:11:06','g / dl','Females (4.8 - 12.0 )  males (4.4 - 10.8 )',None,None,14),(47,'TSH',7,'حقل كتابة','Hormones and Viruses','2021-02-23 23:11:36','IU /ml','(0.4 - 7.0 )',None,None,15),(48,'LH',10,'حقل كتابة','Hormones and Viruses','2021-02-23 23:12:03','m Iu/ml','',None,None,16),(49,'FSH',10,'حقل كتابة','Hormones and Viruses','2021-02-23 23:12:41','m IU/ml','',None,None,17),(50,'Prolactin',15,'حقل كتابة','Hormones and Viruses','2021-02-23 23:13:23','ng / ml','women-non gestation 4.5-25 men ( 3.7 - 17.5 )',None,None,18),(51,'Testosterone',10,'حقل كتابة','Hormones and Viruses','2021-06-08 23:31:03','ng/ml','','',None,19),(52,'Toxoplasma IgG',25,'خيارات','Hormones and Viruses','2021-06-12 09:38:40','','','\'\', \'Negative (-ve)\', \'Positive (+ve)\', \'0.5 Negative\', \'0.6 Negative\', \'0.7 Negative\', \'0.8 Negative\', \'1.1 Positive\', \'1.1 Positive\', \'1.2 Positive\', \'1.3 Positive\', \'1.4 Positive\', \'1.5 Positive\', \'\'',None,1),(53,'Toxoplasma IgM',0,'خيارات','Hormones and Viruses','2021-06-12 09:44:10','','','\'\', \'Negative (-ve)\', \'Positive (+ve)\', \'0.5 Negative\', \'0.6 Negative\', \'0.7 Negative\', \'0.8 Negative\', \'1.1 Positive\', \'1.1 Positive\', \'1.2 Positive\', \'1.3 Positive\', \'1.4 Positive\', \'1.5 Positive\', \'\'',None,2),(54,'Cytomegalo Virus IgG',0,'خيارات','Hormones and Viruses','2021-06-12 09:47:23','','','\'\', \'Negative (-ve)\', \'Positive (+ve)\', \'0.5 Negative\', \'0.6 Negative\', \'0.7 Negative\', \'0.8 Negative\', \'1.1 Positive\', \'1.1 Positive\', \'1.2 Positive\', \'1.3 Positive\', \'1.4 Positive\', \'1.5 Positive\', \'\'',None,3),(55,'Cytomegalo Virus IgM',0,'خيارات','Hormones and Viruses','2021-06-12 09:50:06','','','\'\', \'Negative (-ve)\', \'Positive (+ve)\', \'0.5 Negative\', \'0.6 Negative\', \'0.7 Negative\', \'0.8 Negative\', \'1.1 Positive\', \'1.1 Positive\', \'1.2 Positive\', \'1.3 Positive\', \'1.4 Positive\', \'1.5 Positive\', \'\'',None,4),(56,'Rubella IgG',0,'خيارات','Hormones and Viruses','2021-06-12 09:54:39','','','\'\', \'Negative (-ve)\', \'Positive (+ve)\', \'0.5 Negative\', \'0.6 Negative\', \'0.7 Negative\', \'0.8 Negative\', \'1.1 Positive\', \'1.1 Positive\', \'1.2 Positive\', \'1.3 Positive\', \'1.4 Positive\', \'1.5 Positive\', \'\'',None,5),(57,'Rubella IgM',0,'خيارات','Hormones and Viruses','2021-06-12 09:57:15','','','\'\', \'Negative (-ve)\', \'Positive (+ve)\', \'0.5 Negative\', \'0.6 Negative\', \'0.7 Negative\', \'0.8 Negative\', \'1.1 Positive\', \'1.1 Positive\', \'1.2 Positive\', \'1.3 Positive\', \'1.4 Positive\', \'1.5 Positive\', \'\'',None,6),(58,'Anti - Phspholipin IgG',35,'خيارات','Hormones and Viruses','2021-02-23 23:41:17','','','\'0.5 Negative\', \'0.6 Negative\', \'0.7 Negative\', \'0.8 Negative\', \'1.1 Positive\', \'1.1 Positive\',\'1.2 Positive\', \'1.3 Positive\', \'1.4 Positive\', \'1.5 Positive\', \' \'',None,9),(59,'Anti - Phspholipin  IgM',0,'خيارات','Hormones and Viruses','2021-02-23 23:41:44',' ',' ','\'0.5 Negative\', \'0.6 Negative\', \'0.7 Negative\', \'0.8 Negative\', \'1.1 Positive\', \'1.1 Positive\',\'1.2 Positive\', \'1.3 Positive\', \'1.4 Positive\', \'1.5 Positive\', \' \'',None,10),(60,'Anti - Cardiolipin  IgG',0,'خيارات','Hormones and Viruses','2021-02-23 23:41:58','','','\'0.5 Negative\', \'0.6 Negative\', \'0.7 Negative\', \'0.8 Negative\', \'1.1 Positive\', \'1.1 Positive\',\'1.2 Positive\', \'1.3 Positive\', \'1.4 Positive\', \'1.5 Positive\', \' \'',None,11),(61,'Anti - Cardiolipin  IgM',0,'خيارات','Hormones and Viruses','2021-02-23 23:42:14',' ',' ','\'0.5 Negative\', \'0.6 Negative\', \'0.7 Negative\', \'0.8 Negative\', \'1.1 Positive\', \'1.1 Positive\',\'1.2 Positive\', \'1.3 Positive\', \'1.4 Positive\', \'1.5 Positive\', \' \'',None,12),(62,'Herps   IgG',0,'خيارات','Hormones and Viruses','2021-06-12 09:59:58','','','\'\', \'Negative (-ve)\', \'Positive (+ve)\', \'0.5 Negative\', \'0.6 Negative\', \'0.7 Negative\', \'0.8 Negative\', \'1.1 Positive\', \'1.1 Positive\', \'1.2 Positive\', \'1.3 Positive\', \'1.4 Positive\', \'1.5 Positive\', \'\'',None,7),(63,'Herpes  IgM',0,'خيارات','Hormones and Viruses','2021-06-12 10:02:40','','','\'\', \'Negative (-ve)\', \'Positive (+ve)\', \'0.5 Negative\', \'0.6 Negative\', \'0.7 Negative\', \'0.8 Negative\', \'1.1 Positive\', \'1.1 Positive\', \'1.2 Positive\', \'1.3 Positive\', \'1.4 Positive\', \'1.5 Positive\', \'\'',None,8),(65,'Volume',3,'خيارات','Seminal Fluid Analysis','2021-06-12 10:48:06','ml','','\' \', \'1\', \'2\', \'3\', \'4\', \'5\', \'0.2\', \'0.3\', \'0.3\', \'0.4\', \'0.5\', \'0.6\', \'0.7\', \'0.8\', \'0.9\', \'\'',None,1),(66,'Reaction',0,'خيارات','Seminal Fluid Analysis','2021-06-08 23:22:40','','','\'Acidic\', \' Alkaline\', \' \'',None,2),(68,'Liquefaction',0,'خيارات','Seminal Fluid Analysis','2021-06-12 10:51:41','min.','','\'30\', \'5\', \'10\', \'15\', \'20\', \'25\', \'35\', \'40\', \'45\', \' \'',None,1),(69,'Count',0,'حقل كتابة','Seminal Fluid Analysis',None,'million/ml','',None,None,5),(70,'Motility:Active',0,'خيارات','Seminal Fluid Analysis','2021-05-21 18:41:52','%','','\'  10\', \'  15\', \'  20\', \'  25\', \'  30\', \'  35\', \'  40\', \'  45\', \'  50\', \'  55\', \'  60\', \'  65\', \'  70\', \'  75\', \'  80\', \' \', \' 5\', \' \'',None,6),(71,'Motility:Sluggish',0,'خيارات','Seminal Fluid Analysis','2021-05-21 18:41:12','%','','\' 5\', \'10\', \'15\', \'20\', \'25\', \'30\', \'35\', \'40\', \'45\', \'50\', \'55\', \'60\', \'65\', \'70\', \'75\', \'80\', \' \'',None,7),(72,'Motility:Dead',0,'خيارات','Seminal Fluid Analysis','2021-05-21 18:41:27','%','','\' 5\', \'10\', \'15\', \'20\', \'25\', \'30\', \'35\', \'40\', \'45\', \'50\', \'55\', \'60\', \'65\', \'70\', \'75\', \'80\', \' \'',None,8),(73,'Morphology:Normal',0,'خيارات','Seminal Fluid Analysis',None,'%','','\' 5\', \'10\', \'15\', \'20\', \'25\', \'30\', \'35\', \'40\', \'45\', \'50\', \'55\', \'60\', \'65\', \'70\', \'75\', \'80\', \' \'',None,9),(74,'Morphology:Abnormal',0,'خيارات','Seminal Fluid Analysis',None,'%','','\' 5\', \'10\', \'15\', \'20\', \'25\', \'30\', \'35\', \'40\', \'45\', \'50\', \'55\', \'60\', \'65\', \'70\', \'75\', \'80\', \' \'',None,10),(75,' Pus cells:',0,'خيارات','Seminal Fluid Analysis','2021-06-08 22:44:48','/ H.P.F','','\'1-2\', \'1-3\', \'2-3\', \'2-4\', \'4-6\', \'3-5\', \'5-7\', \'6-8\', \'4-5\', \'+\', \'++\', \'+++\', \'++++\', \' \', \' \', \' \'',None,11),(77,'HBS Ag',5,'خيارات',' Hematology and Serology','2021-06-08 23:06:00','','','\' \', \'Positive (+ve)\', \'Negative (-ve)\', \'\'',None,4),(78,'HCV Ab',5,'خيارات',' Hematology and Serology','2021-06-08 23:08:03','','','\' \', \'Positive (+ve)\', \'Negative (-ve)\', \'\'',None,5),(79,'HIV',5,'خيارات',' Hematology and Serology','2021-06-08 23:08:58','','','\' \', \'Positive (+ve)\', \'Negative (-ve)\', \'\'',None,6),(80,'Bacteria',0,'خيارات','General Stool Examination','2021-06-10 17:07:57','','','\'Nil\', \'Few\', \'+\', \'++\', \'+++\', \'++++\', \'\'',None,8),(81,'Monillia.',0,'خيارات','General Stool Examination','2021-06-10 22:29:16','','','\'Nil\', \'Few\', \'+\', \'++\', \'+++\', \'++++\', \'\'',None,9),(82,'Fatty drop',0,'خيارات','General Stool Examination','2021-06-10 22:36:03','','','\'Nil\', \'Few\', \'+\', \'++\', \'+++\', \'++++\', \'\'',None,10),(83,'Bacteria. ',0,'خيارات','General Urine Examination','2021-06-10 17:08:57','','','\'Nil\', \'Few\', \'+\', \'++\', \'+++\', \'++++\', \'\'',None,11),(84,'Monillia',0,'خيارات','General Urine Examination','2021-06-10 22:30:08','','','\'Nil\', \'Few\', \'+\', \'++\', \'+++\', \'++++\', \'\'',None,12),(85,'sugar',0,'خيارات','General Urine Examination','2021-06-10 17:10:09','','','\'Nil\', \'Few\', \'+\', \'++\', \'+++\', \'++++\', \'\'',None,4),(98,'HbA1C',15,'حقل كتابة','Biochemistry','2021-06-06 00:06:40','%','( 4.2 - 6.2 )','',None,10),(99,'B - HCG titer',15,'حقل كتابة',' Hematology and Serology','2021-06-06 01:18:37','mIU/ml','( Less than 10 )','',None,21),(100,'lha',0,'حقل كتابة','Hormones and Viruses','2021-06-06 01:25:46','','','',None,20),(101,'H.Pylori in Serum',10,'خيارات',' Hematology and Serology','2021-06-10 09:30:50','','','\'\', \'Positive (+ve)\', \'Negative (-ve)\'',None,19),(102,'H.Pylori in Stool',10,'خيارات',' Hematology and Serology','2021-06-10 09:31:46','','','\'\', \'Positive (+ve)\', \'Negative (-ve)\'',None,20),(103,'Reumatoid Facter',3,'خيارات',' Hematology and Serology','2021-06-10 09:50:51','','','\'\', \'Positive (+ve)\', \'Negative (-ve)\'',None,16),(104,'A.S.O titer',3,'خيارات',' Hematology and Serology','2021-06-10 09:55:23','','','\'\', \'Negative (-ve)\', \'Positive (+ve) 1/200\', \'Positive (+ve) 1/400\', \'Positive (+ve) 1/600\', \'Positive (+ve) 1/800\', \'Positive (+ve) 1/1000\', \'Positive (+ve) 1/1200\', \'Positive (+ve) 1/1400\', \'Positive (+ve) 1/1600\', \'Positive (+ve) 1/1800\', \'\'',None,17),(105,'C.Reactive Protein',3,'خيارات',' Hematology and Serology','2021-06-10 09:58:29','','','\'\', \'Positive (+ve)\', \'Negative (-ve)\', \'\'',None,18),(106,'HAV',5,'خيارات',' Hematology and Serology','2021-06-10 10:01:04','','','\'\', \'Positive (+ve)\', \'Negative (-ve)\', \'\'',None,23),(108,'Mucus',0,'خيارات','General Urine Examination','2021-06-10 17:56:26','','','\'Nil\', \'Few\', \'+\', \'++\', \'+++\', \'++++\', \'\'',None,13),(114,'F.Blood Sugar:',0,'حقل كتابة','Oral Glucose Tolerance Test (O.G.T.T)','2021-06-19 19:32:03','mg/dl','','',None,1),(115,'Blood sugar:',0,'حقل كتابة','Oral Glucose Tolerance Test (O.G.T.T)','2021-06-19 19:33:18','mg/dl','after 1/2 hr.','',None,2),(116,'Blood Sugar:-',0,'حقل كتابة','Oral Glucose Tolerance Test (O.G.T.T)','2021-06-19 19:34:18','mg/dl','after 1  hr.','',None,3),(117,'Blood Sugar,,',0,'حقل كتابة','Oral Glucose Tolerance Test (O.G.T.T)','2021-06-19 19:35:32','mg/dl','after 1 hr. and 30 min.','',None,4),(118,'Blood Sugar;',12,'حقل كتابة','Oral Glucose Tolerance Test (O.G.T.T)','2021-06-19 19:36:38','mg/dl','after  2 hr.','',None,5)]
 		# print(data[0][1])
 		# for zindex,row in enumerate(data):
@@ -126,7 +129,6 @@ class mainapp(QMainWindow, main_wind):
 	def Show_Word_Doc_Data(self):
 		self.cur.execute(''' SELECT * FROM word ''')
 		data = self.cur.fetchone()
-		self.lineEdit_16.setText(data[9])
 		self.lineEdit_18.setText(data[10])
 		self.lineEdit_20.setText(data[11])
 		self.lineEdit_19.setText(data[12])
@@ -138,8 +140,8 @@ class mainapp(QMainWindow, main_wind):
 		self.lineEdit_42.setText(data[7])
 		self.lineEdit_43.setText(data[1])
 		self.lineEdit_34.setText(data[8])
-		self.lineEdit_45.setText(data[13])
-		self.lineEdit_44.setText(data[14])
+		# self.lineEdit_45.setText(data[13])
+		# self.lineEdit_44.setText(data[14])
 		self.lineEdit_46.setText(data[15])
 		self.lineEdit_47.setText(data[16])
 
@@ -156,8 +158,8 @@ class mainapp(QMainWindow, main_wind):
 		var10 = self.lineEdit_42.text()
 		var11 = self.lineEdit_43.text()
 		var12 = self.lineEdit_34.text()
-		var13 = self.lineEdit_45.text()
-		var14 = self.lineEdit_44.text()
+		var13 = ''
+		var14 = ''
 		var15 = self.lineEdit_46.text()
 		var16 = self.lineEdit_47.text()
 		self.cur.execute(
@@ -302,6 +304,64 @@ class mainapp(QMainWindow, main_wind):
 		self.tabWidget_2.currentChanged.connect(self.CC)
 		self.tabWidget_5.currentChanged.connect(self.CC2)
 		self.pushButton_5.clicked.connect(self.CC2)
+		self.pushButton_55.clicked.connect(self.Add_Human_Type)
+		self.pushButton_56.clicked.connect(self.Edit_Human_Type)
+		self.pushButton_57.clicked.connect(self.Delete_human_type)
+		self.comboBox_34.currentTextChanged.connect(self.show_Data_in_Human_Edit)
+		self.pushButton_62.clicked.connect(self.Add_name_lqb_to_human_type)
+		self.comboBox_32.currentTextChanged.connect(self.VB)
+	def Show_all_human_type_in_combos(self):
+		self.cur.execute('select name from human_type order by -date')
+		data = self.cur.fetchall()
+		self.comboBox_34.clear()
+		complete = False
+		if self.textEdit.isEnabled():
+			self.comboBox_14.clear()
+			complete = True
+		my_list = []
+		for row in data:
+			if row[0] not in my_list:
+				my_list.append(row[0])
+		self.comboBox_34.addItem('------------')
+		self.comboBox_34.addItems(my_list)
+		self.comboBox_32.addItems(my_list)
+		self.comboBox_34.setCurrentIndex(0)
+		if complete:
+			self.comboBox_14.addItems(my_list)
+			self.comboBox_14.setCurrentIndex(0)
+	def Add_Human_Type(self):
+		if self.lineEdit_8.text() not in self.RETURN_ALL_human_type():
+			self.cur.execute(''' INSERT INTO human_type (name,date) VALUES(%s,%s) ''',(self.lineEdit_8.text(),datetime.now(),))
+			self.db.commit()
+			QMessageBox.information(self,'','تم اضافة الجنس بنجاح')
+			self.Show_all_human_type_in_combos()
+		else:
+			QMessageBox.information(self,'','هذا الجنس موجود بالفعل')
+	def Edit_Human_Type(self):
+		self.cur.execute(''' Update human_type SET name=%s,date=%s where name=%s ''',(self.lineEdit_9.text(),datetime.now(),self.comboBox_34.currentText(),))
+		self.db.commit()
+		QMessageBox.information(self,'','تم تعديل الجنس بنجاح')
+		self.Show_all_human_type_in_combos()
+	def Delete_human_type(self):
+		self.cur.execute(''' Delete from human_type where name=%s ''',(self.comboBox_34.currentText(),))
+		self.db.commit()
+		QMessageBox.information(self,'','تم حذف الجنس بنجاح')
+		self.Show_all_human_type_in_combos()
+	def show_Data_in_Human_Edit(self):
+		self.cur.execute('select name from human_type where name=%s',(self.comboBox_34.currentText(),))
+		data = self.cur.fetchone()
+		if data:
+			self.lineEdit_9.setText(data[0])
+	def Add_name_lqb_to_human_type(self):
+		self.cur.execute(''' update human_type set report_name=%s,report_lqb=%s where name=%s ''',(self.lineEdit_16.text(),self.lineEdit_18.text(),self.comboBox_32.currentText(),))
+		self.db.commit()
+		QMessageBox.information(self,'','تم حفظ البيانات بنجاح')
+	def VB(self):
+		self.cur.execute('select report_name,report_lqb from human_type where name=%s',(self.comboBox_32.currentText(),))
+		data = self.cur.fetchone()
+		if data:
+			self.lineEdit_16.setText(data[0])
+			self.lineEdit_18.setText(data[1])
 	def CC(self):
 		if self.tabWidget_2.currentIndex()==1:
 			self.Show_All_The_Sales()
@@ -404,6 +464,14 @@ class mainapp(QMainWindow, main_wind):
 			self.pushButton_49.setEnabled(False)
 			self.comboBox_27.setCurrentIndex(0)
 			self.lineEdit_6.setText('')
+	def RETURN_ALL_human_type(self):
+		self.cur.execute('select name from human_type')
+		data = self.cur.fetchall()
+		cc = []
+		for row in data:
+			if row[0] not in cc:
+				cc.append(row[0])
+		return cc
 	def Show_Normal_Dialog(self,from_save=None):
 		global global_from_save
 		print('dmdlmld',from_save)
@@ -417,6 +485,8 @@ class mainapp(QMainWindow, main_wind):
 		if the_combo.currentIndex()==4:
 			self.NormalDialog.groupBox.hide()
 			self.NormalDialog.groupBox_2.show()
+			self.NormalDialog.comboBox.clear()
+			self.NormalDialog.comboBox.addItems(self.RETURN_ALL_human_type())
 			if from_save:
 				normal = self.lineEdit_39.text()
 			else:
@@ -431,6 +501,8 @@ class mainapp(QMainWindow, main_wind):
 		else:
 			self.NormalDialog.groupBox_2.hide()
 			self.NormalDialog.groupBox.show()
+			self.NormalDialog.comboBox_2.clear()
+			self.NormalDialog.comboBox_2.addItems(self.RETURN_ALL_human_type())
 			comboX =None
 			if from_save:
 				print('#################### YES ############################3')
@@ -447,10 +519,11 @@ class mainapp(QMainWindow, main_wind):
 					analyst_name = self.lineEdit_29.text()
 					self.cur.execute(''' select normal_value2 from analystnormal where analyst_name=%s and genus_type=%s ''',(analyst_name,self.NormalDialog.comboBox_2.currentText(),))
 					dataCX = self.cur.fetchone()
-					x = '['+str(dataCX[0])+']'
-					list_data = literal_eval(str(x))
-					indexC = combo.findText(list_data[row],Qt.MatchFixedString)
-					combo.setCurrentIndex(indexC)
+					if dataCX:
+						x = '['+str(dataCX[0])+']'
+						list_data = literal_eval(str(x))
+						indexC = combo.findText(list_data[row],Qt.MatchFixedString)
+						combo.setCurrentIndex(indexC)
 				else:
 					combo.setCurrentIndex(0)
 				self.NormalDialog.tableWidget.setCellWidget(row,1,combo)
@@ -593,10 +666,11 @@ class mainapp(QMainWindow, main_wind):
 			self.spinBox_7.setEnabled(False)
 			if analyst_data[3] == 'ذكر':
 				self.comboBox_14.setCurrentIndex(1)
-				self.comboBox_14.setEnabled(False)
-			if analyst_data[3] == 'انثى':
+			elif analyst_data[3] == 'انثى':
 				self.comboBox_14.setCurrentIndex(0)
-				self.comboBox_14.setEnabled(False)
+			else:
+				self.comboBox_14.setCurrentIndex(2)
+			self.comboBox_14.setEnabled(False)
 			self.textEdit.setPlainText(str(analyst_data[4]))
 			self.textEdit.setEnabled(False)
 		else:
@@ -1222,7 +1296,7 @@ class mainapp(QMainWindow, main_wind):
 		self.tableWidget_6.setSortingEnabled(True)
 
 	def Print_Sale_Data(self, prev):
-		genuses = self.comboBox_14.currentIndex()
+		genuses = self.comboBox_14.currentText()
 		all_analyst = []
 		all_result = []
 		date = datetime.now()
@@ -1651,7 +1725,9 @@ class mainapp(QMainWindow, main_wind):
 		global client_id_glob
 		global chick_if_add_new
 		global select_by_date
+		global CJ
 		client_name = self.comboBox_4.currentText()
+		CV = []
 		if from_add_multy:
 			self.cur.execute('''SELECT id FROM addclient WHERE client_name = %s''', (client_name,))
 			real_client_id = self.cur.fetchone()
@@ -1697,10 +1773,11 @@ class mainapp(QMainWindow, main_wind):
 					self.spinBox_7.setEnabled(False)
 					if analyst_data[0][7] == 'ذكر':
 						self.comboBox_14.setCurrentIndex(1)
-						self.comboBox_14.setEnabled(False)
-					if analyst_data[0][7] == 'انثى':
+					elif analyst_data[0][7] == 'انثى':
 						self.comboBox_14.setCurrentIndex(0)
-						self.comboBox_14.setEnabled(False)
+					else:
+						self.comboBox_14.setCurrentIndex(2)
+					self.comboBox_14.setEnabled(False)
 					self.textEdit.setPlainText(str(analyst_data[0][8]))
 					self.textEdit.setEnabled(False)
 				self.tableWidget_5.setRowCount(0)
@@ -1720,52 +1797,46 @@ class mainapp(QMainWindow, main_wind):
 								if results_data:
 									
 									if results_data[0][1] == 'خيارات':
-										genus_type = self.comboBox_14.currentIndex()
-										if genus_type == 0:
-											genus_type = "Female"
-										elif genus_type == 1:
-											genus_type = "Male"
-										else:
-											genus_type = "Infants"
+										genus_type = self.comboBox_14.currentText()
 										self.cur.execute(''' select normal_value1,normal_value2 from analystnormal where analyst_name=%s and genus_type=%s''',(analyst_data[row][1],genus_type,))
 										NormalData = self.cur.fetchone()
 										mycobmbo = QComboBox()
 										x = '[' + str(results_data[0][0]) + ']'
 										list_data = literal_eval(str(x))
 										mycobmbo.addItems(list_data)
-										x3 = '[' + str(NormalData[1]) + ']'
-										list_data3 = literal_eval(str(x3))
+										if NormalData:
+											x3 = '[' + str(NormalData[1]) + ']'
+											list_data3 = literal_eval(str(x3))
+											for cindex,tt in enumerate(list_data3):
+												if tt =='غير طبيعي':
+													mycobmbo.setItemData(cindex,QColor(Qt.red),Qt.ForegroundRole)
 										object_type = 'خيارات'
-										for cindex,tt in enumerate(list_data3):
-											if tt =='غير طبيعي':
-												mycobmbo.setItemData(cindex,QColor(Qt.red),Qt.ForegroundRole)
+
 									if results_data[0][1] == 'عدد':
 										mycobmbo = QDoubleSpinBox()
 										mycobmbo.setMaximum(2147483647)
 										mycobmbo.setMinimum(-2147483647)
 										object_type = 'عدد'
+										CJ = None
+
 										mycobmbo.valueChanged.connect(self.IsNormalForAddNewItem)
 									if results_data[0][1] == 'خيارات مع تعديل':
-										genus_type = self.comboBox_14.currentIndex()
-										if genus_type == 0:
-											genus_type = "Female"
-										elif genus_type == 1:
-											genus_type = "Male"
-										else:
-											genus_type = "Infants"
+										genus_type = self.comboBox_14.currentText()
+										
 										self.cur.execute(''' select normal_value1,normal_value2 from analystnormal where analyst_name=%s and genus_type=%s''',(analyst_data[row][1],genus_type,))
 										NormalData = self.cur.fetchone()
 										mycobmbo = QComboBox()
 										mycobmbo.setEditable(True)
 										x = '[' + str(results_data[0][0]) + ']'
 										list_data = literal_eval(str(x))
+										mycobmbo.addItems(list_data)
 										object_type = 'خيارات مع تعديل'
-										x3 = '[' + str(NormalData[1]) + ']'
-										list_data3 = literal_eval(str(x3))
-										object_type = 'خيارات'
-										for cindex,tt in enumerate(list_data3):
-											if tt =='غير طبيعي':
-												mycobmbo.setItemData(cindex,QColor(Qt.red),Qt.ForegroundRole)
+										if NormalData:
+											x3 = '[' + str(NormalData[1]) + ']'
+											list_data3 = literal_eval(str(x3))
+											for cindex,tt in enumerate(list_data3):
+												if tt =='غير طبيعي':
+													mycobmbo.setItemData(cindex,QColor(Qt.red),Qt.ForegroundRole)
 									if results_data[0][1] == 'حقل كتابة':
 										mycobmbo = QLineEdit()
 										object_type = 'حقل كتابة'
@@ -1782,6 +1853,7 @@ class mainapp(QMainWindow, main_wind):
 										if object_type == 'عدد':
 											if analyst_data[row][2] and analyst_data[row][2] != '':
 												mycobmbo.setValue(float(analyst_data[row][2]))
+												CV.append(row)
 										if object_type == 'حقل كتابة':
 											mycobmbo.setText(str(analyst_data[row][2]))
 									self.tableWidget_5.setItem(row, 1, QTableWidgetItem(str('')))
@@ -1813,24 +1885,27 @@ class mainapp(QMainWindow, main_wind):
 											'الرقم الذي ادخلته غير موجود في مبيعات اليوم يرجى مراجعة صفحة "مبيعات اليوم" للتأكد من الرقم')
 			self.get_total_price()
 			select_by_date = False
+			for iB in CV:	
+				CJ = iB	
+				self.IsNormalForAddNewItem()	
+		CJ = None
 		self.tableWidget_5.resizeColumnsToContents()
 		# self.Add_all_analysts_items()
 		self.Add_Data_To_history(6, 1)
 		# # self.History()
 	def IsNormalForAddNewItem(self):
+		# print('ss4'+random.choice(['1','2','3','4','5','r','7','8']))
+		global CJ
 		try:
-			index = self.sender().pos()
-			index = self.tableWidget_5.indexAt(index)
-			index = index.row()
+			if CJ == None:	
+				index = self.sender().pos()	
+				index = self.tableWidget_5.indexAt(index)	
+				index = index.row()	
+			else:	
+				index = CJ
 			spin = self.tableWidget_5.cellWidget(index,1)
 			name = self.tableWidget_5.item(index,0).text()
-			genus_type = self.comboBox_14.currentIndex()
-			if genus_type == 0:
-				genus_type = "Female"
-			elif genus_type == 1:
-				genus_type = "Male"
-			else:
-				genus_type = "Infants"
+			genus_type = self.comboBox_14.currentText()
 			self.cur.execute(''' select normal_value1,normal_value2 from analystnormal where analyst_name=%s and genus_type=%s ''',(name,genus_type,))
 			data =self.cur.fetchone()
 			if spin.value() < float(data[0]) or spin.value() > float(data[1]):
@@ -2121,6 +2196,7 @@ class mainapp(QMainWindow, main_wind):
 				self.Analyst_Dialog2.tableWidget.cellWidget(i, 1).currentText(),
 				self.Analyst_Dialog2.tableWidget.item(i, 0).text(), self.comboBox_26.currentText(),))
 		self.db.commit()
+		self.Leo()
 		self.Analyst_Dialog2.close()
 
 	def Show_all_taslsol(self):
@@ -2271,12 +2347,15 @@ class mainapp(QMainWindow, main_wind):
 		r_id = self.Analyst_Dialog.tableWidget.item(index, 0).text()
 		if self.sender().text() != 'حفظ':
 			self.Analyst_Dialog.tableWidget.removeRow(index)
-
+	def Leo(self):	
+		self.cur.execute(''' select analyst_index FROM addanalyst WHERE name=%s ''',(self.comboBox_21.currentText(),))	
+		data = self.cur.fetchone()	
+		self.comboBox_30.setCurrentIndex(int(data[0])-1)
 	def Show_analyst_in_Edit_Or_Delete(self):
 		self.comboBox_31.clear()
 		analyst_current_name = self.comboBox_21.currentText()
 		analyst_current_index = self.comboBox_21.currentIndex()
-		if not analyst_current_index:
+		if analyst_current_index == 0:
 			# QMessageBox.information(self, 'تحذير', "يرجى اختيار تحليل صحيح")
 			self.comboBox_26.setCurrentText('')  # sub_category =
 			self.comboBox_26.setCurrentIndex(0)  # sub_category =
@@ -2288,7 +2367,7 @@ class mainapp(QMainWindow, main_wind):
 			self.spinBox_6.setValue(0)  # analyst_price =
 		else:
 			self.cur.execute(
-				''' SELECT name,defult,unit,price,category,sub_category,results FROM addanalyst WHERE name=%s ''',
+				''' SELECT name,defult,unit,price,category,sub_category,results,analyst_index FROM addanalyst WHERE name=%s ''',
 				(analyst_current_name,))
 			data = self.cur.fetchall()
 			if data:
@@ -2303,6 +2382,7 @@ class mainapp(QMainWindow, main_wind):
 				self.lineEdit_39.setText(data[0][1])  # defult =
 				self.lineEdit_38.setText(data[0][2])  # unit =
 				self.spinBox_6.setValue(data[0][3])  # analyst_price =
+				self.comboBox_30.setCurrentIndex(int(data[0][7])-1)
 			# self.Add_Data_To_history(6, 2)
 			# # self.History()
 			else:
@@ -3795,40 +3875,47 @@ class mainapp(QMainWindow, main_wind):
 			from_count = 0
 			from_count2 = 0
 			is_normal_list = []
-			for It in range(0,len(results)):
-				if analysts[It] in categorys3:
-					is_normal_list.append(True)
-				else:
-					if genus==1:
-						genus_type = "Male"
-					elif genus ==0:
-						genus_type = "Female"
-					else:
-						genus_type = "Infants"
-					self.cur.execute(''' select normal_value1,normal_value2,normal_type from analystnormal where analyst_name=%s and genus_type=%s ''',(analysts[It],genus_type,))
-					data_f = self.cur.fetchone()
+			Low_or_High = []	
+			for It in range(0,len(results)):	
+				if analysts[It] in categorys3:	
+					is_normal_list.append(True)	
+					Low_or_High.append('')	
+				else:	
+					self.cur.execute(''' select normal_value1,normal_value2,normal_type from analystnormal where analyst_name=%s and genus_type=%s ''',(analysts[It],genus,))	
+					data_f = self.cur.fetchone()	
 					if data_f:
-						if data_f[2]=='number':
-							if results[It] < float(data_f[0]) or results[It] > float(data_f[1]):
-								is_normal_list.append(False)
-							else:
-								is_normal_list.append(True)
-						else:
-							x = '['+str(data_f[0])+']'
-							list_data = literal_eval(str(x))
-							x2 = '['+str(data_f[1])+']'
-							list_data2 = literal_eval(str(x2))
-							try:
-								Xindex = list_data.index(str(results[It]))
-								if list_data2[Xindex] =='غير طبيعي':
-									is_normal_list.append(False)
-								else:
-									is_normal_list.append(True)
-							except Exception as e:
-								print(e)
-								is_normal_list.append(True)
-					else:
-						is_normal_list.append(True)
+						if data_f[2]=='number':	
+							if results[It] < float(data_f[0]):	
+								is_normal_list.append(False)	
+								Low_or_High.append(' L')	
+							if results[It] > float(data_f[1]):	
+								is_normal_list.append(False)	
+								Low_or_High.append(' H')	
+							# else:	
+							# 	is_normal_list.append(True)	
+							# 	Low_or_High.append('')	
+							if results[It] >= float(data_f[0]) and results[It] <= float(data_f[1]):	
+								is_normal_list.append(True)	
+								Low_or_High.append('')	
+						else:	
+							x = '['+str(data_f[0])+']'	
+							list_data = literal_eval(str(x))	
+							x2 = '['+str(data_f[1])+']'	
+							list_data2 = literal_eval(str(x2))	
+							try:	
+								Xindex = list_data.index(str(results[It]))	
+								if list_data2[Xindex] =='غير طبيعي':	
+									is_normal_list.append(False)	
+								else:	
+									is_normal_list.append(True)	
+								Low_or_High.append('')	
+							except Exception as e:	
+								print(e)	
+								is_normal_list.append(True)	
+								Low_or_High.append('')	
+					else:	
+						is_normal_list.append(True)	
+						Low_or_High.append('')
 			for big_item in all_files:
 				for table_index, i in enumerate(big_item.tables):
 					for row_index, k in enumerate(i.rows):
@@ -3930,16 +4017,9 @@ class mainapp(QMainWindow, main_wind):
 									font.bold = True
 									font.size = Pt(12)
 								if n.text == 'client_name':
-									if genus == 1:
-										if word_data[9]:
-											n.text = f'{word_data[9]}'
-										else:
-											n.text = ""
-									else:
-										if word_data[13]:
-											n.text = f'{word_data[13]}'
-										else:
-											n.text = ""
+									self.cur.execute('select report_name from human_type where name=%s',(genus,))
+									dataVB = self.cur.fetchone()
+									n.text = dataVB[0]
 									run = n.runs
 									font = run[0].font
 									font.name = 'Times New Roman'
@@ -3980,16 +4060,9 @@ class mainapp(QMainWindow, main_wind):
 									font.color.rgb =RGBColor.from_string('1f497d')
 									font.size = Pt(12)
 								if n.text == 'lqb1':
-									if genus == 1:
-										if word_data[10]:
-											n.text = str(word_data[10])
-										else:
-											n.text = ""
-									else:
-										if word_data[14]:
-											n.text = str(word_data[14])
-										else:
-											n.text = ""
+									self.cur.execute('select report_lqb from human_type where name=%s',(genus,))
+									dataVB = self.cur.fetchone()
+									n.text = dataVB[0]
 									run = n.runs
 									font = run[0].font
 									font.name = 'Times New Roman'
@@ -4051,7 +4124,6 @@ class mainapp(QMainWindow, main_wind):
 											for igq in range(0, 5):  # here is highlighting
 												i.rows[row_index].cells[igq]._tc.get_or_add_tcPr().append(
 													parse_xml(r'<w:shd {} w:fill="30b7d1"/>'.format(nsdecls('w'))))
-
 										if str(n.text) in categorys3:
 											font.size = Pt(11)
 											font.color.rgb =RGBColor.from_string('ffffff')
@@ -4069,6 +4141,11 @@ class mainapp(QMainWindow, main_wind):
 										else:
 											font.color.rgb =RGBColor.from_string('cf0000')
 										font.name = 'Tahoma'
+										n2 = n.add_run(Low_or_High[row])	
+										n2.bold = False	
+										n2.font.name = 'Tahoma'	
+										n2.font.size = Pt(11)
+										
 									if n.text == str((row + 1) - from_count2) + 'unit':
 										n.text = str(units[row])
 										run1 = n
