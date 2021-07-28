@@ -31,6 +31,7 @@ import add_delete_analyst_choices
 import add_delete_analyst_choicesrupy2
 import mandobuipy
 import NormalDialogClass
+import NormalTextDialogClass
 from mymain import Ui_MainWindow as main_wind
 from ast import literal_eval
 
@@ -102,6 +103,7 @@ class mainapp(QMainWindow, main_wind):
 		# self.dateEdit.setDate(datetime.date.today())
 		self.tableWidget_5.setColumnHidden(4, True)
 		self.tableWidget_7.setColumnHidden(0, True)
+		self.tableWidget_7.setColumnHidden(3, True)
 		self.tableWidget_3.setColumnHidden(0, True)
 		self.cur.execute(''' SELECT * FROM paths WHERE id=1 ''')
 		mydata = self.cur.fetchone()
@@ -310,6 +312,33 @@ class mainapp(QMainWindow, main_wind):
 		self.comboBox_34.currentTextChanged.connect(self.show_Data_in_Human_Edit)
 		self.pushButton_62.clicked.connect(self.Add_name_lqb_to_human_type)
 		self.comboBox_32.currentTextChanged.connect(self.VB)
+		self.pushButton_58.clicked.connect(lambda: self.Show_NormalTextDialog('edit'))
+		self.pushButton_59.clicked.connect(self.Show_NormalTextDialog)
+	def Show_NormalTextDialog(self,form_edit=None):
+		self.NormalTextDialog = NormalTextDialogClass.Dialog()
+		self.NormalTextDialog.lineEdit_2.hide()
+		if form_edit:
+			self.NormalTextDialog.lineEdit_2.setText(self.comboBox_21.currentText())
+		else:
+			self.NormalTextDialog.lineEdit_2.setText(self.lineEdit_28.text())
+		self.NormalTextDialog.comboBox.clear()
+		self.NormalTextDialog.comboBox.addItems(self.RETURN_ALL_human_type())
+		self.NormalTextDialog.pushButton.clicked.connect(self.Handel_NormalTextDialog)
+		self.NormalTextDialog.comboBox.currentIndexChanged.connect(self.show_NormalTextDialog_data)
+		self.NormalTextDialog.show()
+	def Handel_NormalTextDialog(self):
+		self.cur.execute(''' DELETE from analyst_normal_text where analyst_name=%s and genus=%s ''',(self.NormalTextDialog.lineEdit_2.text(),self.NormalTextDialog.comboBox.currentText(),))
+		self.cur.execute(''' INSERT INTO analyst_normal_text (analyst_name,genus,normal_text) VALUES(%s,%s,%s)''',(self.NormalTextDialog.lineEdit_2.text(),self.NormalTextDialog.comboBox.currentText(),self.NormalTextDialog.lineEdit.text(),))
+		self.db.commit()
+		QMessageBox.information(self.NormalTextDialog,'','تم تطبيق البيانات بنجاح')
+		self.NormalTextDialog.lineEdit.setText('')
+	def show_NormalTextDialog_data(self):
+		self.cur.execute(''' select normal_text from analyst_normal_text where analyst_name=%s and genus=%s ''',(self.NormalTextDialog.lineEdit_2.text(),self.NormalTextDialog.comboBox.currentText(),))
+		data = self.cur.fetchone()
+		if data:
+			self.NormalTextDialog.lineEdit.setText(data[0])
+		else:
+			self.NormalTextDialog.lineEdit.setText('')
 	def Show_all_human_type_in_combos(self):
 		self.cur.execute('select name from human_type order by -date')
 		data = self.cur.fetchall()
@@ -482,22 +511,22 @@ class mainapp(QMainWindow, main_wind):
 			the_combo = self.comboBox_25
 		else:
 			the_combo = self.comboBox_22
-		if the_combo.currentIndex()==4:
+		if the_combo.currentIndex()==4 or the_combo.currentIndex()==5:
 			self.NormalDialog.groupBox.hide()
 			self.NormalDialog.groupBox_2.show()
 			self.NormalDialog.comboBox.clear()
 			self.NormalDialog.comboBox.addItems(self.RETURN_ALL_human_type())
-			if from_save:
-				normal = self.lineEdit_39.text()
-			else:
-				normal = self.lineEdit_40.text()
-			normal_list=re.findall("[-+]?[.]?[\d]+(?:,\d\d\d)*[\.]?\d*(?:[eE][-+]?\d+)?", normal)
-			try:
-				print(normal_list)
-				self.NormalDialog.doubleSpinBox_3.setValue(float(normal_list[0]))
-				self.NormalDialog.doubleSpinBox.setValue(float(normal_list[1]))
-			except Exception as e:
-				print(e)
+			# if from_save:
+			# 	normal = self.lineEdit_39.text()
+			# else:
+			# 	normal = self.lineEdit_40.text()
+			# normal_list=re.findall("[-+]?[.]?[\d]+(?:,\d\d\d)*[\.]?\d*(?:[eE][-+]?\d+)?", normal)
+			# try:
+			# 	print(normal_list)
+			# 	self.NormalDialog.doubleSpinBox_3.setValue(float(normal_list[0]))
+			# 	self.NormalDialog.doubleSpinBox.setValue(float(normal_list[1]))
+			# except Exception as e:
+			# 	print(e)
 		else:
 			self.NormalDialog.groupBox_2.hide()
 			self.NormalDialog.groupBox.show()
@@ -757,6 +786,7 @@ class mainapp(QMainWindow, main_wind):
 	def Show_multy_Dialog(self):
 		self.comboBox_17.clear()
 		self.doubleSpinBox_7.clear()
+		self.spinBox_4.clear()
 		self.lineEdit_21.setText('')
 		self.Update_addNewItem_Data()
 		self.Show_All_one_client_analyst(from_add_multy='Not None')
@@ -1134,6 +1164,7 @@ class mainapp(QMainWindow, main_wind):
 		self.lineEdit_21.setText('')
 		self.spinBox_7.setValue(20)
 		self.doubleSpinBox_7.setValue(0)
+		self.spinBox_4.setValue(0)
 		self.comboBox_14.setCurrentIndex(0)
 		self.comboBox_16.setCurrentIndex(0)
 		self.comboBox_17.setCurrentIndex(0)
@@ -1542,7 +1573,8 @@ class mainapp(QMainWindow, main_wind):
 			analyst_name = self.comboBox_16.currentText()
 			analyst_lineEdit_result = self.lineEdit_21.text()
 			analyst_combo_result = self.comboBox_17.currentText()
-			analyst_number_result = self.doubleSpinBox_7.value()
+			analyst_float_result = self.doubleSpinBox_7.value()
+			analyst_number_result = self.spinBox_4.value()
 			
 			self.cur.execute('''SELECT price,category,sub_category,analyst_index,quantity FROM addanalyst WHERE name = %s''',
 							 (analyst_name,))
@@ -1578,6 +1610,9 @@ class mainapp(QMainWindow, main_wind):
 						latest_result = analyst_lineEdit_result
 					if analyst_price[1] == 'خيارات مع تعديل':
 						latest_result = analyst_combo_result
+					if analyst_price[1] == 'عدد عشري':
+						latest_result = analyst_float_result
+
 					total_price = int(analyst_price[0])
 					client_name = self.comboBox_4.currentText()
 					client_age = self.spinBox_7.value()
@@ -1673,10 +1708,16 @@ class mainapp(QMainWindow, main_wind):
 						model.appendRow(item)
 					object_type = 'خيارات'
 				if results_data[0][1] == 'عدد':
-					mycobmbo = QDoubleSpinBox(self)
+					mycobmbo = QSpinBox(self)
 					mycobmbo.setMaximum(2147483647)
 					mycobmbo.setMinimum(-2147483647)
 					object_type = 'عدد'
+				if results_data[0][1] == 'عدد عشري':
+					mycobmbo = QDoubleSpinBox(self)
+					mycobmbo.setDecimals(5)
+					mycobmbo.setMaximum(2147483647)
+					mycobmbo.setMinimum(-2147483647)
+					object_type = 'عدد عشري'
 				if results_data[0][1] == 'خيارات مع تعديل':
 					mycobmbo = QComboBox(self)
 					mycobmbo.setEditable(True)
@@ -1710,6 +1751,9 @@ class mainapp(QMainWindow, main_wind):
 									mycobmbo.setCurrentIndex(index)
 						if object_type == 'عدد':
 							if myrs[0][0] and myrs[0][0] != '':
+								mycobmbo.setValue(int(myrs[0][0]))
+						if object_type == 'عدد عشري':
+							if myrs[0][0] and myrs[0][0] != '':
 								mycobmbo.setValue(float(myrs[0][0]))
 						if object_type == 'حقل كتابة':
 							mycobmbo.setText(str(myrs[0][0]))
@@ -1740,6 +1784,7 @@ class mainapp(QMainWindow, main_wind):
 			self.lineEdit_21.setText('')
 			self.spinBox_7.setValue(0)
 			self.doubleSpinBox_7.setValue(0)
+			self.spinBox_4.setValue(0)
 			if not from_add_multy:
 				self.comboBox_14.setCurrentIndex(0)
 				self.comboBox_15.setCurrentIndex(0)
@@ -1813,12 +1858,19 @@ class mainapp(QMainWindow, main_wind):
 										object_type = 'خيارات'
 
 									if results_data[0][1] == 'عدد':
-										mycobmbo = QDoubleSpinBox()
+										mycobmbo = QSpinBox()
 										mycobmbo.setMaximum(2147483647)
 										mycobmbo.setMinimum(-2147483647)
 										object_type = 'عدد'
 										CJ = None
-
+										mycobmbo.valueChanged.connect(self.IsNormalForAddNewItem)
+									if results_data[0][1] == 'عدد عشري':
+										mycobmbo = QDoubleSpinBox()
+										mycobmbo.setDecimals(5)
+										mycobmbo.setMaximum(2147483647)
+										mycobmbo.setMinimum(-2147483647)
+										object_type = 'عدد عشري'
+										CJ = None
 										mycobmbo.valueChanged.connect(self.IsNormalForAddNewItem)
 									if results_data[0][1] == 'خيارات مع تعديل':
 										genus_type = self.comboBox_14.currentText()
@@ -1851,6 +1903,10 @@ class mainapp(QMainWindow, main_wind):
 													index = mycobmbo.findText(analyst_data[row][2], Qt.MatchFixedString)
 													mycobmbo.setCurrentIndex(index)
 										if object_type == 'عدد':
+											if analyst_data[row][2] and analyst_data[row][2] != '':
+												mycobmbo.setValue(int(analyst_data[row][2]))
+												CV.append(row)
+										if object_type == 'عدد عشري':
 											if analyst_data[row][2] and analyst_data[row][2] != '':
 												mycobmbo.setValue(float(analyst_data[row][2]))
 												CV.append(row)
@@ -1924,19 +1980,28 @@ class mainapp(QMainWindow, main_wind):
 				if analyst_category[0] == 'عدد':
 					self.comboBox_17.hide()
 					self.lineEdit_21.hide()
+					self.doubleSpinBox_7.hide()
+					self.spinBox_4.show()
+				if analyst_category[0] == 'عدد عشري':
+					self.comboBox_17.hide()
+					self.lineEdit_21.hide()
+					self.spinBox_4.hide()
 					self.doubleSpinBox_7.show()
 				if analyst_category[0] == 'خيارات':
 					self.lineEdit_21.hide()
 					self.doubleSpinBox_7.hide()
+					self.spinBox_4.hide()
 					self.comboBox_17.show()
 					self.comboBox_17.setEditable(False)
 				if analyst_category[0] == 'حقل كتابة':
 					self.lineEdit_21.show()
 					self.doubleSpinBox_7.hide()
+					self.spinBox_4.hide()
 					self.comboBox_17.hide()
 				if analyst_category[0] == 'خيارات مع تعديل':
 					self.lineEdit_21.hide()
 					self.doubleSpinBox_7.hide()
+					self.spinBox_4.hide()
 					self.comboBox_17.show()
 					self.comboBox_17.setEditable(True)
 				try:
@@ -2060,7 +2125,7 @@ class mainapp(QMainWindow, main_wind):
 			for col in range(0, 10):
 				if col == 2:
 					my_combo2 = QComboBox()
-					my_combo2.addItems(['خيارات', 'عدد', 'خيارات مع تعديل', 'حقل كتابة'])
+					my_combo2.addItems(['عدد عشري','خيارات', 'عدد', 'خيارات مع تعديل', 'حقل كتابة'])
 					index = my_combo2.findText(analyst_data[row][2], Qt.MatchFixedString)
 					my_combo2.setCurrentIndex(index)
 					self.tableWidget_7.setCellWidget(row, col, my_combo2)
@@ -2458,6 +2523,8 @@ class mainapp(QMainWindow, main_wind):
 			analyst_current_name = self.comboBox_21.currentText()
 			sql = ''' DELETE FROM addanalyst WHERE name=%s '''
 			self.cur.execute(sql, [(analyst_current_name)])
+			self.cur.execute(''' delete from analystnormal where analyst_name=%s ''',(analyst_current_name,))
+			self.cur.execute(''' delete from analyst_normal_text where analyst_name=%s ''',(analyst_current_name,))
 			self.db.commit()
 			QMessageBox.information(self, 'info', 'تم حذف التحليل بنجاح')
 			self.Show_all_analysts_in_combo()
@@ -3142,7 +3209,7 @@ class mainapp(QMainWindow, main_wind):
 					self.comboBox_10.addItem(str(data[iqw4][0]) + '     ' + str(data[iqw4][1]))
 			except Exception as e:
 				print(e, '98erorr')
-
+	# here def
 	def Add_Data_To_history(self, action, table):
 		global user_id
 		self.cur.execute(
@@ -3834,19 +3901,23 @@ class mainapp(QMainWindow, main_wind):
 					units.append('')
 					defults.append('')
 				else:
-					self.cur.execute(''' SELECT unit,defult FROM addanalyst WHERE name=%s ''', (iplz,))
-					myplzdata = self.cur.fetchall()
+					self.cur.execute(''' SELECT unit FROM addanalyst WHERE name=%s ''', (iplz,))
+					myplzdata = self.cur.fetchone()
+					self.cur.execute(''' select normal_text from analyst_normal_text where analyst_name=%s and genus=%s ''',(iplz,genus,))
+					normal_text_data = self.cur.fetchone()
 					if myplzdata:
-						if myplzdata[0][0]:
-							units.append(myplzdata[0][0])
+						if myplzdata[0]:
+							units.append(myplzdata[0])
 						else:
 							units.append('')
-						if myplzdata[0][1]:
-							defults.append(myplzdata[0][1])
+					else:
+						units.append('')
+					if normal_text_data:
+						if normal_text_data[0]:
+							defults.append(normal_text_data[0])
 						else:
 							defults.append('')
 					else:
-						units.append('')
 						defults.append('')
 			all_files = []
 			f = open(r'%s\test-mydocx.docx' % word_files, 'rb')
@@ -4131,7 +4202,16 @@ class mainapp(QMainWindow, main_wind):
 											font.size = Pt(10)
 										font.name = 'Tahoma'
 									if n.text == str((row + 1) - from_count2) + 'r':
-										n.text = ' ' + str(results[row])
+										latest_result = ''
+										try:
+											float(results[row])
+											if float(results[row]).is_integer():
+												latest_result = str(int(results[row]))
+											else:
+												latest_result = results[row]
+										except:
+											pass
+										n.text = ' ' + str(latest_result)
 										run = n.runs
 										font = run[0].font
 										font.bold = False
