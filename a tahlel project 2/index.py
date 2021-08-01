@@ -32,9 +32,10 @@ import add_delete_analyst_choicesrupy2
 import mandobuipy
 import NormalDialogClass
 import NormalTextDialogClass
+import EditClientClass
 from mymain import Ui_MainWindow as main_wind
 from ast import literal_eval
-
+import HandelPriceClass
 show_clients_check = False
 # main_wind, _ = loadUiType("design.ui")
 user_id = ''
@@ -63,7 +64,7 @@ Delete_Doctor = True
 current_group_box = ''
 word_files = None
 save_word_files = None
-
+MAX_ID = 0
 
 class mainapp(QMainWindow, main_wind):
 	def __init__(self, parent=None):
@@ -250,7 +251,6 @@ class mainapp(QMainWindow, main_wind):
 		self.comboBox_26.currentIndexChanged.connect(lambda: self.tslsol_wout_b('in edit'))
 		self.pushButton_41.clicked.connect(self.Show_all_taslsol)
 		self.pushButton_50.clicked.connect(self.Show_all_taslsol)
-		self.pushButton_32.clicked.connect(self.get_total_price)
 		self.comboBox_21.currentTextChanged.connect(self.Show_analyst_in_Edit_Or_Delete)
 		self.comboBox_28.currentTextChanged.connect(self.Show_Doctor_Data)
 		self.comboBox_3.currentTextChanged.connect(self.Show_employee_data)
@@ -314,6 +314,168 @@ class mainapp(QMainWindow, main_wind):
 		self.comboBox_32.currentTextChanged.connect(self.VB)
 		self.pushButton_58.clicked.connect(lambda: self.Show_NormalTextDialog('edit'))
 		self.pushButton_59.clicked.connect(self.Show_NormalTextDialog)
+		self.pushButton_60.clicked.connect(self.ShowEditClientDialog)
+		self.pushButton_61.clicked.connect(self.GoBack)
+		self.pushButton_63.clicked.connect(self.GoUp)
+		self.spinBox.valueChanged.connect(self.HideOrShowGoButtons)
+		self.pushButton_32.clicked.connect(self.ShowHandelPriceDialog)
+	def ShowHandelPriceDialog(self):
+		if not self.comboBox_4.isEnabled():
+			self.get_total_price()
+			self.PriceDialog = HandelPriceClass.Dialog()
+			self.PriceDialog.lineEdit.setText(self.lineEdit_24.text())
+			self.cur.execute(''' select price_added,full_price,pushed_price,discount,minus_price,latest_price from price_task where client_name=%s and date(date)=%s ''',(self.comboBox_4.currentText(),date.today()))
+			data = self.cur.fetchone()
+			self.PriceDialog.spinBox_10.setValue(int(self.lineEdit_24.text()))
+			if data:
+				if float(self.lineEdit_24.text()) == float(data[1]):
+					self.PriceDialog.spinBox_7.setValue(data[0])
+					self.PriceDialog.spinBox_8.setValue(data[3])
+					self.PriceDialog.spinBox_9.setValue(data[4])
+					self.PriceDialog.spinBox_10.setValue(data[2])		
+					self.ShowRealTiemePrice()
+				else:
+					self.cur.execute(''' delete from price_task where client_name=%s and date(date)=%s ''',(self.comboBox_4.currentText(),date.today(),))
+					self.db.commit()
+			self.PriceDialog.spinBox_7.setMaximum(2147483647)
+			self.PriceDialog.spinBox_7.setMinimum(0)
+			# self.PriceDialog.spinBox_9.setMaximum(float(self.PriceDialog.lineEdit.text()))
+			# self.PriceDialog.spinBox_9.setMinimum(0)
+			self.PriceDialog.spinBox_10.setMaximum(int(float(self.PriceDialog.lineEdit.text())))
+			self.PriceDialog.spinBox_10.setMinimum(0)
+			
+			self.PriceDialog.pushButton_16.clicked.connect(self.FF6)
+			self.PriceDialog.spinBox_7.valueChanged.connect(self.ShowRealTiemePrice)
+			self.PriceDialog.spinBox_8.valueChanged.connect(self.ShowRealTiemePrice)
+			self.PriceDialog.spinBox_9.valueChanged.connect(self.ShowRealTiemePrice)
+			self.PriceDialog.spinBox_10.valueChanged.connect(self.ShowRealTiemePrice)
+			self.PriceDialog.lineEdit.textChanged.connect(self.GGH)
+			self.PriceDialog.show()
+		else:
+			QMessageBox.information(self,'','لا يوجد اي نموذج ليتم تطبيق السعر عليه')
+	def GGH(self):
+		self.PriceDialog.spinBox_10.setMaximum(int(float(self.PriceDialog.lineEdit.text())))
+		self.PriceDialog.spinBox_10.setMinimum(0)
+	def ShowRealTiemePrice(self):
+		# self.PriceDialog.spinBox_9.setMaximum(float(self.PriceDialog.lineEdit.text()))
+		# self.PriceDialog.spinBox_9.setMinimum(0)
+		latest = 0
+		now_price = float(self.lineEdit_24.text())
+		price_added = self.PriceDialog.spinBox_7.value()
+		khsm = self.PriceDialog.spinBox_8.value()
+		minus_price = self.PriceDialog.spinBox_9.value()
+		latest += now_price
+		latest += price_added
+		latest -= minus_price
+		latest = latest - (latest *(khsm/100))
+		self.PriceDialog.lineEdit.setText(str(latest))
+		self.PriceDialog.lineEdit_2.setText(str(float(self.PriceDialog.lineEdit.text()) - self.PriceDialog.spinBox_10.value()))
+	def FF6(self):
+		self.cur.execute(''' select price_added,full_price,pushed_price,discount,minus_price,latest_price from price_task where client_name=%s and date(date)=%s ''',(self.comboBox_4.currentText(),date.today()))
+		data = self.cur.fetchone()
+		latest = 0
+		now_price = int(self.lineEdit_24.text())
+		price_added = self.PriceDialog.spinBox_7.value()
+		khsm = self.PriceDialog.spinBox_8.value()
+		minus_price = self.PriceDialog.spinBox_9.value()
+		latest += now_price
+		latest += price_added
+		latest -= minus_price
+		latest = latest - (latest *(khsm/100))
+		if data:
+			self.cur.execute(''' update price_task set client_name=%s,full_price=%s,pushed_price=%s,discount=%s,minus_price=%s,latest_price=%s,date=%s,price_added=%s where client_name=%s and date(date)=%s''',(self.comboBox_4.currentText(),int(self.lineEdit_24.text()),self.PriceDialog.spinBox_10.value(),khsm,minus_price,latest,datetime.now(),self.PriceDialog.spinBox_7.value(),self.comboBox_4.currentText(),date.today(),))
+			self.db.commit()
+		else:
+			self.cur.execute(''' insert into price_task (client_name,full_price,pushed_price,discount,minus_price,latest_price,date,price_added) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)''',(self.comboBox_4.currentText(),int(self.lineEdit_24.text()),self.PriceDialog.spinBox_10.value(),khsm,minus_price,latest,datetime.now(),self.PriceDialog.spinBox_7.value(),))
+			self.db.commit()
+		self.lineEdit_24.setText(str(latest - float(self.PriceDialog.lineEdit_2.text())))
+		self.PriceDialog.close()
+		# print(latest,'WOW')
+	def VBG(self):
+		global MAX_ID
+		self.cur.execute(''' select MAX(id) from addclient ''')
+		data = self.cur.fetchone()
+		if data:
+			MAX_ID = int(data[0])
+
+	def HideOrShowGoButtons(self):
+		self.VBG()
+		global MAX_ID
+		if self.spinBox.value() >= MAX_ID:
+			self.pushButton_61.show()
+			self.pushButton_63.hide()
+		elif self.spinBox.value() < MAX_ID and self.spinBox.value() > 1:
+			self.pushButton_61.show()
+			self.pushButton_63.show()
+		if self.spinBox.value() == 1 or self.spinBox.value() == 0:
+			self.pushButton_61.hide()
+			self.pushButton_63.show()
+	def GoBack(self):
+		self.VBG()
+		global select_by_date
+		# try:
+		self.Update_addNewItem_Data()
+		self.spinBox.setValue(self.spinBox.value() - 1)
+		select_by_date = 'gg'
+		self.Show_All_one_client_analyst()
+		self.HideOrShowGoButtons()
+		# except:
+		# 	QMessageBox.information(self,'','هنالك خطأ يرجى مراجعة العملية')
+
+	def GoUp(self):
+		global select_by_date
+		# try:
+		select_by_date = 'gg'
+		self.Update_addNewItem_Data()
+		self.spinBox.setValue(self.spinBox.value() + 1)
+		self.Show_All_one_client_analyst()
+		self.HideOrShowGoButtons()
+		# except:
+		# 	QMessageBox.information(self,'','هنالك خطأ يرجى مراجعة العملية')
+	def ShowEditClientDialog(self):
+		self.EditClientDialog = EditClientClass.Dialog()
+		global all_doctors
+		if self.spinBox.value() :
+			self.EditClientDialog.lineEdit_17.setText(self.comboBox_4.currentText())
+			self.EditClientDialog.lineEdit_16.hide()
+			self.EditClientDialog.spinBox_7.setValue(self.spinBox_7.value())
+			self.EditClientDialog.comboBox_14.addItems(self.RETURN_ALL_human_type())
+			self.EditClientDialog.comboBox_14.setCurrentIndex(self.comboBox_14.currentIndex())
+			self.EditClientDialog.comboBox_15.addItems(all_doctors)
+			self.EditClientDialog.comboBox_15.setCurrentIndex(self.comboBox_15.currentIndex())
+			self.EditClientDialog.textEdit.setPlainText(self.textEdit.toPlainText())
+			self.EditClientDialog.pushButton_17.clicked.connect(self.HandelEditClientDialog)
+			self.EditClientDialog.pushButton_16.clicked.connect(self.HandelEditClientDialog)
+			self.EditClientDialog.show()
+		else:
+			QMessageBox.information(self,'','يرجى اختيار اسم مراجع صحيح')
+	def HandelEditClientDialog(self):
+		if self.sender().text() == 'حفظ':
+			try:
+				self.cur.execute(''' UPDATE addclient SET client_name=%s,client_age=%s,client_genus=%s,client_doctor=%s where client_name=%s ''',(self.EditClientDialog.lineEdit_17.text(),self.EditClientDialog.spinBox_7.value(),self.EditClientDialog.comboBox_14.currentText(),self.EditClientDialog.comboBox_15.currentText(),self.comboBox_4.currentText(),))
+				self.cur.execute(''' UPDATE addnewitem SET client_name=%s,client_age=%s,genus=%s,doctor_name=%s,notes=%s where client_name=%s ''',(self.EditClientDialog.lineEdit_17.text(),self.EditClientDialog.spinBox_7.value(),self.EditClientDialog.comboBox_14.currentText(),self.EditClientDialog.comboBox_15.currentText(),self.EditClientDialog.textEdit.toPlainText(),self.comboBox_4.currentText(),))
+				self.cur.execute(''' UPDATE price_task set client_name=%s where client_name=%s ''',(self.EditClientDialog.lineEdit_17.text(),self.comboBox_4.currentText(),))
+				self.db.commit()
+				QMessageBox.information(self.EditClientDialog,'','تم تعديل معلومات المراجع بنجاح')
+				self.EditClientDialog.close()
+				self.add_clients_to_combo()
+				self.comboBox_4.setCurrentText('s%^# ')
+				self.comboBox_4.setCurrentText(self.EditClientDialog.lineEdit_17.text())
+				# self.comboBox_14.setCurrentIndex(self.EditClientDialog.comboBox_14.currentIndex())
+				# self.spinBox_7.setValue(self.EditClientDialog.spinBox_7.value())
+				# self.comboBox_15.setCurrentIndex(self.EditClientDialog.comboBox_15.currentIndex())
+				# self.textEdit.setPlainText(self.EditClientDialog.textEdit.toPlainText())
+			except:
+				QMessageBox.information(self.EditClientDialog,'','هنالك خطأ يرجى مراجعة العملية')
+				self.EditClientDialog.close()
+		else:
+			warning = QMessageBox.warning(self, '', 'هل انت متأكد من حذف هذا المراجع ؟',QMessageBox.Yes | QMessageBox.No)
+			if warning == QMessageBox.Yes:
+				self.cur.execute(''' delete from addclient where client_name=%s''',(self.comboBox_4.currentText(),))
+				self.cur.execute(''' delete from addnewitem where client_name=%s''',(self.comboBox_4.currentText(),))
+				self.db.commit()
+				QMessageBox.information(self.EditClientDialog,'','تم حذف هذا المراجع بنجاح')
+
 	def Show_NormalTextDialog(self,form_edit=None):
 		self.NormalTextDialog = NormalTextDialogClass.Dialog()
 		self.NormalTextDialog.lineEdit_2.hide()
@@ -494,7 +656,7 @@ class mainapp(QMainWindow, main_wind):
 			self.comboBox_27.setCurrentIndex(0)
 			self.lineEdit_6.setText('')
 	def RETURN_ALL_human_type(self):
-		self.cur.execute('select name from human_type')
+		self.cur.execute('select name from human_type order by -date')
 		data = self.cur.fetchall()
 		cc = []
 		for row in data:
@@ -546,12 +708,12 @@ class mainapp(QMainWindow, main_wind):
 				combo.addItems(['طبيعي','غير طبيعي'])
 				if from_save:
 					analyst_name = self.lineEdit_29.text()
-					self.cur.execute(''' select normal_value2 from analystnormal where analyst_name=%s and genus_type=%s ''',(analyst_name,self.NormalDialog.comboBox_2.currentText(),))
+					self.cur.execute(''' select normal_value2 from analystnormal where analyst_name=%s and genus_type=%s and normal_type=%s ''',(analyst_name,self.NormalDialog.comboBox_2.currentText(),'list',))
 					dataCX = self.cur.fetchone()
 					if dataCX:
 						x = '['+str(dataCX[0])+']'
 						list_data = literal_eval(str(x))
-						indexC = combo.findText(list_data[row],Qt.MatchFixedString)
+						indexC = combo.findText(str(list_data[row]),Qt.MatchFixedString)
 						combo.setCurrentIndex(indexC)
 				else:
 					combo.setCurrentIndex(0)
@@ -693,12 +855,7 @@ class mainapp(QMainWindow, main_wind):
 			self.comboBox_4.setCurrentText(analyst_data[0])
 			self.spinBox_7.setValue(int(analyst_data[2]))
 			self.spinBox_7.setEnabled(False)
-			if analyst_data[3] == 'ذكر':
-				self.comboBox_14.setCurrentIndex(1)
-			elif analyst_data[3] == 'انثى':
-				self.comboBox_14.setCurrentIndex(0)
-			else:
-				self.comboBox_14.setCurrentIndex(2)
+			self.comboBox_14.setCurrentText(analyst_data[3])
 			self.comboBox_14.setEnabled(False)
 			self.textEdit.setPlainText(str(analyst_data[4]))
 			self.textEdit.setEnabled(False)
@@ -1499,7 +1656,12 @@ class mainapp(QMainWindow, main_wind):
 		index = self.tableWidget_5.indexAt(button.pos())
 		self.Delete_Row(index.row())
 
-	def get_total_price(self):
+	def get_total_price(self):# MCV
+		# self.cur.execute(''' select full_price from price_task where client_name=%s and date(date)=%s ''',(self.comboBox_4.currentText(),date.today()))
+		# data = self.cur.fetchone()
+		# if data:
+		# 	self.lineEdit_24.setText(str(data[0]))
+		# else:
 		total_price = 0
 		for row in range(0, self.tableWidget_5.rowCount() - 1):
 			try:
@@ -1520,7 +1682,7 @@ class mainapp(QMainWindow, main_wind):
 		r2_client_name = self.comboBox_4.currentText()
 		r2_doctor = self.comboBox_15.currentText()
 		for rowj in range(0, self.tableWidget_5.rowCount() - 1):
-			price = self.tableWidget_5.item(rowj, 2).text()
+			# price = self.tableWidget_5.item(rowj, 2).text()
 			try:
 				r2_analyst_name = self.tableWidget_5.item(rowj, 0).text()
 			except:
@@ -1542,8 +1704,8 @@ class mainapp(QMainWindow, main_wind):
 							r2_result = ''
 			try:
 				self.cur.execute(
-					''' UPDATE addnewitem SET  analyst_name=%s ,analyst_result=%s,price=%s WHERE client_name=%s AND analyst_name=%s''',
-					(r2_analyst_name, r2_result, price, r2_client_name, r2_analyst_name))
+					''' UPDATE addnewitem SET  analyst_name=%s ,analyst_result=%s WHERE client_name=%s AND analyst_name=%s''',
+					(r2_analyst_name, r2_result, r2_client_name, r2_analyst_name))
 				self.db.commit()
 			except:
 				print('except')
@@ -1770,6 +1932,7 @@ class mainapp(QMainWindow, main_wind):
 		global chick_if_add_new
 		global select_by_date
 		global CJ
+		global MAX_ID
 		client_name = self.comboBox_4.currentText()
 		CV = []
 		if from_add_multy:
@@ -1795,36 +1958,36 @@ class mainapp(QMainWindow, main_wind):
 			self.comboBox_14.setEnabled(True)
 			self.textEdit.setEnabled(True)
 		if True:
-			if select_by_date:
-				id = self.searchWidget.spinBox.value()
+			if select_by_date == True:
+				idn = self.searchWidget.spinBox.value()
 				from_date = self.searchWidget.dateEdit_6.date()
 				to_date = self.searchWidget.dateEdit_5.date()
 				self.cur.execute(
 					'''SELECT client_name,analyst_name,analyst_result,doctor_name,total_price,sub_category,client_age,genus,notes,analyst_index FROM addnewitem WHERE client_id = %s AND DATE(date)>=%s AND DATE(date)<=%s ORDER BY sub_category ASC, analyst_index ASC''',
-					(id, str(from_date.toPyDate()), str(to_date.toPyDate()),))
+					(idn, str(from_date.toPyDate()), str(to_date.toPyDate()),))
+			elif select_by_date == 'gg':
+				idn = self.spinBox.value()
+				self.cur.execute(
+					'''SELECT client_name,analyst_name,analyst_result,doctor_name,total_price,sub_category,client_age,genus,notes,analyst_index FROM addnewitem WHERE client_id = %s ORDER BY sub_category ASC, analyst_index ASC''',
+					(idn,))
 			else:
 				self.cur.execute(
 					'''SELECT client_name,analyst_name,analyst_result,doctor_name,total_price,sub_category,client_age,genus,notes,analyst_index FROM addnewitem  WHERE client_id = %s AND DATE(date)=%s ORDER BY sub_category ASC, analyst_index ASC''',
 					(self.spinBox.value(), date.today(),))
 			analyst_data = self.cur.fetchall()
 			if analyst_data:
-				if self.comboBox_14.isEnabled() == True:
-					self.comboBox_15.setCurrentText(str(analyst_data[0][3]))
-					self.comboBox_15.setEnabled(False)
-					self.comboBox_14.setEnabled(False)
-					self.comboBox_4.setCurrentText(analyst_data[0][0])
-					self.comboBox_4.setEnabled(False)
-					self.spinBox_7.setValue(int(analyst_data[0][6]))
-					self.spinBox_7.setEnabled(False)
-					if analyst_data[0][7] == 'ذكر':
-						self.comboBox_14.setCurrentIndex(1)
-					elif analyst_data[0][7] == 'انثى':
-						self.comboBox_14.setCurrentIndex(0)
-					else:
-						self.comboBox_14.setCurrentIndex(2)
-					self.comboBox_14.setEnabled(False)
-					self.textEdit.setPlainText(str(analyst_data[0][8]))
-					self.textEdit.setEnabled(False)
+				# if self.comboBox_14.isEnabled() == True:
+				self.comboBox_15.setCurrentText(str(analyst_data[0][3]))
+				self.comboBox_15.setEnabled(False)
+				self.comboBox_14.setEnabled(False)
+				self.comboBox_4.setCurrentText(analyst_data[0][0])
+				self.comboBox_4.setEnabled(False)
+				self.spinBox_7.setValue(int(analyst_data[0][6]))
+				self.spinBox_7.setEnabled(False)
+				self.comboBox_14.setCurrentText(analyst_data[0][7])
+				self.comboBox_14.setEnabled(False)
+				self.textEdit.setPlainText(str(analyst_data[0][8]))
+				self.textEdit.setEnabled(False)
 				self.tableWidget_5.setRowCount(0)
 				self.tableWidget_5.insertRow(0)
 				for row, form in enumerate(analyst_data):
@@ -1840,7 +2003,6 @@ class mainapp(QMainWindow, main_wind):
 								mycobmbo = None
 								object_type = ''
 								if results_data:
-									
 									if results_data[0][1] == 'خيارات':
 										genus_type = self.comboBox_14.currentText()
 										self.cur.execute(''' select normal_value1,normal_value2 from analystnormal where analyst_name=%s and genus_type=%s''',(analyst_data[row][1],genus_type,))
@@ -1919,6 +2081,9 @@ class mainapp(QMainWindow, main_wind):
 											mycobmbo.setCurrentIndex(0)
 							elif col == 2:
 								self.tableWidget_5.setItem(row, col, QTableWidgetItem(str(analyst_data[row][4])))
+								my_item = self.tableWidget_5.item(row, col)
+								my_item.setFlags(Qt.ItemIsEditable)
+								my_item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
 							elif col == 3:
 								mypush_button = QPushButton(self)
 								mypush_button.setText('حذف')
@@ -1937,18 +2102,21 @@ class mainapp(QMainWindow, main_wind):
 				# # self.Add_buttons_combo_spin_to_tableWidget()
 			else:
 				if not from_add_multy:
-					QMessageBox.information(self, 'Error',
-											'الرقم الذي ادخلته غير موجود في مبيعات اليوم يرجى مراجعة صفحة "مبيعات اليوم" للتأكد من الرقم')
+					if select_by_date != 'gg':
+						QMessageBox.information(self, 'Error','الرقم الذي ادخلته غير موجود في مبيعات اليوم يرجى مراجعة صفحة "مبيعات اليوم" للتأكد من الرقم')
+					else:
+						QMessageBox.information(self, 'Error','لا يوجد مراجع  في هذا التسلسل')
+						self.spinBox.setValue(MAX_ID)
 			self.get_total_price()
-			select_by_date = False
 			for iB in CV:	
-				CJ = iB	
-				self.IsNormalForAddNewItem()	
+				CJ = iB
+				self.IsNormalForAddNewItem()
 		CJ = None
 		self.tableWidget_5.resizeColumnsToContents()
 		# self.Add_all_analysts_items()
 		self.Add_Data_To_history(6, 1)
 		# # self.History()
+		select_by_date = False
 	def IsNormalForAddNewItem(self):
 		# print('ss4'+random.choice(['1','2','3','4','5','r','7','8']))
 		global CJ
@@ -2570,27 +2738,31 @@ class mainapp(QMainWindow, main_wind):
 		self.tableWidget_4.insertRow(0)
 		self.tableWidget_9.setRowCount(0)
 		self.tableWidget_9.insertRow(0)
-		id = self.spinBox_2.value()
+		idn = self.spinBox_2.value()
 		if search_info_by_date:
-			id = self.searchWidget2.spinBox.value()
+			idn = self.searchWidget2.spinBox.value()
 			from_date = str(self.searchWidget2.dateEdit_6.date().toPyDate())
 			to_date = str(self.searchWidget2.dateEdit_5.date().toPyDate())
 			self.cur.execute(
 				''' SELECT price,analyst_name,analyst_result,client_name,date FROM addnewitem WHERE client_id=%s AND DATE(date)>=%s AND DATE(date)<=%s''',
-				(str(id), from_date, to_date,))
+				(str(idn), from_date, to_date,))
 			client_analyst_data = self.cur.fetchall()
 			self.cur.execute(
-				''' SELECT client_name,client_age,client_genus,client_doctor FROM addclient WHERE id=%s AND DATE(date)>=%s AND DATE(date)<=%s''',
-				(str(id), from_date, to_date,))
+				''' SELECT client_name,client_age,client_genus,client_doctor FROM addclient WHERE id=%s''',
+				(str(idn),))
 			client_data = self.cur.fetchall()
+			self.cur.execute(''' select latest_price,pushed_price from price_task where client_name=%s AND DATE(date)>=%s AND DATE(date)<=%s ''',(client_data[0][0],from_date, to_date,))
+			FCBARCELONA = self.cur.fetchone()
 		else:
 			self.cur.execute(
 				''' SELECT price,analyst_name,analyst_result,client_name,date FROM addnewitem WHERE client_id=%s''',
-				(str(id),))
+				(str(idn),))
 			client_analyst_data = self.cur.fetchall()
 			self.cur.execute(''' SELECT client_name,client_age,client_genus,client_doctor FROM addclient WHERE id=%s''',
-							 (str(id),))
+							 (str(idn),))
 			client_data = self.cur.fetchall()
+			self.cur.execute(''' select SUM(latest_price),SUM(pushed_price) from price_task where client_name=%s ''',(client_data[0][0],))
+			FCBARCELONA = self.cur.fetchone()
 		num = 0
 		all_client_analyst = []
 		total = 0
@@ -2606,7 +2778,9 @@ class mainapp(QMainWindow, main_wind):
 			for col, item in enumerate(form):
 				self.tableWidget_4.setItem(row, 4, QTableWidgetItem(str(num)))
 				self.tableWidget_4.setItem(row, 5, QTableWidgetItem(str(','.join(all_client_analyst))))
-				self.tableWidget_4.setItem(row, 6, QTableWidgetItem(str(total)))
+				self.tableWidget_4.setItem(row, 6, QTableWidgetItem(str(FCBARCELONA[0])))
+				self.tableWidget_4.setItem(row, 7, QTableWidgetItem(str(FCBARCELONA[1])))
+				self.tableWidget_4.setItem(row, 8, QTableWidgetItem(str(int(FCBARCELONA[0])-int(FCBARCELONA[1]))))
 				self.tableWidget_4.setItem(row, col, QTableWidgetItem(str(item)))
 				col += 1
 			row_pos = self.tableWidget_4.rowCount()
@@ -3918,7 +4092,15 @@ class mainapp(QMainWindow, main_wind):
 						else:
 							defults.append('')
 					else:
-						defults.append('')
+						self.cur.execute(''' select defult from addanalyst where name=%s ''',(iplz,))
+						normal_text_data = self.cur.fetchone()
+						if normal_text_data:
+							if normal_text_data[0]:
+								defults.append(normal_text_data[0])
+							else:
+								defults.append('')
+						else:
+							defults.append('')
 			all_files = []
 			f = open(r'%s\test-mydocx.docx' % word_files, 'rb')
 			f.read()
@@ -4204,13 +4386,14 @@ class mainapp(QMainWindow, main_wind):
 									if n.text == str((row + 1) - from_count2) + 'r':
 										latest_result = ''
 										try:
-											float(results[row])
-											if float(results[row]).is_integer():
-												latest_result = str(int(results[row]))
+											cc = float(results[row])
+											if cc.is_integer():
+												latest_result = str(int(cc))
 											else:
 												latest_result = results[row]
-										except:
-											pass
+										except Exception as e:
+											print(';;;;;', e)
+											latest_result = results[row]
 										n.text = ' ' + str(latest_result)
 										run = n.runs
 										font = run[0].font
