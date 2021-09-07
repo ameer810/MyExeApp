@@ -4231,13 +4231,13 @@ class mainapp(QMainWindow, main_wind):
 			document = Document(f)
 			all_files.append(document)
 			document2 = None
-			if len(analysts) > 23:
+			if len(analysts) > 24:
 				files = 2
 				f2 = open(r'%s\test-mydocx2.docx' % word_files, 'rb')
 				f2.read()
 				document2 = Document(f2)
 				all_files.append(document2)
-			if len(analysts) > 46:
+			if len(analysts) > 48:
 				files = 3
 				all_files.clear()
 				f2 = open(r'%s\test-mydocx2.docx' % word_files, 'rb')
@@ -4293,6 +4293,7 @@ class mainapp(QMainWindow, main_wind):
 					else:	
 						is_normal_list.append(True)	
 						Low_or_High.append('')
+
 			for big_item in all_files:
 				for table_index, i in enumerate(big_item.tables):
 					for row_index, k in enumerate(i.rows):
@@ -4336,7 +4337,7 @@ class mainapp(QMainWindow, main_wind):
 									font = run[0].font
 									font.name = 'Times New Roman'
 									font.bold = True
-									font.color.rgb =RGBColor.from_string('e99d39')
+									font.color.rgb =RGBColor.from_string('ffffff')
 									font.size = Pt(10)
 								if n.text == 'employeeshahada2':
 									if word_data[7]:
@@ -4358,7 +4359,7 @@ class mainapp(QMainWindow, main_wind):
 									font = run[0].font
 									font.name = 'Times New Roman'
 									font.bold = True
-									font.color.rgb =RGBColor.from_string('e99d39')
+									font.color.rgb =RGBColor.from_string('ffffff')
 									font.size = Pt(20)
 								if n.text == 'phone1':
 									if word_data[2]:
@@ -4368,7 +4369,7 @@ class mainapp(QMainWindow, main_wind):
 									run = n.runs
 									font = run[0].font
 									font.name = 'Times New Roman'
-									font.color.rgb =RGBColor.from_string('e99d39')
+									font.color.rgb =RGBColor.from_string('ffffff')
 									font.bold = True
 									font.size = Pt(13)
 								if n.text == 'phone2':
@@ -4390,12 +4391,12 @@ class mainapp(QMainWindow, main_wind):
 									run = n.runs
 									font = run[0].font
 									font.name = 'Times New Roman'
-									font.color.rgb =RGBColor.from_string('e99d39')
+									font.color.rgb =RGBColor.from_string('ffffff')
 									font.bold = True
 									font.size = Pt(12)
 								if n.text == 'client_name':
-									self.cur.execute('select report_name from human_type where name=%s',(genus,))
-									dataVB = self.cur.fetchone()
+									self.cur.execute('select report_name from human_type where name=%s',(genus,))	
+									dataVB = self.cur.fetchone()	
 									n.text = dataVB[0]
 									run = n.runs
 									font = run[0].font
@@ -4437,8 +4438,8 @@ class mainapp(QMainWindow, main_wind):
 									font.color.rgb =RGBColor.from_string('1f497d')
 									font.size = Pt(12)
 								if n.text == 'lqb1':
-									self.cur.execute('select report_lqb from human_type where name=%s',(genus,))
-									dataVB = self.cur.fetchone()
+									self.cur.execute('select report_lqb from human_type where name=%s',(genus,))	
+									dataVB = self.cur.fetchone()	
 									n.text = dataVB[0]
 									run = n.runs
 									font = run[0].font
@@ -4501,6 +4502,7 @@ class mainapp(QMainWindow, main_wind):
 											for igq in range(0, 5):  # here is highlighting
 												i.rows[row_index].cells[igq]._tc.get_or_add_tcPr().append(
 													parse_xml(r'<w:shd {} w:fill="30b7d1"/>'.format(nsdecls('w'))))
+
 										if str(n.text) in categorys3:
 											font.size = Pt(11)
 											font.color.rgb =RGBColor.from_string('ffffff')
@@ -4528,11 +4530,10 @@ class mainapp(QMainWindow, main_wind):
 										else:
 											font.color.rgb =RGBColor.from_string('cf0000')
 										font.name = 'Tahoma'
-										n2 = n.add_run(Low_or_High[row])	
-										n2.bold = False	
-										n2.font.name = 'Tahoma'	
+										n2 = n.add_run(Low_or_High[row])
+										n2.bold = False
+										n2.font.name = 'Tahoma'
 										n2.font.size = Pt(11)
-										
 									if n.text == str((row + 1) - from_count2) + 'unit':
 										n.text = str(units[row])
 										run1 = n
@@ -4552,16 +4553,18 @@ class mainapp(QMainWindow, main_wind):
 					if is_break:
 						break
 					for kq1 in iq1.rows:
+						if is_break:
+							print('you will dont show')
 						for jq1 in kq1.cells:
 							for nq1 in jq1.paragraphs:
-								if str(nq1.text) == '23':
+								if str(nq1.text) == '27':
 									nq1.text = ''
-								if str(nq1.text) == '23r':
+								if str(nq1.text) == '27r':
 									nq1.text = ''
-								if str(nq1.text) == '23unit':
+								if str(nq1.text) == '27unit':
 									nq1.text = ''
 									font1.size = Pt(10)
-								if str(nq1.text) == '23defult' and nq1.runs[0].font.underline:
+								if str(nq1.text) == '27defult' and nq1.runs[0].font.underline:
 									nq1.text = ''
 									# font1 = nq1.runs[0].font
 									# font1.bold = True
@@ -4572,7 +4575,7 @@ class mainapp(QMainWindow, main_wind):
 									# table.remove(tr)
 									break
 									is_break = True
-								for myq in range(0, 23):
+								for myq in range(0, 28):
 									if nq1.text == str(myq):
 										if nq1.runs[0].font.underline:
 											nq1.text = ''
@@ -4589,8 +4592,8 @@ class mainapp(QMainWindow, main_wind):
 										if nq1.runs[0].font.underline:
 											nq1.text = ''
 											font1.size = Pt(10)
-				from_count += 22
-				from_count2 += 23
+				from_count += 23
+				from_count2 += 24
 			document.save(r'%s\result.docx' % save_word_files)
 			f.close()
 			if files == 2:
